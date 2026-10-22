@@ -15,6 +15,7 @@ import { Header } from "@/components/shell/header";
 import { Footer } from "@/components/shell/footer";
 import { Intro } from "@/components/sections/intro";
 import { ScrollFx } from "@/components/fx/scroll-fx";
+import { AudioVisualLink } from "@/components/fx/audio-visual-link";
 import { CustomCursor } from "@/components/fx/cursor";
 import { SvgDefs } from "@/components/fx/svg-defs";
 import { MobileReserveBar } from "@/components/shell/mobile-reserve-bar";
@@ -93,6 +94,15 @@ export default async function LocaleLayout({ children, params }: { children: Rea
 
   return (
     <html lang={locale} data-locale={locale} suppressHydrationWarning>
+      <head>
+        {/* Marca temprana: sin esto, los elementos con reveal aparecen y luego
+            se ocultan (flash). Es inline a propósito: corre antes del primer paint. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.documentElement.dataset.js="1";if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.dataset.reducedMotion="true"}`,
+          }}
+        />
+      </head>
       <body
         className={`${fontVariables} bg-[var(--bg)] text-[var(--fg)] antialiased`}
         style={{ viewTransitionName: "root" }}
@@ -109,6 +119,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
                   <SvgDefs />
                   <CustomCursor />
                   <ScrollFx />
+                  <AudioVisualLink />
                   <Header reserveHref={reserveHref} />
                   <main id="contenido" className="relative">
                     {children}

@@ -439,3 +439,89 @@
     display: none;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Estados iniciales de las animaciones. Solo cuando hay JS (`data-js`): sin
+   script no hay GSAP, y el contenido tiene que verse completo. Con
+   `prefers-reduced-motion` tampoco se oculta nada.
+   -------------------------------------------------------------------------- */
+html[data-js="1"]:not([data-reduced-motion="true"]) [data-reveal] {
+  opacity: 0;
+}
+
+html[data-js="1"]:not([data-reduced-motion="true"])[data-quality="medium"] [data-reveal],
+html[data-js="1"]:not([data-reduced-motion="true"])[data-quality="high"] [data-reveal] {
+  clip-path: inset(100% 0 0 0);
+  opacity: 1;
+}
+
+.reveal-word {
+  display: inline-block;
+}
+
+.hero-line {
+  display: inline-block;
+}
+
+[data-hero-title] .hero-word {
+  display: inline-block;
+}
+
+/* El hero se apila sobre el cielo; el sol y el reflejo siguen al puntero vía vars. */
+[data-hero] {
+  --hero-glow: radial-gradient(
+    60% 45% at calc(var(--pointer-x, 0.5) * 100%) calc(20% + var(--pointer-y, 0.5) * 12%),
+    color-mix(in oklab, var(--sky-sun) 24%, transparent),
+    transparent 60%
+  );
+}
+
+[data-hero]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--hero-glow);
+  pointer-events: none;
+  transition: background var(--d-4) var(--ease-sea);
+}
+
+/* Fuego de la sección: en tier low es un glow CSS que respira, no un canvas. */
+.fire-ember {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 52%;
+  background:
+    radial-gradient(46% 62% at 50% 100%, color-mix(in oklab, var(--c-ember) 55%, transparent), transparent 70%),
+    radial-gradient(22% 40% at 42% 100%, color-mix(in oklab, var(--c-spark) 40%, transparent), transparent 72%);
+  filter: blur(0.5px);
+  animation: ember-breathe 5.5s var(--ease-sea) infinite;
+}
+
+.fire-ember[data-layer="2"] {
+  height: 34%;
+  opacity: 0.7;
+  animation-duration: 7.5s;
+  animation-delay: -2s;
+}
+
+@keyframes ember-breathe {
+  0%,
+  100% {
+    opacity: calc(0.55 + var(--audio-level) * 0.25);
+    transform: scale(1);
+  }
+  50% {
+    opacity: calc(0.78 + var(--audio-level) * 0.22);
+    transform: scale(1.035);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fire-ember {
+    animation: none;
+  }
+  [data-hero]::before {
+    transition: none;
+  }
+}
