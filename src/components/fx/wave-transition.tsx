@@ -7,14 +7,16 @@
  * Con `prefers-reduced-motion` no se dibuja nada: el cambio es instantáneo.
  */
 import { useEffect, useRef } from "react";
-import { usePathname } from "@/i18n/navigation";
+import { useLocalPathname } from "@/i18n/use-local-pathname";
 
 export function WaveTransition() {
   const overlayRef = useRef<HTMLDivElement>(null);
-  const pathname = usePathname();
+  const pathname = useLocalPathname();
   const firstRef = useRef(true);
 
   useEffect(() => {
+    // `null` = todavía sin ruta de navegador (snapshot de server): no hay nada que animar.
+    if (pathname === null) return;
     if (firstRef.current) {
       firstRef.current = false;
       return;

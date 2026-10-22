@@ -37,7 +37,15 @@ const config = [
         { prefer: "type-imports", fixStyle: "inline-type-imports" },
       ],
       "no-console": ["warn", { allow: ["info", "warn", "error"] }],
-      "@next/next/no-img-element": "error",
+      /**
+       * En `output: "export"` no existe `/_next/image`: `next/image` con
+       * `unoptimized` termina en un `<img>` pelado, sin `srcset`. `ui/media.tsx`
+       * arma el `<picture>` contra las variantes de `pnpm images:build`, que es
+       * exactamente lo que la regla quiere evitar, así que la regla se apaga con
+       * esta nota y no se usa `<img>` en ningún otro lado (hay un test que lo
+       * verifica: `tests/base-paths.test.ts`).
+       */
+      "@next/next/no-img-element": "off",
     },
   },
   {

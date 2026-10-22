@@ -17,11 +17,9 @@
 import { useEffect } from "react";
 import { useLenis } from "@/hooks/use-lenis";
 import { setScrollTint } from "@/features/sky/bus";
-import { usePathname } from "@/i18n/navigation";
 
 export function ScrollFx() {
   const { lenis } = useLenis();
-  const pathname = usePathname();
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -168,7 +166,10 @@ export function ScrollFx() {
       context?.revert();
       cleanupTint?.();
     };
-  }, [pathname]);
+    // Sin dependencia de ruta: en Pages cada idioma es un documento nuevo, no
+    // existe navegación cliente→cliente que haya que re-sincronizar. Refrescamos
+    // igual cuando cargan fuentes/imagenes (abajo) para que los triggers no queden cortos.
+  }, []);
 
   /* Anclas: Lenis lleva el scroll y movemos el foco para que sea accesible. */
   useEffect(() => {

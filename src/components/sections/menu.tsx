@@ -5,6 +5,7 @@ import { formatPrice, formatSecondaryPrice } from "@/features/content/format";
 import { tagLabels } from "@/features/content/schema";
 import { MenuTabs, type MenuCategoryProps } from "@/components/sections/menu-tabs";
 import { ShellIcon } from "@/components/brand/shell-icon";
+import { withBase } from "@/lib/base";
 
 /**
  * Carta. El servidor resuelve textos, precios e imágenes; el cliente solo
@@ -53,7 +54,7 @@ export async function MenuSection() {
         <header className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="label flex items-center gap-2 text-[var(--c-rust)]">
-              <ShellIcon src="/images/icons/caracola-1.svg" className="h-4 w-4" />
+              <ShellIcon src={withBase("/images/icons/caracola-1.svg")} className="h-4 w-4" />
               {t("title")}
             </p>
             <h2
@@ -94,7 +95,7 @@ export async function MenuSection() {
         aria-hidden
         className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 opacity-[0.07]"
       >
-        <ShellIcon src="/images/icons/almeja-1.svg" className="h-full w-full" />
+        <ShellIcon src={withBase("/images/icons/almeja-1.svg")} className="h-full w-full" />
       </div>
     </section>
   );

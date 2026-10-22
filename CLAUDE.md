@@ -13,11 +13,22 @@ WhatsApp o teléfono. Mobile-first, y convertible en sitio real **sin rehacer na
 ## Comandos
 
 ```bash
-pnpm dev | build | start | verify        # verify = format:check+lint+typecheck+test+content:check+build
+pnpm dev | build | serve | verify        # verify = format:check+lint+typecheck+test+content:check+build
+pnpm build                               # orquestador: optimize+check+variantes+OG+export+index/404 → out/
+pnpm build:server                        # misma pipeline pero output:"standalone" (Vercel/Docker)
+pnpm images:build                        # AVIF/WebP 640/960/1440 + src/generated/image-variants.ts
+pnpm og:build                            # public/og/<locale>.png (1200×630, ImageResponse en build)
+pnpm pages:build                         # out/index.html (selector de idioma) + out/404.html (tortuga)
+pnpm serve                               # npx serve out (preview local del export, puerto 3000)
 pnpm content:check | optimize | placeholders | sync-images
 pnpm add:dish | add:photo | add:promo    # alta guiada (admite respuestas por caño, testeable)
 pnpm test | lint | lint:fix | format | typecheck | analyze
 ```
+
+`pnpm images:build` tarda ~2 min (codifica AVIF); en local se puede iterionar con
+es incremental por default (cada variante se saltea si ya está al día
+por `mtime`); `FORCE_IMAGES=1 pnpm images:build` re-codifica todo desde cero. El mapa `src/generated/image-variants.ts` está **commiteado** a
+propósito: sin generar nada, `lint`/`typecheck`/`test` igual pasan.
 
 Antes de cerrar cualquier tarea: `pnpm verify` en verde. Si toqué contenido,
 además `pnpm content:check`.
@@ -30,9 +41,13 @@ src/app/[locale]/layout.tsx   NextIntlClientProvider → SiteProvider → Qualit
                               ScrollFx/AudioVisualLink/WaveTransition/Header/main/Footer/
                               MobileReserveBar/SoundGlobalToggle/JsonLd
 src/app/[locale]/page.tsx     composición de secciones (todas Server Components)
-src/app/proxy.ts?  → src/proxy.ts   next-intl (es|en|pt, default es, as-needed)
-src/app/og/[locale]/route.tsx imagen social 1200×630 (fuera de [locale] a propósito)
-src/app/api/booking/route.ts  valida con Zod + reenvía a BOOKING_WEBHOOK_URL (no persiste)
+src/app/{manifest,robots,sitemap}.ts  se materializan a archivos estáticos en el export
+src/i18n/                     routing.ts (es|en|pt, default es, localePrefix:"always",
+                              localeDetection:false) · navigation.ts · use-local-pathname.ts
+src/lib/base.ts               basePath/withBase/withBaseSrcset/absoluteUrl/siteOrigin
+                              (ÚNICA fuente del prefijo de despliegue)
+src/lib/csp.ts                cspMeta() → <meta http-equiv> (Pages no permite headers)
+src/generated/image-variants.ts  mapa srcset generado por `images:build` (commiteado)
 src/features/content/         schema.ts (Zod) · load.ts (cache + resolución) ·
                               images.ts (server-only) · l10n.ts · format.ts
 src/features/sky/             palettes.ts (motor de cielos, puro y testeado) · sun.ts
@@ -47,11 +62,12 @@ src/components/{shell,sections,controls,fx,ui,brand,seo}/
 src/hooks/                    use-lenis (Lenis+ScrollTrigger sincronizados) ·
                               use-pointer-sky · use-raf-scroll · use-drag-scroll
 src/lib/                      fonts.ts · gsap-core.ts / gsap.ts (registro único, núcleo vs plugins) · utils.ts ·
-                              naming.ts (contrato de nombres de archivo) · og-fonts.ts
+                              naming.ts (contrato de nombres de archivo) · og-fonts.ts · base.ts · csp.ts
 content/*.json                fuente de verdad del contenido
 public/images/<módulo>/       fotos (el JSON solo guarda el NOMBRE de archivo)
 scripts/                      content-check, optimize-images, sync-images,
-                              generate-placeholders, add-dish/photo/promo + lib/
+                              generate-placeholders, build-image-variants, generate-og.tsx,
+                              pages-static.ts, pages-build.ts (orquestador), add-dish/photo/promo + lib/
 tests/                        vitest (naming, sky, booking, content) + stubs/server-only.ts
 docs/                         contenido, deploy, diseño, a-confirmar, checklist, credits
 ```
@@ -78,6 +94,10 @@ docs/                         contenido, deploy, diseño, a-confirmar, checklist
 - **Solo el nombre de archivo** en los JSON, jamás rutas: se resuelve contra la
   carpeta del módulo (`imageModuleDir`). Si falta la foto → `MediaFallback`
   (degradé de atardecer + caracola), nunca un hueco blanco.
+- **Ni el prefijo del despliegue va en el contenido**: `NEXT_PUBLIC_BASE_PATH` se
+  aplica SIEMPRE en código con `withBase()` (o `withBaseSrcset()` para `srcset`).
+  En CSS inline nada de `url(/…)` sin helper. `tests/base-paths.test.ts` audita el
+  fuente y `pnpm lint` lo exige; un `/images/x.jpg` pelado en Pages es un 404.
 - `id` → imagen por convención (`<id>.jpg`), `image` explícito gana.
 - `price`: número entero en la moneda de `site.json`; `0`/ausente = “Consultar”.
   Nunca `"$4.500"` (el checker lo frena).
@@ -107,6 +127,24 @@ docs/                         contenido, deploy, diseño, a-confirmar, checklist
 - Presupuesto: JS inicial ≤ ~185 KB gzip, LCP < 2.5 s, 60 fps en gama media en
   Medium. Contenido esencial legible sin JS.
 
+## Deploy: GitHub Pages (destino principal)
+
+`next.config.ts` usa `output: "export"` por default (con `SITE_OUTPUT=server` pasa a
+`standalone` para Vercel/Docker), `trailingSlash: true`, `images.unoptimized`, y
+`basePath`/`assetPrefix` desde `NEXT_PUBLIC_BASE_PATH`. **Nunca hardcodear el nombre
+del repo**: el prefijo lo decide el workflow (vacío si hay `public/CNAME` o si el repo
+es `<usuario>.github.io`, si no `/<repo>`) y lo consume `src/lib/base.ts`.
+
+Lo que **no se puede** en Pages (y por lo tanto no existe en este repo): route
+handlers/API, `middleware`/`proxy.ts`, `headers()`/`redirects()` de next.config,
+ISR/`revalidate`, `cookies()`/`headers()` dinámicos, OG dibujada en runtime, search
+params server-side, imágenes optimizadas on-demand. Si una feature los necesita, el
+destino pasa a ser Vercel o el VPS con Docker (`pnpm build:server`).
+
+El deploy real es `.github/workflows/deploy.yml` (push a `main` + `workflow_dispatch`),
+que deja `out/` arriba, y `.github/workflows/ci.yml` solo corre en PRs.
+Detalle en `docs/deploy.md`; la decisión y sus alternativas, en `docs/DECISIONES.md`.
+
 ## GSAP vs Motion
 
 - **GSAP**: scroll (ScrollTrigger), coreografías, SplitText, Flip, DrawSVG,
@@ -135,8 +173,10 @@ texto, audio siempre opt-in con mute global.
 - `eslint-config-next` 16 exporta flat configs nativas; con `FlatCompat` de
   `@eslint/eslintrc` muere con _Converting circular structure to JSON_.
 - `next-intl` + Next 16: wrapper `NextIntlClientProvider` requerido y
-  `getRequestConfig` devuelve `locale` explícito. El archivo es `proxy.ts`, no
-  `middleware.ts`.
+  `getRequestConfig` devuelve `locale` explícito. En Next 16 el archivo es
+  `proxy.ts` (no `middleware.ts`) — **y acá ya no existe ninguno**: Pages no ejecuta
+  middleware, así que `localePrefix: "always"` + `generateStaticParams` hacen todo
+  el trabajo y la detección de idioma vive en `out/index.html`.
 - Imagen social: si vive en `src/app/[locale]/opengraph-image.tsx`, el proxy de
   next-intl la redirige (`/es/…` → `/`) y el `og:image` responde 307/404. Por eso
   está en `/og/[locale]` y `og` está excluido del `matcher`.
@@ -156,6 +196,29 @@ texto, audio siempre opt-in con mute global.
 - Los auxiliares puros no pueden vivir en un módulo `"use client"` si los llama
   un Server Component (`site/links.ts` puro + `site/context.tsx` re-exporta).
 - `readline` con stdin de caño nunca resuelve: los `add-*` aceptan flags.
+- **`metadataBase` + `output: "export"` revienta en Next 16**: resolver las URLs
+  relativas de metadata lee el pathname de la request y en el prerender no hay
+  request → `Cannot read properties of null (reading 'pathname')` al generar `/es`.
+  Solución: no usar `metadataBase` y escribir canonical/hreflang/OG absolutos con
+  `absoluteUrl()` (origen + base). Mismo motivo por el que `usePathname()` de
+  next-intl/`next/navigation` se reemplazó por `useLocalPathname()`
+  (`useSyncExternalStore`, snapshot de server `null`).
+- **`app/not-found.tsx`/`app/page.tsx` globales no se pueden usar**: el root
+  layout con `<html>` es `src/app/[locale]/layout.tsx`, y un segundo layout con
+  `<html>` es HTML inválido. Por eso `out/index.html` y `out/404.html` se escriben
+  post-build con `scripts/pages-static.ts` (con `<link>` relativos al CSS ya
+  compilado, así funcionan con o sin basePath).
+- `next/image` con `images.unoptimized` en export devuelve un `<img>` sin
+  variantes: por eso `ui/media.tsx` arma `<picture>` a mano y la regla de ESLint
+  `@next/next/no-img-element` está apagada con nota.
+- `withBase` es **idempotente** a propósito: se aplica en el resolvedor de
+  contenido y otra vez en el render; sin el short-circuit sale `/repo/repo/images/…`.
+- `ImageResponse` en `scripts/generate-og.tsx` funciona con `tsx` (Node puro),
+  pero los scripts NO pueden importar `@/features/content/load` (trae
+  `server-only` y lanza): leen el JSON con `readFileSync` + `siteSchema.parse`.
+- `manifest.ts`/`robots.ts`/`sitemap.ts` necesitan `export const dynamic =
+"force-static"` con `output: "export"` (si no, Next los trata de dinámicos y la
+  build falla en la recolección de rutas).
 - En esta demo **no hay CDN**: nada de Google Fonts ni audio de terceros.
 - No hotlinkear fotos/video/audio del Instagram del local ni de terceros; los
   placeholders son propios o generados, y `docs/credits.md` lo dice.
@@ -165,5 +228,9 @@ texto, audio siempre opt-in con mute global.
 - `content:check` es el portero y corre en `prebuild` y en CI: errores frenan,
   avisos no. Sus mensajes dicen **qué campo, en qué archivo y cómo arreglarlo**
   (con sugerencia de nombre cuando es un typo de archivo).
-- `/api/booking` no persiste nada; sin `BOOKING_WEBHOOK_URL` responde OK.
-- Los secrets no van al repo: ver `.env.example`.
+- No hay `/api/booking`: en Pages no corre Node. El formulario arma el mensaje y
+  abre `wa.me`; si existe `NEXT_PUBLIC_BOOKING_WEBHOOK_URL` (endpoint público con
+  CORS, tipo Slack/Make/n8n) el navegador además hace un `POST` ahí. Sin esa
+  variable, **cero llamadas de red**. En Pages no se guarda ninguna reserva.
+- Los secrets no van al repo, y **nunca** en una variable `NEXT_PUBLIC_*`: se
+  embute en el bundle y lo lee cualquiera. Ver `.env.example`.

@@ -23,7 +23,7 @@ objetivo es que **nada de esto requiera tocar código**: es contenido y archivos
 - [ ] **Carta en PDF** accesible (texto real, no escaneo) → `public/docs/carta-tartaruga.pdf`
       y `site.json → links.menuPdf`.
 - [ ] Fotografía para OG propia, si quieren que el card sea una foto y no la
-      composición generada (hoy se dibuja sola desde `src/app/og/[locale]/route.tsx`).
+      composición generada (hoy se dibuja sola con `pnpm og:build` → `public/og/<idioma>.png`, en build y sin servidor).
 
 ## Datos (ver `docs/a-confirmar.md`)
 

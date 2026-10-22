@@ -29,3 +29,4 @@ public/images/**/_generated/
 Thumbs.db
 .eslintcache
 .og-preview.png
+public/og/

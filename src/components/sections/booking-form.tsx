@@ -106,15 +106,22 @@ export function BookingForm({
       "noopener",
     );
 
-    // 2) Registro/automatización si el local configuró el webhook.
+    // 2) Registro/automatización SOLO si el local configuró un endpoint público.
+    //    En GitHub Pages no hay backend propio: no podemos validar ni guardar nada
+    //    del lado servidor, así que esto es un "extra" opcional (Slack/Make/n8n
+    //    con CORS abierto) y nunca un secreto. Si no está definido, cero llamadas.
+    const webhook = process.env.NEXT_PUBLIC_BOOKING_WEBHOOK_URL;
+    if (!webhook) {
+      setStatus("sent");
+      return;
+    }
     try {
-      const response = await fetch("/api/booking", {
+      await fetch(webhook, {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(parsed.data),
+        body: JSON.stringify({ ...parsed.data, submittedAt: new Date().toISOString() }),
       });
-      const result = (await response.json()) as { ok: boolean; forwarded?: boolean };
-      setStatus(result.ok && result.forwarded !== false ? "sent" : "webhook-fail");
+      setStatus("sent");
     } catch {
       setStatus("webhook-fail");
     }

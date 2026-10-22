@@ -2,6 +2,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { getSiteContent } from "@/features/content/load";
 import { pickText } from "@/features/content/l10n";
 import { ShellIcon } from "@/components/brand/shell-icon";
+import { withBase } from "@/lib/base";
 
 /**
  * Artesanal: el diferencial "hecho acá". No contamos una historia que no nos
@@ -24,7 +25,7 @@ export async function ArtisanalSection() {
       <div className="shell grid gap-10 md:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]">
         <div>
           <p className="label flex items-center gap-2 text-[var(--c-rust)]">
-            <ShellIcon src="/images/icons/estrella-1.svg" className="h-4 w-4" />
+            <ShellIcon src={withBase("/images/icons/estrella-1.svg")} className="h-4 w-4" />
             {t("title")}
           </p>
           <h2

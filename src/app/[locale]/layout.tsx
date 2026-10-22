@@ -2,11 +2,13 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { getSiteContent } from "@/features/content/load";
 import { JsonLd } from "@/components/seo/json-ld";
 import { buildSnapshot, quickReserveMessage, telHref, whatsappHref } from "@/features/site/links";
+import { absoluteUrl } from "@/lib/base";
+import { cspMeta } from "@/lib/csp";
 import { SiteProvider } from "@/features/site/context";
 import { fontVariables } from "@/lib/fonts";
 import { QualityProvider } from "@/features/quality/provider";
@@ -28,62 +30,61 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export const dynamicParams = true;
+/**
+ * `false` porque el destino es `output: "export"`: cada locale se prerendera con
+ * `generateStaticParams` y cualquier otra ruta la resuelve Pages con `404.html`.
+ */
+export const dynamicParams = false;
 
 type Params = { locale: string };
 
-/** Base absoluta para OG/canonical/sitemap. Sin env, usa el dominio de deploy. */
-function siteUrl(): string {
-  return (process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.tartaruga.arena.site").replace(
-    /\/$/,
-    "",
-  );
-}
-
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { locale } = await params;
-  const base = siteUrl();
-  const path = locale === routing.defaultLocale ? "" : `/${locale}`;
   const content = await getSiteContent();
   const site = content.site;
-  const t = await getTranslations({ locale, namespace: "meta" });
   const title = site.seo.defaultTitle as Record<string, string | undefined>;
-  const description =
-    (title.es && (site.seo.description as Record<string, string | undefined>)) || undefined;
 
-  const languages: Record<string, string> = {
-    "es-UY": "/",
-    en: "/en",
-    "pt-BR": "/pt",
-    "x-default": "/",
-  };
+  /**
+   * OJO: no usamos `metadataBase`. En Next 16 con `output: "export"` la
+   * resolución de URLs *relativas* de metadata lee el pathname de la request y
+   * en el prerender estático no hay request: la build revienta con
+   * `Cannot read properties of null (reading 'pathname')`. Armar cada URL
+   * absoluta a mano (origen + base + ruta) evita el bug y es lo mismo que haría
+   * `metadataBase`, con la ventaja de que funciona igual en project pages que en
+   * dominio propio.
+   */
+
+  const description =
+    (site.seo.description as Record<string, string | undefined>)[locale] ?? site.seo.description.es;
 
   return {
-    metadataBase: new URL(base),
     title: {
       default: title[locale] ?? title.es ?? site.name,
       template: site.seo.titleTemplate,
     },
-    description:
-      description?.[locale] ??
-      (site.seo.description as Record<string, string>).es ??
-      t("description"),
+    description,
     alternates: {
-      canonical: path || "/",
-      languages,
+      canonical: absoluteUrl(`/${locale}/`),
+      languages: {
+        "es-UY": absoluteUrl("/es/"),
+        en: absoluteUrl("/en/"),
+        "pt-BR": absoluteUrl("/pt/"),
+        // La raíz: la página mínima que reparte idioma según `navigator.language`.
+        "x-default": absoluteUrl("/"),
+      },
     },
     openGraph: {
       type: "website",
       locale: locale === "es" ? "es_UY" : locale === "en" ? "en_US" : "pt_BR",
-      url: `${base}${path || "/"}`,
+      url: absoluteUrl(`/${locale}/`),
       siteName: site.name,
       title: title[locale] ?? title.es ?? site.name,
-      description:
-        (site.seo.description as Record<string, string>)[locale] ??
-        (site.seo.description as Record<string, string>).es,
+      description,
+      // Imagen estática generada en build (`pnpm og:build`), no un route handler:
+      // en Pages no hay runtime. Cada idioma tiene la suya.
       images: [
         {
-          url: `${base}/og/${locale}`,
+          url: absoluteUrl(`/og/${locale}.png`),
           width: 1200,
           height: 630,
           alt: `${site.name} — ${site.address.locality.es}`,
@@ -93,8 +94,8 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     twitter: {
       card: "summary_large_image",
       title: title[locale] ?? title.es ?? site.name,
-      description: (site.seo.description as Record<string, string>).es,
-      images: [`${base}/og/${locale}`],
+      description,
+      images: [absoluteUrl(`/og/${locale}.png`)],
     },
     other: { "hl:locale": "es-UY" },
   };
@@ -126,6 +127,12 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} data-locale={locale} suppressHydrationWarning>
       <head>
+        {/*
+          GitHub Pages no permite cabeceras de respuesta: la CSP tiene que vivir
+          en el HTML. `frame-ancestors` se ignora en `<meta>` (limitación
+          documentada en docs/deploy.md).
+        */}
+        <meta http-equiv="Content-Security-Policy" content={cspMeta()} />
         {/* Marca temprana: sin esto, los elementos con reveal aparecen y luego
             se ocultan (flash). Es inline a propósito: corre antes del primer paint. */}
         <script
@@ -162,7 +169,7 @@ export default async function LocaleLayout({
                   />
                   <MobileReserveBar reserveHref={reserveHref} />
                   <SoundGlobalToggle />
-                  <JsonLd siteUrl={siteUrl()} />
+                  <JsonLd siteUrl={absoluteUrl("/")} />
                 </LenisProvider>
               </SkyRoot>
             </QualityProvider>

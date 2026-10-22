@@ -1,3 +1,6 @@
+"use client";
+import { withBase } from "@/lib/base";
+
 /**
  * Audio ambiente 100% OPT-IN, sintetizado con Web Audio API nativa.
  *
@@ -275,7 +278,8 @@ export class AmbienceEngine {
 
   /** Usa `public/audio/*.mp3` si existen (HEAD ok y decodificable). */
   private async tryFiles(ctx: AudioContext, master: GainNode): Promise<boolean> {
-    const dir = process.env.NEXT_PUBLIC_AUDIO_DIR ?? "/audio";
+    // `withBase`: en project pages el audio vive en /<repo>/audio/…
+    const dir = withBase(process.env.NEXT_PUBLIC_AUDIO_DIR ?? "/audio");
     let built = 0;
     for (const layer of ["olas", "fuego", "brisa"] as AmbienceLayer[]) {
       try {

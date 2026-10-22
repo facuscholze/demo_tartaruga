@@ -2,7 +2,8 @@
 
 /** Selector de idioma: mantiene la ruta y cambia solo el prefijo. */
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter, usePathname } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { useLocalPathname } from "@/i18n/use-local-pathname";
 import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
@@ -11,7 +12,7 @@ const LABELS: Record<string, string> = { es: "ES", en: "EN", pt: "PT" };
 export function LocaleSwitch({ className }: { className?: string }) {
   const locale = useLocale();
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = useLocalPathname();
   const t = useTranslations("nav");
 
   return (
@@ -28,7 +29,7 @@ export function LocaleSwitch({ className }: { className?: string }) {
           key={option}
           type="button"
           aria-current={option === locale}
-          onClick={() => router.replace(pathname, { locale: option })}
+          onClick={() => router.replace(pathname ?? "/", { locale: option })}
           className={cn(
             "rounded-full px-2 py-1 font-type text-[0.62rem] uppercase tracking-[0.14em] transition-colors duration-[var(--d-2)]",
             option === locale

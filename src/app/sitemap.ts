@@ -1,29 +1,25 @@
 import type { MetadataRoute } from "next";
-import { getSiteContent } from "@/features/content/load";
+import { absoluteUrl } from "@/lib/base";
 import { routing } from "@/i18n/routing";
 
-/** Un solo destino por idioma, con `alternate` para que Google indexe las 3. */
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.tartaruga.arena.site").replace(
-    /\/$/,
-    "",
-  );
-  const content = await getSiteContent();
-  const now = new Date();
-  void content;
+/** Se evalúa una sola vez, en build. */
+export const dynamic = "force-static";
+
+/**
+ * En Pages esto se materializa a `out/sitemap.xml` en el build: no hay runtime.
+ * Las URLs salen de `NEXT_PUBLIC_SITE_URL` + `NEXT_PUBLIC_BASE_PATH`, así el
+ * mismo build sirve para project pages y para un dominio propio.
+ */
+export default function sitemap(): MetadataRoute.Sitemap {
+  const url = (locale: string) => absoluteUrl(`/${locale}/`);
 
   return routing.locales.map((locale) => ({
-    url: locale === routing.defaultLocale ? `${base}/` : `${base}/${locale}`,
-    lastModified: now,
+    url: url(locale),
+    lastModified: new Date(),
     changeFrequency: "weekly",
     priority: locale === routing.defaultLocale ? 1 : 0.85,
     alternates: {
-      languages: Object.fromEntries(
-        routing.locales.map((alt) => [
-          alt,
-          alt === routing.defaultLocale ? `${base}/` : `${base}/${alt}`,
-        ]),
-      ),
+      languages: Object.fromEntries(routing.locales.map((alt) => [alt, url(alt)])),
     },
   }));
 }

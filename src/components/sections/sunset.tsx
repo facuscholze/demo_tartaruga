@@ -1,6 +1,7 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { getSiteContent } from "@/features/content/load";
 import { pickText } from "@/features/content/l10n";
+import { withBase } from "@/lib/base";
 import { buildSnapshot, quickReserveMessage, whatsappHref } from "@/features/site/links";
 import { Media } from "@/components/ui/media";
 
@@ -34,7 +35,7 @@ export async function SunsetSection() {
           <div
             className="h-full w-full bg-cover bg-center opacity-60"
             style={{
-              backgroundImage: `url(${back.image.src ?? "/images/_fallback/placeholder.svg"})`,
+              backgroundImage: `url(${back.image.src ?? withBase("/images/_fallback/placeholder.svg")})`,
             }}
             aria-hidden
           />

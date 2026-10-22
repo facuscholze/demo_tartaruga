@@ -3,6 +3,7 @@ import { FireCanvas } from "@/components/sections/fire-canvas";
 import { SoundLayers } from "@/components/controls/sound-layers";
 import { getSiteContent } from "@/features/content/load";
 import { pickText } from "@/features/content/l10n";
+import { withBase } from "@/lib/base";
 
 /**
  * Fuego: la firma emocional del sitio. WebGL en high/medium, brasas CSS que
@@ -28,7 +29,7 @@ export async function FireSection() {
             <div
               className="h-full w-full bg-cover bg-center"
               style={{
-                backgroundImage: `url(${first.image.src ?? "/images/_fallback/placeholder.svg"})`,
+                backgroundImage: `url(${first.image.src ?? withBase("/images/_fallback/placeholder.svg")})`,
               }}
               aria-hidden
             />

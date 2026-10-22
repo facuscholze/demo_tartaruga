@@ -29,19 +29,23 @@ Node 20.11+ (probado en 22) y pnpm 9. Sin `pnpm`: `npm i -g pnpm@9`.
 
 ### Comandos
 
-| Comando                                     | Qué hace                                                                                 |
-| ------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `pnpm dev`                                  | Servidor de desarrollo (Turbopack).                                                      |
-| `pnpm build`                                | `content:check` + build de producción. **Si la carta está mal escrita, la build falla.** |
-| `pnpm start`                                | Sirve la build (usa `output: standalone`).                                               |
-| `pnpm verify`                               | format:check + lint + typecheck + test + content:check + build. Lo mismo que corre CI.   |
-| `pnpm content:check`                        | Validación de contenido con errores y avisos **en español**.                             |
-| `pnpm content:optimize`                     | Optimiza fotos y escribe `public/images/_manifest.json` (dimensiones + blur).            |
-| `pnpm content:placeholders`                 | Genera placeholders pintones (degradé de atardecer + caracola) para fotos que faltan.    |
-| `pnpm content:sync-images`                  | Deduce qué JSON quiere cada foto del disco y avisa las huérfanas.                        |
-| `pnpm add:dish` / `add:photo` / `add:promo` | Alta guiada por terminal (2 minutos, sin abrir el JSON).                                 |
-| `pnpm test`                                 | Vitest: esquema de contenido, naming, cielo/sol, reservas, formato de precios.           |
-| `pnpm analyze`                              | Bundle analyzer (`ANALYZE=1`).                                                           |
+| Comando                                     | Qué hace                                                                                                                                                                                                        |
+| ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm dev`                                  | Servidor de desarrollo (Turbopack).                                                                                                                                                                             |
+| `pnpm build`                                | Pipeline completa del export: `content:optimize` → `content:check` → `images:build` → `og:build` → `next build` (`output: export`) → `index.html`+`404.html`. **Si la carta está mal escrita, la build falla.** |
+| `pnpm build:server`                         | Lo mismo pero con `output: "standalone"`, para Vercel/Docker (con servidor sí hay `/api` e ISR si los agregás).                                                                                                 |
+| `pnpm serve` / `pnpm start`                 | Sirve `out/` con `npx serve` en `http://localhost:3000` (preview del export).                                                                                                                                   |
+| `pnpm images:build`                         | Variantes AVIF/WebP (640/960/1440) en `public/images/_generated/` + `src/generated/image-variants.ts`. Necesario una vez por tanda de fotos nuevas; tarda ~2 min.                                               |
+| `pnpm og:build`                             | `public/og/<idioma>.png` (1200×630) generada en build, no en runtime.                                                                                                                                           |
+| `pnpm pages:build`                          | Escribe `out/index.html` (selector de idioma) y `out/404.html` (la tortuga). Ya está dentro de `pnpm build`.                                                                                                    |
+| `pnpm verify`                               | format:check + lint + typecheck + test + content:check + build. Lo mismo que corre CI.                                                                                                                          |
+| `pnpm content:check`                        | Validación de contenido con errores y avisos **en español**.                                                                                                                                                    |
+| `pnpm content:optimize`                     | Optimiza fotos y escribe `public/images/_manifest.json` (dimensiones + blur).                                                                                                                                   |
+| `pnpm content:placeholders`                 | Genera placeholders pintones (degradé de atardecer + caracola) para fotos que faltan.                                                                                                                           |
+| `pnpm content:sync-images`                  | Deduce qué JSON quiere cada foto del disco y avisa las huérfanas.                                                                                                                                               |
+| `pnpm add:dish` / `add:photo` / `add:promo` | Alta guiada por terminal (2 minutos, sin abrir el JSON).                                                                                                                                                        |
+| `pnpm test`                                 | Vitest: esquema de contenido, naming, cielo/sol, reservas, formato de precios.                                                                                                                                  |
+| `pnpm analyze`                              | Bundle analyzer (`ANALYZE=1`).                                                                                                                                                                                  |
 
 ---
 
@@ -114,7 +118,9 @@ usadas/huérfanas).
   no hay vigentes la sección desaparece del HTML.
 - **Preguntas frecuentes** desde `faq.json`: acordeón de Radix (teclado y
   `aria-expanded` gratis) con sello “a confirmar” por pregunta sin validar.
-- **Reserva** = formulario con vista previa del mensaje + `POST /api/booking`
+- **Reserva** = formulario con vista previa del mensaje que abre WhatsApp (`wa.me`);
+  opcionalmente el navegador copia el JSON a un webhook público si se define
+  `NEXT_PUBLIC_BOOKING_WEBHOOK_URL`. En Pages no se guarda nada del lado servidor
   (que reenvía a `BOOKING_WEBHOOK_URL` si existe). El canal real sigue siendo
   WhatsApp; el teléfono fijo **4432 18 31** está visible para llamar.
 - **Easter eggs** que no estorban: cursor propio que cambia de verbo según el
@@ -143,33 +149,48 @@ y skip-link. Header con `X-Frame-Options`, CSP, `Referrer-Policy`,
 Guía completa (Vercel, Docker/Coolify, variables, dominio):
 [`docs/deploy.md`](docs/deploy.md). Resumen:
 
-```bash
-# Vercel
-vercel link && vercel env add NEXT_PUBLIC_SITE_URL production
-vercel deploy --prod
+**GitHub Pages** (lo principal): el sitio es un export estático, no hay servidor.
 
-# Docker (Coolify, Railway, un VPS)
-docker build -t tartaruga .
-docker run -p 3000:3000 --env-file .env.production tartaruga
+1. Repo → **Settings → Pages → Source: GitHub Actions** (una sola vez).
+2. Push a `main` → `.github/workflows/deploy.yml` buildea `out/` y lo sube.
+   El `basePath` lo calcula el workflow: vacío si hay `public/CNAME` o el repo es
+   `<usuario>.github.io`, si no `/<repo>`.
+3. Para probar el export antes de subir:
+
+```bash
+pnpm build && pnpm serve          # http://localhost:3000
+# con el prefijo del repo, como lo vería Pages:
+NEXT_PUBLIC_BASE_PATH=/demo_tartaruga pnpm build
+mkdir -p /tmp/root && ln -sfn "$PWD/out" /tmp/root/demo_tartaruga
+(cd /tmp/root && python3 -m http.server 8099)   # http://localhost:8099/demo_tartaruga/es/
 ```
+
+**Dominio propio:** `echo dominio.com > public/CNAME`, `CNAME` en el DNS hacia
+`<usuario>.github.io`, y `NEXT_PUBLIC_SITE_URL=https://dominio.com` (el `basePath`
+pasa a vacío solo).
+
+**Vercel / Docker (opcional):** `pnpm build:server` deja el server de Next con
+route handlers, ISR y headers custom — ver las secciones B y C de
+[`docs/deploy.md`](docs/deploy.md).
 
 ---
 
 ## Documentación
 
-| Archivo                                                    | Para quién                                                         |
-| ---------------------------------------------------------- | ------------------------------------------------------------------ |
-| [`docs/agregar-contenido.md`](docs/agregar-contenido.md)   | El local: 5 pasos para plato / fotos / promo / horario / teléfono. |
-| [`docs/deploy.md`](docs/deploy.md)                         | Quien despliega: Vercel y Docker/Coolify paso a paso.              |
-| [`docs/a-confirmar.md`](docs/a-confirmar.md)               | Cliente: lista de datos que la demo **no** inventó.                |
-| [`docs/checklist-material.md`](docs/checklist-material.md) | Proyecto: lo que hay que conseguir para pasar de demo a real.      |
-| [`docs/diseno.md`](docs/diseno.md)                         | Diseño: paleta, tipografía, motion, tiers de calidad.              |
-| [`docs/credits.md`](docs/credits.md)                       | Licencias de fuentes, audio, íconos y fotos de muestra.            |
-| [`CLAUDE.md`](CLAUDE.md)                                   | IA/mantenedor: arquitectura, convenciones, trampas ya conocidas.   |
+| Archivo                                                    | Para quién                                                                                |
+| ---------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| [`docs/agregar-contenido.md`](docs/agregar-contenido.md)   | El local: 5 pasos para plato / fotos / promo / horario / teléfono.                        |
+| [`docs/deploy.md`](docs/deploy.md)                         | Quien despliega: Pages paso a paso, y Vercel/Docker como alternativa.                     |
+| [`docs/DECISIONES.md`](docs/DECISIONES.md)                 | Por qué está hecho así: migración a Pages, qué se sacrificó, qué se ganaría con servidor. |
+| [`docs/a-confirmar.md`](docs/a-confirmar.md)               | Cliente: lista de datos que la demo **no** inventó.                                       |
+| [`docs/checklist-material.md`](docs/checklist-material.md) | Proyecto: lo que hay que conseguir para pasar de demo a real.                             |
+| [`docs/diseno.md`](docs/diseno.md)                         | Diseño: paleta, tipografía, motion, tiers de calidad.                                     |
+| [`docs/credits.md`](docs/credits.md)                       | Licencias de fuentes, audio, íconos y fotos de muestra.                                   |
+| [`CLAUDE.md`](CLAUDE.md)                                   | IA/mantenedor: arquitectura, convenciones, trampas ya conocidas.                          |
 
 ## Stack
 
-Next 16 (App Router, `output: standalone`) · React 19 · TypeScript estricto ·
+Next 16 (App Router, `output: export` para GitHub Pages, `standalone` opcional) · React 19 · TypeScript estricto ·
 Tailwind 4 con tokens CSS · next-intl (ES/EN, PT listo) · GSAP 3.15 (ScrollTrigger, SplitText,
 Flip, DrawSVG, CustomEase, Observer; los plugins se cargan aparte del núcleo) ·
 Lenis · Three + R3F + drei (lazy, nunca en el bundle

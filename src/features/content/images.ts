@@ -18,6 +18,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { imageModuleDir, type ImageModule, IMAGE_EXTENSIONS } from "./schema";
 import { stripExt } from "@/lib/naming";
+import { withBase } from "@/lib/base";
 
 const PUBLIC_IMAGES_ROOT = join(process.cwd(), "public", "images");
 const MANIFEST_PATH = join(PUBLIC_IMAGES_ROOT, "_manifest.json");
@@ -54,9 +55,17 @@ export function imagesFor(mod: ImageModule): string[] {
   return readListings()[mod] ?? [];
 }
 
-/** Ruta pública para un archivo de un módulo (no verifica existencia). */
+/**
+ * Ruta pública para un archivo de un módulo (no verifica existencia).
+ *
+ * Acá —y solo acá— se le pega el `NEXT_PUBLIC_BASE_PATH`: es el único punto por
+ * el que pasan las imágenes del contenido, así los JSON siguen guardando el
+ * simple nombre de archivo y nadie tiene que recordar el prefijo sección por
+ * sección. `withBase` es idempotente, así que aplicarlo de nuevo en un render es
+ * inofensivo.
+ */
 export function publicPath(mod: ImageModule, filename: string): string {
-  return `/images/${imageModuleDir[mod]}/${filename}`;
+  return withBase(`/images/${imageModuleDir[mod]}/${filename}`);
 }
 
 /** ¿Existe el archivo en la carpeta del módulo? (server/build time) */

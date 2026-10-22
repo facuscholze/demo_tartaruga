@@ -17,8 +17,11 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# `content:check` corre antes de la build: si un JSON está mal, la imagen no se
-# construye (mejor fallar acá que publicar un sitio con la carta rota).
+# `build:server` (no `build`): adentro de un contenedor SÍ hay runtime de Node,
+# así que conviene `output: "standalone"` en vez del export estático. El
+# orquestador igual corre content:check + variantes de imagen + OG antes.
+# `content:check` frena la build si un JSON está mal (mejor fallar acá que
+# publicar un sitio con la carta rota).
 ENV NEXT_TELEMETRY_DISABLED=1
 ARG NEXT_PUBLIC_SITE_URL=""
 ARG NEXT_PUBLIC_WHATSAPP_PHONE=""
@@ -26,7 +29,7 @@ ARG NEXT_PUBLIC_WHATSAPP_LINK=""
 ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
 ENV NEXT_PUBLIC_WHATSAPP_PHONE=$NEXT_PUBLIC_WHATSAPP_PHONE
 ENV NEXT_PUBLIC_WHATSAPP_LINK=$NEXT_PUBLIC_WHATSAPP_LINK
-RUN pnpm build
+RUN pnpm build:server
 
 # ---- run --------------------------------------------------------------------
 FROM node:22-alpine AS runner

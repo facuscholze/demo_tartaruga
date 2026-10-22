@@ -1,10 +1,20 @@
-import Image from "next/image";
+import { variantsFor } from "@/generated/image-variants";
+import { withBase, withBaseSrcset } from "@/lib/base";
 import { cn } from "@/lib/utils";
 
 /**
- * Foto con fallback visual garantizado: si el JSON no tiene imagen (o el
- * archivo no existe), se pinta un degradé de atardecer con una caracola
- * grabada. Nunca un hueco blanco.
+ * Foto con fallback visual garantizado y `srcset` real.
+ *
+ * En GitHub Pages no existe `/_next/image`: `next/image` con
+ * `images.unoptimized` devuelve un `<img>` pelado, sin variantes por ancho, y
+ * eso en un sitio de fotos es pagar 1.5 MB por imagen móvil. Por eso este
+ * componente rendera `<picture>` a mano contra las variantes que genera
+ * `pnpm images:build` (AVIF + WebP en 640/960/1440 px, más el original como
+ * respaldo), con el placeholder difuso del manifiesto como fondo para que no
+ * haya salto de layout.
+ *
+ * El contenido sigue referenciando SOLO el nombre de archivo: la variante se
+ * elige acá, en `src`, a partir de la ruta resuelta en build.
  */
 export type MediaProps = {
   src?: string;
@@ -15,9 +25,8 @@ export type MediaProps = {
   className?: string;
   sizes?: string;
   priority?: boolean;
-  /** `true` si conviene `fill` (el contenedor define el recorte). */
+  /** `true` si conviene que el contenedor defina el recorte. */
   fill?: boolean;
-  quality?: number;
 };
 
 export function Media({
@@ -30,28 +39,54 @@ export function Media({
   sizes = "(max-width: 768px) 92vw, 44vw",
   priority,
   fill,
-  quality,
 }: MediaProps) {
   if (!src) return <MediaFallback alt={alt} className={className} />;
+
+  const variants = variantsFor(src);
+  // Las variantes del mapa viven en `public/`, así que también necesitan el
+  // prefijo (y `srcset` se prefija término a término).
+  const avif = withBaseSrcset(variants?.avif);
+  const webp = withBaseSrcset(variants?.webp);
+  const jpg = withBaseSrcset(variants?.jpg);
   const isSvg = src.endsWith(".svg");
-  return (
-    <Image
-      src={src}
+  const img = (
+    <img
+      src={withBase(src)}
       alt={alt}
       width={fill ? undefined : width}
       height={fill ? undefined : height}
-      fill={fill}
-      sizes={sizes}
-      priority={priority}
-      quality={quality}
-      placeholder={blurDataURL ? "blur" : undefined}
-      blurDataURL={blurDataURL}
-      unoptimized={isSvg || undefined}
-      loading={priority ? undefined : "lazy"}
+      sizes={isSvg ? undefined : sizes}
+      srcSet={isSvg ? undefined : jpg}
+      loading={priority ? "eager" : "lazy"}
+      // `eager` + fetchPriority alto para el LCP; `lazy` para el resto.
+      fetchPriority={priority ? "high" : undefined}
       decoding="async"
-      className={cn("h-full w-full object-cover", className)}
-      style={fill ? undefined : { aspectRatio: `${width} / ${height}` }}
+      // El blur del manifiesto vive como fondo: la imagen entra encima y el
+      // hueco nunca se ve blanco (ni en Pages, que no tiene optimizador).
+      style={
+        blurDataURL
+          ? {
+              backgroundImage: `url(${blurDataURL})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }
+          : undefined
+      }
+      className={cn(
+        fill ? "absolute inset-0 h-full w-full object-cover" : "h-full w-full object-cover",
+        className,
+      )}
     />
+  );
+
+  if (isSvg || !variants?.webp) return img;
+
+  return (
+    <picture>
+      {avif ? <source type="image/avif" srcSet={avif} sizes={sizes} /> : null}
+      <source type="image/webp" srcSet={webp} sizes={sizes} />
+      {img}
+    </picture>
   );
 }
 

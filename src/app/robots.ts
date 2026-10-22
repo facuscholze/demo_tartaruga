@@ -1,13 +1,15 @@
 import type { MetadataRoute } from "next";
+import { absoluteUrl } from "@/lib/base";
 
+/** Se evalúa una sola vez, en build. */
+export const dynamic = "force-static";
+
+/** Se escribe como `out/robots.txt` en el build (Pages no ejecuta nada). */
 export default function robots(): MetadataRoute.Robots {
-  const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.tartaruga.arena.site").replace(
-    /\/$/,
-    "",
-  );
   return {
-    rules: [{ userAgent: "*", allow: "/", disallow: ["/api/"] }],
-    sitemap: `${base}/sitemap.xml`,
-    host: base,
+    // Sin `Host`: es una directiva de Yandex y, en project pages, apuntaría a la
+    // raíz del dominio y no al sitio real.
+    rules: [{ userAgent: "*", allow: "/" }],
+    sitemap: absoluteUrl("/sitemap.xml"),
   };
 }

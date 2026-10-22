@@ -7,6 +7,7 @@ import { buildSnapshot } from "@/features/site/links";
  * (inventarlos sería publicar un dato falso que además indexa Google).
  */
 export async function JsonLd({ siteUrl }: { siteUrl: string }) {
+  const root = siteUrl.replace(/\/+$/, "");
   const content = await getSiteContent();
   const snapshot = buildSnapshot(content.site);
   const site = content.site;
@@ -30,13 +31,13 @@ export async function JsonLd({ siteUrl }: { siteUrl: string }) {
     address,
     geo,
     hasMap: snapshot.maps,
-    image: `${siteUrl}/images/brand/logo-tortuga.svg`,
+    image: `${root}/images/brand/logo-tortuga.svg`,
     sameAs: site.links.instagram ? [site.links.instagram] : undefined,
     knowsLanguage: site.i18n.locales,
     isAccessibleForFree: true,
     acceptsReservations: {
       "@type": "Reservation",
-      url: `${siteUrl}/#reservar`,
+      url: `${root}/#reservar`,
       provider: { "@type": "Organization", name: site.name },
     },
   };
@@ -60,22 +61,22 @@ export async function JsonLd({ siteUrl }: { siteUrl: string }) {
     "@graph": [
       {
         "@type": "LocalBusiness",
-        "@id": `${siteUrl}/#business`,
+        "@id": `${root}/#business`,
         name: site.name,
         url: siteUrl,
-        image: `${siteUrl}/images/brand/logo-tortuga.svg`,
+        image: `${root}/images/brand/logo-tortuga.svg`,
         telephone: snapshot.phoneE164,
         address,
         geo,
       },
       {
-        "@id": `${siteUrl}/#website`,
+        "@id": `${root}/#website`,
         "@type": "WebSite",
         url: siteUrl,
         name: site.name,
         inLanguage: `${site.i18n.defaultLocale}-UY`,
       },
-      { ...restaurant, "@id": `${siteUrl}/#restaurant` },
+      { ...restaurant, "@id": `${root}/#restaurant` },
     ],
   };
 

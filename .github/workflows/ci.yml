@@ -1,10 +1,9 @@
 name: CI
 
-# Un push a main o un PR corren lo mismo que `pnpm verify`: si la carta está
-# mal escrita, el build falla acá y no arriba a producción.
+# Solo PR: el deploy real lo hace `deploy.yml` (GitHub Pages) sobre `main`.
+# Acá se valida lo mismo, más el smoke test sirviendo `out/` con un prefijo de
+# repo, que es donde se rompen las rutas hardcodeadas.
 on:
-  push:
-    branches: [main]
   pull_request:
 
 permissions:
@@ -17,7 +16,7 @@ concurrency:
 jobs:
   quality:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -48,21 +47,53 @@ jobs:
       - name: Chequeo de contenido (content:check)
         run: pnpm content:check
 
-      - name: Build de producción
-        run: pnpm build
-        env:
-          NEXT_PUBLIC_SITE_URL: https://example.tartaruga.arena.site
+      - name: Variantes AVIF/WebP (images:build)
+        run: pnpm images:build
 
-      - name: Smoke test del server
+      - name: Imagen social por idioma
+        run: pnpm og:build
+
+      - name: Build estático con basePath de project pages
+        run: pnpm exec next build && pnpm pages:build
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+          # Se prueba CON prefijo a propósito: si algo hardcodea `/images/...`
+          # sin `withBase`, el smoke test de abajo lo agarra.
+          NEXT_PUBLIC_BASE_PATH: /demo_tartaruga
+          NEXT_PUBLIC_SITE_URL: https://facuscholze.github.io
+
+      - name: Smoke test del export (servido bajo /demo_tartaruga/)
         run: |
-          (pnpm start &>/tmp/next.log &) ; sleep 6
-          curl -fsS http://localhost:3000/ | grep -qi "tartaruga"
-          curl -fsSI http://localhost:3000/og/es | grep -qi "image/png"
+          set -euo pipefail
+          mkdir -p /tmp/root && ln -sfn "$PWD/out" /tmp/root/demo_tartaruga
+          (cd /tmp/root && python3 -m http.server 8099 --bind 127.0.0.1 &>/tmp/serve.log &)
+          sleep 2
+          B=http://127.0.0.1:8099/demo_tartaruga
+          curl -fsS "$B/" | grep -qi 'tartaruga'
+          curl -fsS "$B/es/" | grep -qi 'carta'
+          curl -fsS "$B/en/" >/dev/null
+          curl -fsSI "$B/404.html" >/dev/null
+          curl -fsSI "$B/sitemap.xml" | grep -qi 'xml'
+          # assets reales del export: CSS, una fuente self-hosted y una variante
+          css=$(grep -o '/demo_tartaruga/_next/static/css/[^"]*\.css' out/es/index.html | head -1)
+          font=$(grep -o '/demo_tartaruga/_next/static/media/[^"]*\.woff2' out/es/index.html | head -1)
+          img=$(grep -o '/demo_tartaruga/images/[^" ]*\.webp' out/es/index.html | head -1)
+          for path in "$css" "$font" "$img"; do
+            [ -n "$path" ] || { echo "no se encontró el asset esperado en out/es/index.html"; exit 1; }
+            curl -fsSI "http://127.0.0.1:8099${path}" >/dev/null || { echo "404: ${path}"; exit 1; }
+          done
+          # Nada de rutas absolutas sin prefijo en el HTML prerenderado: toda
+          # `src` absoluta tiene que colgar de /demo_tartaruga/ (las relativas y
+          # las `data:`/`#anclas` no las toma este grep porque no arrancan con "/).
+          if grep -oE 'src="/[^"]*"' out/es/index.html | grep -vE '^src="/demo_tartaruga/'; then
+            echo "▲ hay src=\"/…\" sin el prefijo del repo"; exit 1
+          fi
+          echo "✔ smoke test ok"
 
   docker:
-    # Solo valida que la imagen se construya (no la sube a ningún registry).
+    # La ruta Vercel/Docker queda opcional: solo se valida que la imagen arme.
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     needs: quality
     steps:
       - uses: actions/checkout@v4

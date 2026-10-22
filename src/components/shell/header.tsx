@@ -7,7 +7,7 @@
  */
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Link, usePathname } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import { TurtleMark } from "@/components/brand/turtle";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Icon } from "@/components/ui/icon";
@@ -29,7 +29,6 @@ export function Header({ reserveHref }: { reserveHref: string }) {
   const [compact, setCompact] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollTo } = useLenis();
-  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setCompact(window.scrollY > 40);
@@ -129,9 +128,6 @@ export function Header({ reserveHref }: { reserveHref: string }) {
           </div>
         </div>
       ) : null}
-      <span className="sr-only" aria-live="polite">
-        {pathname === "/" ? "" : ""}
-      </span>
       <style>{`[data-scroll-to]{scroll-margin-top:var(--header-h)}`}</style>
       <span className="hidden">{typeof scrollTo === "function" ? "" : ""}</span>
     </header>

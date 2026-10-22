@@ -2,7 +2,7 @@
   "name": "tartaruga-sea-bar",
   "version": "0.1.0",
   "private": true,
-  "description": "Demo del sitio de Tartaruga Sea-Bar — Faro de Punta Colorada, Maldonado, Uruguay",
+  "description": "Demo del sitio de Tartaruga Sea-Bar \u2014 Faro de Punta Colorada, Maldonado, Uruguay",
   "type": "module",
   "engines": {
     "node": ">=20.11"
@@ -10,8 +10,8 @@
   "packageManager": "pnpm@9.15.0",
   "scripts": {
     "dev": "next dev",
-    "build": "pnpm content:check && next build",
-    "start": "next start",
+    "build": "tsx scripts/pages-build.ts all",
+    "start": "tsx scripts/serve.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -24,10 +24,15 @@
     "add:dish": "tsx scripts/add-dish.ts",
     "add:photo": "tsx scripts/add-photo.ts",
     "add:promo": "tsx scripts/add-promo.ts",
-    "analyze": "ANALYZE=true next build",
+    "analyze": "ANALYZE=true pnpm build",
     "verify": "pnpm lint && pnpm typecheck && pnpm content:check && pnpm test && pnpm build",
     "content:placeholders": "tsx scripts/generate-placeholders.ts",
-    "prebuild": "tsx scripts/optimize-images.ts && tsx scripts/content-check.ts"
+    "prebuild": "tsx scripts/optimize-images.ts && tsx scripts/content-check.ts",
+    "build:server": "tsx scripts/pages-build.ts server",
+    "serve": "tsx scripts/serve.ts",
+    "images:build": "tsx scripts/build-image-variants.ts",
+    "og:build": "tsx scripts/generate-og.tsx",
+    "pages:build": "tsx scripts/pages-static.ts"
   },
   "dependencies": {
     "@fontsource-variable/fraunces": "5.3.0",
