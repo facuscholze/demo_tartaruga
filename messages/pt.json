@@ -57,7 +57,9 @@
     "downloadDisabled": "Ainda não há PDF da carta",
     "empty": "Esta categoria ainda não tem itens.",
     "featuredLabel": "Recomendado",
-    "close": "Fechar"
+    "close": "Fechar",
+    "photo": "ver foto",
+    "hidePhoto": "ocultar foto"
   },
   "gallery": {
     "title": "O lugar",
@@ -121,7 +123,9 @@
     "hoursPending": "Dias e horários de atendimento: a confirmar com o local.",
     "instagram": "Instagram",
     "map": "Ver no Google Maps",
-    "mapTitle": "Como chegar ao farol"
+    "mapTitle": "Como chegar ao farol",
+    "pendingTag": "a confirmar",
+    "pendingTitle": "O local ainda não confirmou estes horários."
   },
   "controls": {
     "sound": "Som ambiente",
@@ -153,5 +157,17 @@
     "close": "Fechar",
     "mainNav": "Navegação principal",
     "imageFallback": "Imagem de exemplo"
+  },
+  "place": {
+    "title": "O lugar",
+    "text": "Na beira-mar, aos pés do Farol de Punta Colorada. Madeiras recuperadas, luz quente e a rambla a um passo: o mesmo cenário o ano todo, com outra luz a cada hora.",
+    "hint": "Arraste para percorrer",
+    "mapTitle": "Como chegar",
+    "mapNote": "Mapa ilustrativo, sem API de terceiros.",
+    "openInMaps": "Abrir no Google Maps"
+  },
+  "sunset": {
+    "title": "Hora do pôr do sol",
+    "text": "A mesma mesa, outro céu. Reserve olhando para o oeste."
   }
 }

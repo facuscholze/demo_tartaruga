@@ -221,6 +221,13 @@
   }
 
   /* Regla de puntos entre plato y precio (estilo carta de papel). */
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
   .leader {
     flex: 1 1 auto;
     min-width: 1.5rem;
@@ -523,5 +530,105 @@ html[data-js="1"]:not([data-reduced-motion="true"])[data-quality="high"] [data-r
   }
   [data-hero]::before {
     transition: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-dish-peek] {
+    transition: none;
+  }
+  .heat-haze,
+  .water-warp {
+    filter: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Galería y visor
+   -------------------------------------------------------------------------- */
+.gallery-card {
+  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition:
+    transform var(--d-3) var(--ease-sea),
+    filter var(--d-3) var(--ease-sea);
+  transform-style: preserve-3d;
+}
+
+[data-dragging="true"] .gallery-card {
+  transition: none;
+  cursor: grabbing;
+}
+
+.lb-nav {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--fg-muted);
+  font-size: 0.95rem;
+  transition:
+    color var(--d-2) var(--ease-sea),
+    border-color var(--d-2) var(--ease-sea),
+    transform var(--d-2) var(--ease-sea);
+}
+
+.lb-nav:hover {
+  color: var(--fg);
+  border-color: color-mix(in oklab, var(--c-ember) 60%, transparent);
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-card {
+    transform: none;
+  }
+}
+
+/* Mapa del local: el haz del faro y el pin laten suave, nada de strobo. */
+.map-beacon {
+  animation: beacon 4.2s var(--ease-sea) infinite;
+  transform-origin: center;
+}
+.map-pin__ring {
+  animation: beacon-ring 5.4s var(--ease-sea) infinite;
+  transform-origin: center;
+}
+@keyframes beacon {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes beacon-ring {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.9);
+  }
+  55% {
+    opacity: 0.5;
+    transform: scale(1.12);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-beacon,
+  .map-pin__ring {
+    animation: none;
   }
 }

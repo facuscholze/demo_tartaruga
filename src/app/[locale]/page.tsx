@@ -1,9 +1,18 @@
 import { setRequestLocale } from "next-intl/server";
 import { Hero } from "@/components/sections/hero";
 import { FireSection } from "@/components/sections/fire";
+import { MenuSection } from "@/components/sections/menu";
+import { PlaceSection } from "@/components/sections/place";
+import { SunsetSection } from "@/components/sections/sunset";
+import { ExperiencesSection } from "@/components/sections/experiences";
 import { getSiteContent } from "@/features/content/load";
 import { buildSnapshot, quickReserveMessage, whatsappHref } from "@/features/site/links";
 
+/**
+ * Orden narrativo: atardecer → fuego → carta → el lugar → sunset → experiencias.
+ * Cada sección es un Server Component que lee `content/*.json`; lo único que
+ * baja al cliente es lo que necesita interactuar.
+ */
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
@@ -15,6 +24,10 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
     <>
       <Hero reserveHref={reserveHref} />
       <FireSection />
+      <MenuSection />
+      <PlaceSection />
+      <SunsetSection />
+      <ExperiencesSection />
     </>
   );
 }

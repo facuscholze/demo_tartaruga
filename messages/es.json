@@ -57,7 +57,9 @@
     "downloadDisabled": "Aún no hay PDF de carta",
     "empty": "Esta categoría todavía no tiene productos cargados.",
     "featuredLabel": "Recomendado",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "photo": "ver foto",
+    "hidePhoto": "ocultar foto"
   },
   "gallery": {
     "title": "El lugar",
@@ -121,7 +123,9 @@
     "hoursPending": "Días y horarios de atención: a confirmar con el local.",
     "instagram": "Instagram",
     "map": "Ver en Google Maps",
-    "mapTitle": "Cómo llegar al faro"
+    "mapTitle": "Cómo llegar al faro",
+    "pendingTag": "a confirmar",
+    "pendingTitle": "El local todavía no confirmó estos horarios."
   },
   "controls": {
     "sound": "Sonido ambiente",
@@ -153,5 +157,17 @@
     "close": "Cerrar",
     "mainNav": "Navegación principal",
     "imageFallback": "Imagen de muestra"
+  },
+  "place": {
+    "title": "El lugar",
+    "text": "Frente al mar, a los pies del Faro de Punta Colorada. Maderas recuperadas, luces cálidas y la rambla a un paso: el mismo escenario todo el año, con otra luz en cada hora.",
+    "hint": "Arrastrá para recorrer",
+    "mapTitle": "Cómo llegar",
+    "mapNote": "Mapa ilustrativo, sin API de terceros.",
+    "openInMaps": "Abrir en Google Maps"
+  },
+  "sunset": {
+    "title": "Hora del atardecer",
+    "text": "La misma mesa, otro cielo. Reservá mirando al oeste."
   }
 }

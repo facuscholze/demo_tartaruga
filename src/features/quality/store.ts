@@ -58,3 +58,8 @@ export function useQualitySettings(): QualitySettings {
 /** Toggle "Efectos: Max / Normal / Mínimo". */
 export const QUALITY_OPTIONS = ORDER;
 export { webglAvailable };
+
+/** Reducción de movimiento del sistema, sincronizada con el listener del provider. */
+export function useReducedMotion(): boolean {
+  return useQualityStore((state) => state.reducedMotion);
+}

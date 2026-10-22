@@ -57,7 +57,9 @@
     "downloadDisabled": "No menu PDF yet",
     "empty": "This category has no items yet.",
     "featuredLabel": "Chef's pick",
-    "close": "Close"
+    "close": "Close",
+    "photo": "see photo",
+    "hidePhoto": "hide photo"
   },
   "gallery": {
     "title": "The place",
@@ -121,7 +123,9 @@
     "hoursPending": "Opening days and hours: to be confirmed with the venue.",
     "instagram": "Instagram",
     "map": "View on Google Maps",
-    "mapTitle": "How to get to the lighthouse"
+    "mapTitle": "How to get to the lighthouse",
+    "pendingTag": "to confirm",
+    "pendingTitle": "The venue hasn't confirmed these hours yet."
   },
   "controls": {
     "sound": "Ambient sound",
@@ -153,5 +157,17 @@
     "close": "Close",
     "mainNav": "Main navigation",
     "imageFallback": "Sample image"
+  },
+  "place": {
+    "title": "The place",
+    "text": "Beachfront, at the foot of the Punta Colorada lighthouse. Reclaimed timber, warm light and the promenade one step away: the same stage all year, with different light every hour.",
+    "hint": "Drag to browse",
+    "mapTitle": "Getting here",
+    "mapNote": "Illustrative map, no third-party API.",
+    "openInMaps": "Open in Google Maps"
+  },
+  "sunset": {
+    "title": "Sunset hour",
+    "text": "The same table, a different sky. Book facing west."
   }
 }

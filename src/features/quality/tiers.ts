@@ -24,6 +24,10 @@ export type QualitySettings = {
   particleCount: number;
   photoDistortion: boolean;
   heatHaze: boolean;
+  /** Inclinación 3D de tarjetas siguiendo el puntero. */
+  tilt: boolean;
+  /** Espejo del media query: las secciones lo necesitan para no animar. */
+  reducedMotion: boolean;
   grain: boolean;
   parallax: boolean;
   audioAnalyser: boolean;
@@ -38,6 +42,8 @@ export function settingsFor(quality: Quality, reducedMotion: boolean): QualitySe
     particleCount: 900,
     photoDistortion: true,
     heatHaze: true,
+    tilt: true,
+    reducedMotion: false,
     grain: true,
     parallax: true,
     audioAnalyser: true,
@@ -45,15 +51,48 @@ export function settingsFor(quality: Quality, reducedMotion: boolean): QualitySe
   };
   if (reducedMotion) {
     // Reduced motion: sin loops continuos. El cielo queda en su estado actual.
-    return { ...base, quality: "low", webgl: false, particleCount: 0, photoDistortion: false, heatHaze: false, grain: false, parallax: false, maxFps: 30 };
+    return {
+      ...base,
+      quality: "low",
+      webgl: false,
+      particleCount: 0,
+      photoDistortion: false,
+      heatHaze: false,
+      tilt: false,
+      reducedMotion: true,
+      grain: false,
+      parallax: false,
+      maxFps: 30,
+    };
   }
   if (quality === "medium") {
-    return { ...base, pixelRatio: 1.35, particleCount: 380, photoDistortion: true, heatHaze: false, audioAnalyser: false };
+    return {
+      ...base,
+      pixelRatio: 1.35,
+      particleCount: 380,
+      photoDistortion: true,
+      heatHaze: false,
+      tilt: false,
+      reducedMotion,
+      audioAnalyser: false,
+    };
   }
   if (quality === "low") {
-    return { ...base, webgl: false, photoDistortion: false, heatHaze: false, pixelRatio: 1, particleCount: 0, audioAnalyser: false, grain: false, maxFps: 30 };
+    return {
+      ...base,
+      webgl: false,
+      photoDistortion: false,
+      heatHaze: false,
+      tilt: false,
+      reducedMotion,
+      pixelRatio: 1,
+      particleCount: 0,
+      audioAnalyser: false,
+      grain: false,
+      maxFps: 30,
+    };
   }
-  return base;
+  return { ...base, reducedMotion };
 }
 
 export type DetectInput = {
