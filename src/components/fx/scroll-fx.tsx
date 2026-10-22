@@ -113,6 +113,25 @@ export function ScrollFx() {
           });
         });
 
+        // Huellitas del bloque pet friendly: se rellenan de izquierda a derecha.
+        gsap.utils.toArray<HTMLElement>("[data-paw-trail]").forEach((element) => {
+          const prints = element.querySelectorAll(".paw-trail__prints > g");
+          if (!prints.length) return;
+          gsap.to(prints, {
+            opacity: 0.75,
+            scale: 1.08,
+            duration: 0.4,
+            stagger: 0.045,
+            ease: "ember",
+            scrollTrigger: {
+              trigger: element,
+              start: "top 72%",
+              end: "bottom 58%",
+              scrub: 0.8,
+            },
+          });
+        });
+
         // El cielo se oscurece y el fuego crece al bajar del hero hacia la noche.
         const hero = document.querySelector<HTMLElement>("[data-hero]");
         if (hero) {

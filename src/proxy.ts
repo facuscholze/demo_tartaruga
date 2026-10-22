@@ -10,6 +10,11 @@ import { routing } from "./i18n/routing";
 export const proxy = createMiddleware(routing);
 
 export const config = {
-  // No interferir con assets, API ni archivos de la raíz (robots, sitemap).
-  matcher: "/((?!api|trpc|_next|_vercel|.*\\..*).*)",
+  /**
+   * No interferir con assets, API ni archivos de la raíz (robots, sitemap).
+   * `og` va en la exclusión porque la imagen social vive en `/og/[locale]`,
+   * FUERA del segmento de idioma: si el proxy la reescribe a `/es/og/es`,
+   * el `og:image` responde 404 y el card de WhatsApp/IG sale sin imagen.
+   */
+  matcher: "/((?!api|trpc|og|_next|_vercel|.*\\..*).*)",
 };

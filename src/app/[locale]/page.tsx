@@ -5,6 +5,10 @@ import { MenuSection } from "@/components/sections/menu";
 import { PlaceSection } from "@/components/sections/place";
 import { SunsetSection } from "@/components/sections/sunset";
 import { ExperiencesSection } from "@/components/sections/experiences";
+import { PetSection } from "@/components/sections/pet";
+import { ArtisanalSection } from "@/components/sections/artisanal";
+import { PerksSection } from "@/components/sections/perks";
+import { BookingSection } from "@/components/sections/booking";
 import { getSiteContent } from "@/features/content/load";
 import { buildSnapshot, quickReserveMessage, whatsappHref } from "@/features/site/links";
 
@@ -28,6 +32,10 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
       <PlaceSection />
       <SunsetSection />
       <ExperiencesSection />
+      <ArtisanalSection />
+      <PetSection />
+      <PerksSection />
+      <BookingSection />
     </>
   );
 }

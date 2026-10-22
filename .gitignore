@@ -28,3 +28,4 @@ public/images/**/_generated/
 .DS_Store
 Thumbs.db
 .eslintcache
+.og-preview.png

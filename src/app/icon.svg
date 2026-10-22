@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" fill="none" role="img" aria-label="Tartaruga">
+  <g stroke="currentColor" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M74.5 67.5C86 40 132 28.5 153 47.5c21 19 18 57-6 71.5-24 14.5-58.5 8-71-14" />
+    <path d="M153 47.5c15.5-12.5 34.5-15.5 45.5-7 11 8.5 8.5 23.5-4 29.5-8 4-19.5 4.5-28 3" />
+    <path d="M118.5 43.5C113.5 25 126 10 145.5 9.5" />
+    <path d="M90.5 119.5C82 138 66 149 49 146.5" />
+    <path d="M147 119c8 13.5 22.5 20 37 15.5" />
+    <path d="M74.5 104.5C60.5 107 49.5 101 43 90.5" />
+    <path d="M101 73.5 121 58.5l21.5 13" stroke-width="2.4" opacity=".72" />
+    <path d="M96.5 92.5 121 105.5l23-14.5" stroke-width="2.4" opacity=".72" />
+    <path d="M121 58.5v47" stroke-width="2.4" opacity=".55" />
+  </g>
+  <circle cx="186.5" cy="51.5" r="2.7" fill="currentColor" />
+</svg>

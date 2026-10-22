@@ -55,6 +55,8 @@
     "zustand": "5.0.16"
   },
   "devDependencies": {
+    "@fontsource/fraunces": "5.2.5",
+    "@fontsource/instrument-sans": "5.2.5",
     "@next/bundle-analyzer": "^16.4.2",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.6.5",
@@ -71,6 +73,7 @@
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.72.0",
-    "vitest": "^5.0.5"
+    "vitest": "^5.0.5",
+    "wawoff2": "2.0.1"
   }
 }

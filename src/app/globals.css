@@ -632,3 +632,65 @@ html[data-js="1"]:not([data-reduced-motion="true"])[data-quality="high"] [data-r
     animation: none;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Ola de transición y huellitas
+   -------------------------------------------------------------------------- */
+.wave-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  background: linear-gradient(to top, var(--c-abyss) 0%, color-mix(in oklab, var(--c-haze) 92%, transparent) 70%, transparent 100%);
+  transform: translateY(101%);
+  opacity: 0;
+}
+
+.wave-overlay[data-playing="true"] {
+  animation: wave-rise 880ms var(--ease-swell) forwards;
+}
+
+.wave-overlay__crest {
+  position: absolute;
+  top: -58px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  fill: var(--c-abyss);
+}
+
+@keyframes wave-rise {
+  0% {
+    transform: translateY(101%);
+    opacity: 1;
+  }
+  52% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-102%);
+    opacity: 1;
+  }
+}
+
+.paw-trail__prints > g {
+  opacity: 0.08;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+html[data-js="1"]:not([data-reduced-motion="true"]) [data-paw-trail] .paw-trail__prints > g {
+  transition:
+    opacity 420ms var(--ease-sea),
+    scale 420ms var(--ease-sea);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave-overlay {
+    display: none;
+  }
+  .paw-trail__prints > g {
+    opacity: 0.5;
+  }
+}

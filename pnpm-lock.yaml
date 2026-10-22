@@ -78,6 +78,12 @@ importers:
         specifier: 5.0.16
         version: 5.0.16(@types/react@19.3.0)(react@19.3.1)(use-sync-external-store@1.7.0(react@19.3.1))
     devDependencies:
+      '@fontsource/fraunces':
+        specifier: 5.2.5
+        version: 5.2.5
+      '@fontsource/instrument-sans':
+        specifier: 5.2.5
+        version: 5.2.5
       '@next/bundle-analyzer':
         specifier: ^16.4.2
         version: 16.4.2
@@ -129,6 +135,9 @@ importers:
       vitest:
         specifier: ^5.0.5
         version: 5.0.5(@types/node@26.6.5)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15))
+      wawoff2:
+        specifier: 2.0.1
+        version: 2.0.1
 
 packages:
 
@@ -458,6 +467,12 @@ packages:
 
   '@fontsource/courier-prime@5.3.0':
     resolution: {integrity: sha512-KIi1k4VG1Wv+/CGpb1AUpLkUuOAQA6zmvthqxOZGN0AV8BEgQgbK7qAtquv14zsBJAY1bb5BHIEbWVFLgENh0w==}
+
+  '@fontsource/fraunces@5.2.5':
+    resolution: {integrity: sha512-+OmG4NKrnYhnIvQ9SAMnDi933DQHKcgQ3BOVs1jRFasLvge0m69ItX3yapb2lPKKnrAi1haG89GuUeKK/ItdmA==}
+
+  '@fontsource/instrument-sans@5.2.5':
+    resolution: {integrity: sha512-+u6WgD2gZfjEnMKwRZ0D/CizoF0n3sLIT+cQtqJrnmWh2xhcF35xl06vA2uCTBF/CiYKgNmm1AVWBqURY/aJ2w==}
 
   '@formatjs/fast-memoize@3.1.7':
     resolution: {integrity: sha512-zXfhLpvA6T7+efdt9JLbBwZ00tT7NsBMDVnDu8rpHeNNv8KfRZAMo2gkG0k9lK/Nzc//3kJ9pImsfuJxk3KhUA==}
@@ -3626,6 +3641,10 @@ packages:
       jsdom:
         optional: true
 
+  wawoff2@2.0.1:
+    resolution: {integrity: sha512-r0CEmvpH63r4T15ebFqeOjGqU4+EgTx4I510NtK35EMciSdcTxCw3Byy3JnBonz7iyIFZ0AbVo0bbFpEVuhCYA==}
+    hasBin: true
+
   webgl-constants@1.1.1:
     resolution: {integrity: sha512-LkBXKjU5r9vAW7Gcu3T5u+5cvSvh5WwINdr0C+9jpzVB41cjQAP5ePArDtk/WHYdVj0GefCgM73BA7FlIiNtdg==}
 
@@ -4021,6 +4040,10 @@ snapshots:
   '@fontsource-variable/instrument-sans@5.3.0': {}
 
   '@fontsource/courier-prime@5.3.0': {}
+
+  '@fontsource/fraunces@5.2.5': {}
+
+  '@fontsource/instrument-sans@5.2.5': {}
 
   '@formatjs/fast-memoize@3.1.7': {}
 
@@ -7156,6 +7179,10 @@ snapshots:
       '@types/node': 26.6.5
     transitivePeerDependencies:
       - msw
+
+  wawoff2@2.0.1:
+    dependencies:
+      argparse: 2.0.1
 
   webgl-constants@1.1.1: {}
 

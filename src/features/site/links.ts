@@ -56,15 +56,25 @@ export function telHref(snapshot: SiteSnapshot): string {
   return `tel:${snapshot.phoneE164.replace(/[^\d+]/g, "")}`;
 }
 
-/** `wa.me/<e164>?text=…` o el link corto del perfil, con el mensaje codificado. */
-export function whatsappHref(snapshot: SiteSnapshot, message: string): string {
+export type WhatsappTarget = { shortLink: string; phoneE164: string };
+
+/**
+ * `wa.me/<e164>?text=…` o el link corto del perfil, con el mensaje codificado.
+ * `buildWhatsappHref` es el núcleo puro: lo pueden importar los Client
+ * Components sin tener que pasarles una función por prop (prohibido por React).
+ */
+export function buildWhatsappHref(target: WhatsappTarget, message: string): string {
   const encoded = encodeURIComponent(message);
-  if (snapshot.whatsappShortLink) {
-    const separator = snapshot.whatsappShortLink.includes("?") ? "&" : "?";
-    return `${snapshot.whatsappShortLink}${separator}text=${encoded}`;
+  if (target.shortLink) {
+    const separator = target.shortLink.includes("?") ? "&" : "?";
+    return `${target.shortLink}${separator}text=${encoded}`;
   }
-  const phone = snapshot.whatsappE164.replace(/[^\d]/g, "");
+  const phone = target.phoneE164.replace(/[^\d]/g, "");
   return `https://wa.me/${phone}?text=${encoded}`;
+}
+
+export function whatsappHref(snapshot: SiteSnapshot, message: string): string {
+  return buildWhatsappHref({ shortLink: snapshot.whatsappShortLink, phoneE164: snapshot.whatsappE164 }, message);
 }
 
 export function mapsHref(snapshot: SiteSnapshot): string {

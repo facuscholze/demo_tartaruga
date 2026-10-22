@@ -5,6 +5,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { getSiteContent } from "@/features/content/load";
+import { JsonLd } from "@/components/seo/json-ld";
 import { buildSnapshot, quickReserveMessage, telHref, whatsappHref } from "@/features/site/links";
 import { SiteProvider } from "@/features/site/context";
 import { fontVariables } from "@/lib/fonts";
@@ -16,6 +17,7 @@ import { Footer } from "@/components/shell/footer";
 import { Intro } from "@/components/sections/intro";
 import { ScrollFx } from "@/components/fx/scroll-fx";
 import { AudioVisualLink } from "@/components/fx/audio-visual-link";
+import { WaveTransition } from "@/components/fx/wave-transition";
 import { CustomCursor } from "@/components/fx/cursor";
 import { SvgDefs } from "@/components/fx/svg-defs";
 import { MobileReserveBar } from "@/components/shell/mobile-reserve-bar";
@@ -30,8 +32,15 @@ export const dynamicParams = true;
 
 type Params = { locale: string };
 
+/** Base absoluta para OG/canonical/sitemap. Sin env, usa el dominio de deploy. */
+function siteUrl(): string {
+  return (process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.tartaruga.arena.site").replace(/\/$/, "");
+}
+
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { locale } = await params;
+  const base = siteUrl();
+  const path = locale === routing.defaultLocale ? "" : `/${locale}`;
   const content = await getSiteContent();
   const site = content.site;
   const t = await getTranslations({ locale, namespace: "meta" });
@@ -39,38 +48,45 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const description = (title.es && (site.seo.description as Record<string, string | undefined>)) || undefined;
 
   const languages: Record<string, string> = {
-    "es-UY": `/${locale === "es" ? "" : "es"}`.replace(/\/$/, "") || "/",
+    "es-UY": "/",
     en: "/en",
     "pt-BR": "/pt",
     "x-default": "/",
   };
 
   return {
+    metadataBase: new URL(base),
     title: {
       default: title[locale] ?? title.es ?? site.name,
       template: site.seo.titleTemplate,
     },
     description: description?.[locale] ?? (site.seo.description as Record<string, string>).es ?? t("description"),
     alternates: {
-      canonical: "/",
+      canonical: path || "/",
       languages,
     },
     openGraph: {
       type: "website",
       locale: locale === "es" ? "es_UY" : locale === "en" ? "en_US" : "pt_BR",
-      url: "/",
+      url: `${base}${path || "/"}`,
       siteName: site.name,
       title: title[locale] ?? title.es ?? site.name,
       description: (site.seo.description as Record<string, string>)[locale] ?? (site.seo.description as Record<string, string>).es,
-      images: [{ url: "/og?locale=es", width: 1200, height: 630, alt: site.name }],
+      images: [
+        {
+          url: `${base}/og/${locale}`,
+          width: 1200,
+          height: 630,
+          alt: `${site.name} — ${site.address.locality.es}`,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: title[locale] ?? title.es ?? site.name,
       description: (site.seo.description as Record<string, string>).es,
-      images: ["/og?locale=es"],
+      images: [`${base}/og/${locale}`],
     },
-    icons: { icon: "/icon", apple: "/apple-icon" },
     other: { "hl:locale": "es-UY" },
   };
 }
@@ -120,6 +136,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
                   <CustomCursor />
                   <ScrollFx />
                   <AudioVisualLink />
+                  <WaveTransition />
                   <Header reserveHref={reserveHref} />
                   <main id="contenido" className="relative">
                     {children}
@@ -127,6 +144,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
                   <Footer snapshot={snapshot} links={{ whatsapp: reserveHref, tel: telHref(snapshot) }} />
                   <MobileReserveBar reserveHref={reserveHref} />
                   <SoundGlobalToggle />
+                <JsonLd siteUrl={siteUrl()} />
                 </LenisProvider>
               </SkyRoot>
             </QualityProvider>
