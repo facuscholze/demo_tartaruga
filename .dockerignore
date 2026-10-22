@@ -1,0 +1,16 @@
+.git
+.next
+out
+node_modules
+pnpm-debug.log
+Dockerfile
+.dockerignore
+coverage
+reference
+docs
+README.md
+CLAUDE.md
+.env
+.env.local
+*.mp4
+*.mov

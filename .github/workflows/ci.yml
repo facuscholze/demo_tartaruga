@@ -1,0 +1,72 @@
+name: CI
+
+# Un push a main o un PR corren lo mismo que `pnpm verify`: si la carta está
+# mal escrita, el build falla acá y no arriba a producción.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      - name: Formato (Prettier)
+        run: pnpm format:check
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Tests
+        run: pnpm test
+
+      - name: Chequeo de contenido (content:check)
+        run: pnpm content:check
+
+      - name: Build de producción
+        run: pnpm build
+        env:
+          NEXT_PUBLIC_SITE_URL: https://example.tartaruga.arena.site
+
+      - name: Smoke test del server
+        run: |
+          (pnpm start &>/tmp/next.log &) ; sleep 6
+          curl -fsS http://localhost:3000/ | grep -qi "tartaruga"
+          curl -fsSI http://localhost:3000/og/es | grep -qi "image/png"
+
+  docker:
+    # Solo valida que la imagen se construya (no la sube a ningún registry).
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: quality
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/build-push-action@v6
+        with:
+          push: false
+          tags: tartaruga-demo:ci
