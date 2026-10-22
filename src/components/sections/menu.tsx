@@ -56,7 +56,10 @@ export async function MenuSection() {
               <ShellIcon src="/images/icons/caracola-1.svg" className="h-4 w-4" />
               {t("title")}
             </p>
-            <h2 id="carta-title" className="mt-3 text-[var(--text-display)] text-[var(--paper-ink)]">
+            <h2
+              id="carta-title"
+              className="mt-3 text-[var(--text-display)] text-[var(--paper-ink)]"
+            >
               {t("title")}
             </h2>
           </div>
@@ -87,7 +90,10 @@ export async function MenuSection() {
         />
       </div>
 
-      <div aria-hidden className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 opacity-[0.07]">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 opacity-[0.07]"
+      >
         <ShellIcon src="/images/icons/almeja-1.svg" className="h-full w-full" />
       </div>
     </section>

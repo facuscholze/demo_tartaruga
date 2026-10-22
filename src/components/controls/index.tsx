@@ -22,11 +22,17 @@ export function SoundToggle({ className }: { className?: string }) {
       title={enabled ? t("soundOn") : t("soundOff")}
       className={cn(
         "inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-3 py-2 backdrop-blur-[6px] transition-colors duration-[var(--d-2)]",
-        enabled ? "border-[color-mix(in_oklab,var(--c-ember)_60%,transparent)] bg-[color-mix(in_oklab,var(--c-ember)_16%,transparent)]" : "bg-[color-mix(in_oklab,var(--c-navy)_46%,transparent)]",
+        enabled
+          ? "border-[color-mix(in_oklab,var(--c-ember)_60%,transparent)] bg-[color-mix(in_oklab,var(--c-ember)_16%,transparent)]"
+          : "bg-[color-mix(in_oklab,var(--c-navy)_46%,transparent)]",
         className,
       )}
     >
-      <span aria-hidden className={cn("transition-opacity", enabled && "animate-pulse-none")} data-sound-icon>
+      <span
+        aria-hidden
+        className={cn("transition-opacity", enabled && "animate-pulse-none")}
+        data-sound-icon
+      >
         {enabled ? "◉" : "○"}
       </span>
       <span className="label">{t("sound")}</span>
@@ -47,7 +53,13 @@ export function EffectsToggle({ compact = false }: { compact?: boolean }) {
   return (
     <div className="flex items-center gap-2">
       {!compact && <span className="label text-[var(--fg-faint)]">{t("effects")}</span>}
-      <ToggleGroup options={options} value={quality} onChange={(value) => setQuality(value)} label={t("effects")} size="sm" />
+      <ToggleGroup
+        options={options}
+        value={quality}
+        onChange={(value) => setQuality(value)}
+        label={t("effects")}
+        size="sm"
+      />
     </div>
   );
 }
@@ -63,7 +75,9 @@ export function TimeOfDaySelect() {
     { value: "sunset", label: t("sunset") },
     { value: "night", label: t("night") },
   ];
-  return <ToggleGroup options={options} value={mode} onChange={setMode} label={t("label")} size="sm" />;
+  return (
+    <ToggleGroup options={options} value={mode} onChange={setMode} label={t("label")} size="sm" />
+  );
 }
 
 export { QUALITY_LABELS };

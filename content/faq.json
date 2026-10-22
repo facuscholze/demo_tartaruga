@@ -43,7 +43,10 @@
     {
       "id": "pago",
       "order": 5,
-      "question": { "es": "¿Qué medios de pago aceptan?", "en": "What payment methods do you take?" },
+      "question": {
+        "es": "¿Qué medios de pago aceptan?",
+        "en": "What payment methods do you take?"
+      },
       "answer": {
         "es": "Los beneficios bancarios vigentes figuran en el bloque \"Beneficios\". Lista completa de medios de pago: a confirmar con el local.",
         "en": "Current bank benefits are listed in the \"Benefits\" block. Full list of payment methods: to confirm with the venue."

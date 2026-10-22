@@ -288,7 +288,9 @@ export function skyGradient(state: SkyState): string {
 }
 
 /** Etiqueta legible para `aria-live` y el chip de "hora del día". */
-export function skyLabel(elevationDeg: number): "noche" | "alba" | "manana" | "tarde" | "golden" | "atardecer" | "crepusculo" {
+export function skyLabel(
+  elevationDeg: number,
+): "noche" | "alba" | "manana" | "tarde" | "golden" | "atardecer" | "crepusculo" {
   if (elevationDeg < -7) return "noche";
   if (elevationDeg < -0.8) return "crepusculo";
   if (elevationDeg < 6) return "golden";

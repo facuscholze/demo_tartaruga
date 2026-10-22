@@ -43,7 +43,9 @@ export async function JsonLd({ siteUrl }: { siteUrl: string }) {
   if (site.seo.servesCuisine) restaurant.servesCuisine = site.seo.servesCuisine;
   if (site.seo.priceRange) restaurant.priceRange = site.seo.priceRange;
 
-  const openBlocks = site.hours.filter((block) => block.confirmed && block.open && block.close && block.days.length > 0);
+  const openBlocks = site.hours.filter(
+    (block) => block.confirmed && block.open && block.close && block.days.length > 0,
+  );
   if (openBlocks.length > 0) {
     restaurant.openingHoursSpecification = openBlocks.map((block) => ({
       "@type": "OpeningHoursSpecification",
@@ -77,7 +79,12 @@ export async function JsonLd({ siteUrl }: { siteUrl: string }) {
     ],
   };
 
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />;
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
 }
 
 const WEEKDAY_US: Record<string, string> = {

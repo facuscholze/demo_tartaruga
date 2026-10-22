@@ -21,7 +21,10 @@ async function main() {
     done();
     return;
   }
-  const details = await ask("Detalle / condiciones (texto literal de la gráfica, sin inventar):", "");
+  const details = await ask(
+    "Detalle / condiciones (texto literal de la gráfica, sin inventar):",
+    "",
+  );
   const validFrom = await ask("Vigente desde (AAAA-MM-DD):", new Date().toISOString().slice(0, 10));
   const validUntil = await ask("Vigente hasta (AAAA-MM-DD):", `${new Date().getFullYear()}-12-31`);
   const photo = await ask("Ruta de la imagen (Enter = sin imagen):", "");
@@ -45,7 +48,9 @@ async function main() {
   }
   data.promos.push(promo);
   writeFileSync(path, `${JSON.stringify(data, null, 2)}\n`, "utf8");
-  info(`\n  ✔ Promo "${title}" cargada (visible del ${validFrom} al ${validUntil}; después se oculta sola).\n     Validá con \`pnpm content:check\`.\n`);
+  info(
+    `\n  ✔ Promo "${title}" cargada (visible del ${validFrom} al ${validUntil}; después se oculta sola).\n     Validá con \`pnpm content:check\`.\n`,
+  );
   done();
 }
 

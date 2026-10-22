@@ -18,7 +18,10 @@ const SkyCanvasLazy = lazy(() =>
   import("@/features/three/sky-canvas").then((module) => ({ default: module.SkyCanvas })),
 );
 
-class WebGLBoundary extends Component<{ children: ReactNode; onError: () => void }, { failed: boolean }> {
+class WebGLBoundary extends Component<
+  { children: ReactNode; onError: () => void },
+  { failed: boolean }
+> {
   override state = { failed: false };
   static getDerivedStateFromError() {
     return { failed: true };
@@ -44,7 +47,10 @@ export function SkySurface({ className, children }: { className?: string; childr
   }, [showWebgl]);
 
   return (
-    <div className={cn("absolute inset-0 overflow-clip bg-[var(--sky-mid)]", className)} aria-hidden="true">
+    <div
+      className={cn("absolute inset-0 overflow-clip bg-[var(--sky-mid)]", className)}
+      aria-hidden="true"
+    >
       <div className="sky-gradient absolute inset-0" data-sky-css />
       <div className="sky-stars" />
       {showWebgl ? (

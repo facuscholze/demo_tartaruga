@@ -23,11 +23,7 @@ import {
   readJsonRaw,
   relFromRoot,
 } from "./lib/content";
-import {
-  contentFiles,
-  knownTags,
-  type ImageModule,
-} from "../src/features/content/schema";
+import { contentFiles, knownTags, type ImageModule } from "../src/features/content/schema";
 import { hasValidName, nameProblems, suggestName, stripExt } from "../src/lib/naming";
 import { isMissingTranslation } from "../src/features/content/l10n";
 
@@ -48,7 +44,12 @@ const parsed: Parsed[] = [];
 for (const entry of contentFiles) {
   const raw = readJsonRaw(entry.file);
   if (!raw.ok) {
-    report.error(entry.file, "archivo", raw.message, `creá content/${entry.file} con la estructura del README`);
+    report.error(
+      entry.file,
+      "archivo",
+      raw.message,
+      `creá content/${entry.file} con la estructura del README`,
+    );
     continue;
   }
   const result = entry.schema.safeParse(raw.data);
@@ -59,13 +60,19 @@ for (const entry of contentFiles) {
     }
     continue;
   }
-  parsed.push({ file: entry.file, label: entry.label, mod: entry.module, data: raw.data as Record<string, unknown> });
+  parsed.push({
+    file: entry.file,
+    label: entry.label,
+    mod: entry.module,
+    data: raw.data as Record<string, unknown>,
+  });
 }
 
 function suggestForIssue(code: string, path: string): string | undefined {
   if (code === "invalid_type" && /price/.test(path))
     return 'el precio va como número, sin punto de miles ni texto: "price": 4500 (0 = Consultar)';
-  if (code === "unrecognized_keys") return "hay una clave que no existe en el esquema: revisá el nombre";
+  if (code === "unrecognized_keys")
+    return "hay una clave que no existe en el esquema: revisá el nombre";
   if (code === "invalid_union" || code === "invalid_date") return "usá formato AAAA-MM-DD";
   return undefined;
 }
@@ -94,10 +101,19 @@ for (const { file, data } of parsed) {
           );
         } else ids.set(id, owner);
         if (!hasValidName(id)) {
-          report.error(file, owner, `el id "${id}" ${nameProblems(id).join(", ")}`, `normalizalo a: "${stripExt(id).toLowerCase().replace(/\s+/g, "-")}"`);
+          report.error(
+            file,
+            owner,
+            `el id "${id}" ${nameProblems(id).join(", ")}`,
+            `normalizalo a: "${stripExt(id).toLowerCase().replace(/\s+/g, "-")}"`,
+          );
         }
       }
-      if ("price" in record && record["price"] !== undefined && typeof record["price"] !== "number") {
+      if (
+        "price" in record &&
+        record["price"] !== undefined &&
+        typeof record["price"] !== "number"
+      ) {
         report.error(
           file,
           `${where}.price`,
@@ -108,7 +124,12 @@ for (const { file, data } of parsed) {
       if (Array.isArray(record["tags"])) {
         for (const tag of record["tags"] as unknown[]) {
           if (typeof tag !== "string") {
-            report.error(file, `${where}.tags`, "las etiquetas tienen que ser textos", `ej: ["vegetariano"]`);
+            report.error(
+              file,
+              `${where}.tags`,
+              "las etiquetas tienen que ser textos",
+              `ej: ["vegetariano"]`,
+            );
           } else if (!knownTags.includes(tag as (typeof knownTags)[number])) {
             report.warn(
               file,
@@ -120,7 +141,8 @@ for (const { file, data } of parsed) {
         }
       }
       for (const [key, value] of Object.entries(record)) {
-        if (value && typeof value === "object" && !Array.isArray(value)) walk(value, `${where}.${key}`);
+        if (value && typeof value === "object" && !Array.isArray(value))
+          walk(value, `${where}.${key}`);
         else if (Array.isArray(value)) walk(value, `${where}.${key}`);
         else if (
           (key === "es" || key === "en" || key === "pt") &&
@@ -153,7 +175,9 @@ for (const { file, mod, data } of parsed) {
           file,
           ref.where,
           `el nombre de archivo "${target}" no cumple la convención (${nameProblems(target).join(", ") || "extensión inválida"})`,
-          pool.includes(target) ? "el archivo existe, pero renombralo en minúsculas, sin espacios ni tildes" : `ej: "pulpo-parrilla.jpg"`,
+          pool.includes(target)
+            ? "el archivo existe, pero renombralo en minúsculas, sin espacios ni tildes"
+            : `ej: "pulpo-parrilla.jpg"`,
         );
       }
       const exists = pool.includes(target);
@@ -248,7 +272,12 @@ for (const { file, data } of parsed) {
     if (isL10n) {
       if (record["es"] && isMissingTranslation(record as never, "en")) {
         missingTranslations += 1;
-        report.warn(file, `${where}.en`, 'no tiene traducción "en": se muestra el español', "completala para que el turista también entienda");
+        report.warn(
+          file,
+          `${where}.en`,
+          'no tiene traducción "en": se muestra el español',
+          "completala para que el turista también entienda",
+        );
       }
       return;
     }
@@ -260,12 +289,12 @@ for (const { file, data } of parsed) {
 /* ------------------------------ 6. resumen ------------------------------- */
 
 const menuData = parsed.find((p) => p.file === "menu.json")?.data as
-  | { categories?: Array<{ items?: unknown[] }> }
-  | undefined;
+  { categories?: Array<{ items?: unknown[] }> } | undefined;
 const categories = menuData?.categories?.length ?? 0;
 const dishes = menuData?.categories?.reduce((sum, c) => sum + (c.items?.length ?? 0), 0) ?? 0;
 const galleryCount =
-  (parsed.find((p) => p.file === "gallery.json")?.data as { items?: unknown[] } | undefined)?.items?.length ?? 0;
+  (parsed.find((p) => p.file === "gallery.json")?.data as { items?: unknown[] } | undefined)?.items
+    ?.length ?? 0;
 const totalFiles = modulesForOrphans.reduce((n, m) => n + listModuleImages(m).length, 0);
 
 const line = (char: string) => char.repeat(72);
@@ -300,7 +329,9 @@ console.info(line("─"));
 
 const errors = report.errors().length;
 if (errors > 0) {
-  console.error(`\n  ${errors} error(es) de contenido. Corregí lo de arriba y volvé a correr:\n    pnpm content:check\n`);
+  console.error(
+    `\n  ${errors} error(es) de contenido. Corregí lo de arriba y volvé a correr:\n    pnpm content:check\n`,
+  );
   process.exit(1);
 }
 console.info("\n  ✔ Contenido OK. El sitio se puede construir.\n");

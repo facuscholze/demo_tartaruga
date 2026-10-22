@@ -61,7 +61,10 @@ export class AmbienceEngine {
 
   get supported() {
     if (typeof window === "undefined") return false;
-    const withWebkit = window as unknown as { AudioContext?: unknown; webkitAudioContext?: unknown };
+    const withWebkit = window as unknown as {
+      AudioContext?: unknown;
+      webkitAudioContext?: unknown;
+    };
     return Boolean(withWebkit.AudioContext ?? withWebkit.webkitAudioContext);
   }
 
@@ -74,7 +77,10 @@ export class AmbienceEngine {
       return true;
     }
 
-    const WithWebkit = window as unknown as { AudioContext?: typeof AudioContext; webkitAudioContext?: typeof AudioContext };
+    const WithWebkit = window as unknown as {
+      AudioContext?: typeof AudioContext;
+      webkitAudioContext?: typeof AudioContext;
+    };
     const Ctor = WithWebkit.AudioContext ?? WithWebkit.webkitAudioContext;
     if (!Ctor) return false;
     const ctx = new Ctor();
@@ -273,7 +279,10 @@ export class AmbienceEngine {
     let built = 0;
     for (const layer of ["olas", "fuego", "brisa"] as AmbienceLayer[]) {
       try {
-        const response = await fetch(`${dir}/${layer}.mp3`, { method: "GET", cache: "force-cache" });
+        const response = await fetch(`${dir}/${layer}.mp3`, {
+          method: "GET",
+          cache: "force-cache",
+        });
         if (!response.ok) continue;
         const buffer = await response.arrayBuffer();
         const audio = await ctx.decodeAudioData(buffer);

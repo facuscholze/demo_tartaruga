@@ -8,7 +8,11 @@
     "pt": "Mar, fogo e pôr do sol em frente ao farol"
   },
   "address": {
-    "street": { "es": "Faro de Punta Colorada", "en": "Punta Colorada lighthouse", "pt": "Farol de Punta Colorada" },
+    "street": {
+      "es": "Faro de Punta Colorada",
+      "en": "Punta Colorada lighthouse",
+      "pt": "Farol de Punta Colorada"
+    },
     "locality": { "es": "Punta Colorada", "en": "Punta Colorada", "pt": "Punta Colorada" },
     "region": { "es": "Maldonado", "en": "Maldonado", "pt": "Maldonado" },
     "country": { "es": "Uruguay", "en": "Uruguay", "pt": "Uruguai" },
@@ -70,14 +74,38 @@
   "pending": [
     { "es": "Carta completa y precios reales", "en": "Full menu and real prices" },
     { "es": "Días, horarios y temporada de apertura", "en": "Opening days, hours and season" },
-    { "es": "Política de mascotas (dónde pueden sentarse, horarios, accesorios)", "en": "Pet policy (seating areas, hours, amenities)" },
-    { "es": "Qué significa \"Artesanal\" para el local (cócteles, cerveza, cocina, objetos)", "en": "What \"Artisanal\" means for the venue" },
-    { "es": "Código exacto del link de WhatsApp del perfil (0/O ambiguos en la captura)", "en": "Exact WhatsApp link from the profile (0/O ambiguous in the screenshot)" },
-    { "es": "Vigencia y condiciones de la promo Scotiabank (25% / 15% según tarjeta)", "en": "Scotiabank promo validity and terms (25% / 15% by card)" },
-    { "es": "Permisos de uso de fotos y videos de Instagram", "en": "Rights to use Instagram photos and videos" },
-    { "es": "Logo en vector y tipografías de marca, si existen", "en": "Vector logo and brand typefaces, if any" },
-    { "es": "Experiencias vigentes (sunset, fuego, brunch, eventos)", "en": "Active experiences (sunset, fire, brunch, events)" },
-    { "es": "Capacidad, mínimo de consumo y política de cancelación", "en": "Capacity, minimum spend and cancellation policy" }
+    {
+      "es": "Política de mascotas (dónde pueden sentarse, horarios, accesorios)",
+      "en": "Pet policy (seating areas, hours, amenities)"
+    },
+    {
+      "es": "Qué significa \"Artesanal\" para el local (cócteles, cerveza, cocina, objetos)",
+      "en": "What \"Artisanal\" means for the venue"
+    },
+    {
+      "es": "Código exacto del link de WhatsApp del perfil (0/O ambiguos en la captura)",
+      "en": "Exact WhatsApp link from the profile (0/O ambiguous in the screenshot)"
+    },
+    {
+      "es": "Vigencia y condiciones de la promo Scotiabank (25% / 15% según tarjeta)",
+      "en": "Scotiabank promo validity and terms (25% / 15% by card)"
+    },
+    {
+      "es": "Permisos de uso de fotos y videos de Instagram",
+      "en": "Rights to use Instagram photos and videos"
+    },
+    {
+      "es": "Logo en vector y tipografías de marca, si existen",
+      "en": "Vector logo and brand typefaces, if any"
+    },
+    {
+      "es": "Experiencias vigentes (sunset, fuego, brunch, eventos)",
+      "en": "Active experiences (sunset, fire, brunch, events)"
+    },
+    {
+      "es": "Capacidad, mínimo de consumo y política de cancelación",
+      "en": "Capacity, minimum spend and cancellation policy"
+    }
   ],
   "i18n": { "locales": ["es", "en", "pt"], "defaultLocale": "es" }
 }

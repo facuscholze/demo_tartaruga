@@ -8,7 +8,14 @@
  */
 import { useEffect } from "react";
 import { useQualityStore } from "./store";
-import { connectionQuality, detectQuality, measureFps, probeGpu, webglAvailable, type Quality } from "./tiers";
+import {
+  connectionQuality,
+  detectQuality,
+  measureFps,
+  probeGpu,
+  webglAvailable,
+  type Quality,
+} from "./tiers";
 import { isMobileViewport } from "@/lib/utils";
 
 export function QualityProvider({ children }: { children: React.ReactNode }) {
@@ -54,7 +61,8 @@ export function QualityProvider({ children }: { children: React.ReactNode }) {
 
       const current = useQualityStore.getState();
       if (!current.manual) {
-        const demoted: Quality = fps < 42 ? (current.quality === "high" ? "medium" : "low") : current.quality;
+        const demoted: Quality =
+          fps < 42 ? (current.quality === "high" ? "medium" : "low") : current.quality;
         if (demoted !== current.quality) useQualityStore.setState({ quality: demoted });
       }
     })();

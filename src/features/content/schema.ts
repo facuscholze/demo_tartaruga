@@ -22,7 +22,7 @@ export const L10n = z.object({
 
 /** Texto multilingüe con `es` no vacío (nombres, títulos, CTA). */
 export const L10nRequired = z.object({
-  es: z.string().min(1, "el texto en español (\"es\") no puede estar vacío"),
+  es: z.string().min(1, 'el texto en español ("es") no puede estar vacío'),
   en: z.string().min(1).optional(),
   pt: z.string().min(1).optional(),
 });
@@ -34,35 +34,38 @@ export const IMAGE_FILENAME = z
   .string()
   .regex(
     FILENAME_RE,
-    "debe ser un nombre de archivo en minúsculas, sin espacios ni tildes y con extensión válida (jpg, jpeg, png, webp, avif, svg). Ej: \"pulpo-parrilla.jpg\"",
+    'debe ser un nombre de archivo en minúsculas, sin espacios ni tildes y con extensión válida (jpg, jpeg, png, webp, avif, svg). Ej: "pulpo-parrilla.jpg"',
   );
 
 /** id / slug interno: kebab-case, sin tildes. */
 export const ID_RE = /^[a-z0-9][a-z0-9._-]*$/;
 export const ID = z
   .string()
-  .regex(ID_RE, "debe ser kebab-case en minúsculas (a-z, 0-9, guiones). Ej: \"pulpo-parrilla\"");
+  .regex(ID_RE, 'debe ser kebab-case en minúsculas (a-z, 0-9, guiones). Ej: "pulpo-parrilla"');
 
 /** Fecha ISO YYYY-MM-DD (para vigencias de promos). */
 export const ISO_DATE = z
   .string()
-  .regex(/^\d{4}-\d{2}-\d{2}$/, "debe ser una fecha con formato AAAA-MM-DD. Ej: \"2026-03-31\"")
+  .regex(/^\d{4}-\d{2}-\d{2}$/, 'debe ser una fecha con formato AAAA-MM-DD. Ej: "2026-03-31"')
   .refine((v) => !Number.isNaN(Date.parse(v)), "no es una fecha real");
 
 /** Hora HH:MM en 24h. */
 export const HHMM = z
   .string()
-  .regex(/^([01]\d|2[0-3]):[0-5]\d$/, "debe ser una hora con formato HH:MM en 24h. Ej: \"19:30\"");
+  .regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'debe ser una hora con formato HH:MM en 24h. Ej: "19:30"');
 
 /** Teléfono tal como lo marcamos en el repo (solo dígitos y signos mínimos). */
 const E164 = z
   .string()
-  .regex(/^\+?[0-9\s-]{6,20}$/, "debe ser un teléfono en formato E.164 con país, ej: \"+59844321831\"");
+  .regex(
+    /^\+?[0-9\s-]{6,20}$/,
+    'debe ser un teléfono en formato E.164 con país, ej: "+59844321831"',
+  );
 
 /** URL externa válida (único lugar donde se permiten URLs: links del local). */
 const ExternalUrl = z
   .union([z.url(), z.literal("")])
-  .refine((v) => v === "" || /^https?:\/\//.test(v), "debe ser una URL https o quedar vacía (\"\")");
+  .refine((v) => v === "" || /^https?:\/\//.test(v), 'debe ser una URL https o quedar vacía ("")');
 
 /* -------------------------------------------------------------------------- */
 /* Módulos de imágenes: un solo lugar asocia módulo ↔ carpeta                 */
@@ -183,10 +186,15 @@ export const siteSchema = z.object({
   }),
   /** Lista visible de datos que faltan confirmar. Vive en el JSON para que el local la edite. */
   pending: z.array(L10nRequired).default([]),
-  i18n: z.object({ locales: z.array(z.string()).default(["es", "en"]), defaultLocale: z.string().default("es") }).default({
-    locales: ["es", "en"],
-    defaultLocale: "es",
-  }),
+  i18n: z
+    .object({
+      locales: z.array(z.string()).default(["es", "en"]),
+      defaultLocale: z.string().default("es"),
+    })
+    .default({
+      locales: ["es", "en"],
+      defaultLocale: "es",
+    }),
 });
 export type Site = z.infer<typeof siteSchema>;
 
@@ -200,7 +208,17 @@ function L10nOptionalDefault() {
 /* -------------------------------------------------------------------------- */
 
 /** Etiquetas conocidas → etiqueta visible. Etiquetas nuevas se muestran tal cual (aviso en el check). */
-export const knownTags = ["vegetariano", "vegano", "sin-tacc", "sin-lactosa", "compartir", "crudo", "para-compartir", "sin-alcohol", "local"] as const;
+export const knownTags = [
+  "vegetariano",
+  "vegano",
+  "sin-tacc",
+  "sin-lactosa",
+  "compartir",
+  "crudo",
+  "para-compartir",
+  "sin-alcohol",
+  "local",
+] as const;
 export const tagLabels: Record<string, { es: string; en: string }> = {
   vegetariano: { es: "Vegetariano", en: "Vegetarian" },
   vegano: { es: "Vegano", en: "Vegan" },
@@ -245,7 +263,7 @@ export const menuCategorySchema = z.object({
   /** Ícono grabado (caracola, estrella de mar…) desde /images/icons/. */
   icon: z.string().optional(),
   note: L10n.optional(),
-  items: z.array(menuItemSchema).min(1, "la categoría necesita al menos un producto en \"items\""),
+  items: z.array(menuItemSchema).min(1, 'la categoría necesita al menos un producto en "items"'),
 });
 export type MenuCategory = z.infer<typeof menuCategorySchema>;
 
@@ -266,7 +284,7 @@ export const gallerySections = ["lugar", "sunset", "noche", "deck", "fuego"] as 
 export const galleryItemSchema = z.object({
   image: IMAGE_FILENAME,
   alt: z.object({
-    es: z.string().min(1, "\"alt\" en español es obligatorio y tiene que describir la foto"),
+    es: z.string().min(1, '"alt" en español es obligatorio y tiene que describir la foto'),
     en: z.string().min(1).optional(),
     pt: z.string().min(1).optional(),
   }),
@@ -364,7 +382,12 @@ export const contentFiles = [
   { file: "site.json", label: "Datos del local", schema: siteSchema, module: "brand" },
   { file: "menu.json", label: "Carta", schema: menuSchema, module: "menu" },
   { file: "gallery.json", label: "Galería", schema: gallerySchema, module: "gallery" },
-  { file: "experiences.json", label: "Experiencias", schema: experiencesSchema, module: "experiences" },
+  {
+    file: "experiences.json",
+    label: "Experiencias",
+    schema: experiencesSchema,
+    module: "experiences",
+  },
   { file: "promos.json", label: "Promos", schema: promosSchema, module: "promos" },
   { file: "faq.json", label: "Preguntas frecuentes", schema: faqSchema, module: "brand" },
 ] as const;

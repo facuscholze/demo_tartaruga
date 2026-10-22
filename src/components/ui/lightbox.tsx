@@ -130,15 +130,27 @@ export function Lightbox({
             ) : null}
           </div>
           <div className="flex items-center justify-between gap-3">
-            <p className="max-w-[70ch] text-[0.85rem] text-[var(--fg-muted)]">{photo?.caption ?? photo?.alt}</p>
+            <p className="max-w-[70ch] text-[0.85rem] text-[var(--fg-muted)]">
+              {photo?.caption ?? photo?.alt}
+            </p>
             <div className="flex shrink-0 items-center gap-1.5">
               <span className="price mr-2 text-[0.72rem] text-[var(--fg-faint)]">
                 {index === null ? 0 : index + 1}/{photos.length}
               </span>
-              <button type="button" className="lb-nav" onClick={() => step(-1)} aria-label={prevLabel}>
+              <button
+                type="button"
+                className="lb-nav"
+                onClick={() => step(-1)}
+                aria-label={prevLabel}
+              >
                 ←
               </button>
-              <button type="button" className="lb-nav" onClick={() => step(1)} aria-label={nextLabel}>
+              <button
+                type="button"
+                className="lb-nav"
+                onClick={() => step(1)}
+                aria-label={nextLabel}
+              >
                 →
               </button>
               <Dialog.Close asChild>

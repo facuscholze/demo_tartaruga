@@ -18,7 +18,10 @@ export function TurtleMark({
   animated?: boolean;
   title?: string;
 }) {
-  const draw = { "data-draw": animated ? "turtle" : undefined } as Record<string, string | undefined>;
+  const draw = { "data-draw": animated ? "turtle" : undefined } as Record<
+    string,
+    string | undefined
+  >;
   return (
     <svg
       viewBox="0 0 240 180"
@@ -53,8 +56,18 @@ export function TurtleMark({
         <path d="M90.5 119.5C82 138 66 149 49 146.5" pathLength={100} />
         <path d="M147 119c8 13.5 22.5 20 37 15.5" pathLength={100} />
         <path d="M74.5 104.5C60.5 107 49.5 101 43 90.5" pathLength={100} />
-        <path d="M101 73.5 121 58.5l21.5 13" strokeWidth={stroke * 0.52} opacity={0.72} pathLength={100} />
-        <path d="M96.5 92.5 121 105.5l23-14.5" strokeWidth={stroke * 0.52} opacity={0.72} pathLength={100} />
+        <path
+          d="M101 73.5 121 58.5l21.5 13"
+          strokeWidth={stroke * 0.52}
+          opacity={0.72}
+          pathLength={100}
+        />
+        <path
+          d="M96.5 92.5 121 105.5l23-14.5"
+          strokeWidth={stroke * 0.52}
+          opacity={0.72}
+          pathLength={100}
+        />
         <path d="M121 58.5v47" strokeWidth={stroke * 0.52} opacity={0.55} pathLength={100} />
       </g>
       <circle cx="186.5" cy="51.5" r={stroke * 0.58} fill="currentColor" />

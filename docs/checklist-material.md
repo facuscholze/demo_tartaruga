@@ -4,6 +4,7 @@ Marcar lo que ya está; lo que falta es la lista de compras del proyecto. El
 objetivo es que **nada de esto requiera tocar código**: es contenido y archivos.
 
 ## Material
+
 - [ ] **Logo en vector** (`.svg` + `.ai/.eps`), versiones monocroma y a 1 tinta,
       y el isotipo solo (la tortuga). → reemplazar `public/images/brand/logo-tortuga.svg`
       y `src/components/brand/turtle.tsx` (dibujado propio para la demo).
@@ -25,6 +26,7 @@ objetivo es que **nada de esto requiera tocar código**: es contenido y archivos
       composición generada (hoy se dibuja sola desde `src/app/og/[locale]/route.tsx`).
 
 ## Datos (ver `docs/a-confirmar.md`)
+
 - [ ] Horarios confirmados por temporada, con `confirmed: true`.
 - [ ] Teléfono/WhatsApp confirmados (`contact.whatsapp.confirmed: true`).
 - [ ] Precios reales, en UYU, como números.
@@ -37,6 +39,7 @@ objetivo es que **nada de esto requiera tocar código**: es contenido y archivos
       `experiences.json` (los sellos de la UI dependen de ese flag).
 
 ## Antes de publicar
+
 - [ ] `pnpm verify` en verde (formato, lint, typecheck, tests, `content:check`, build).
 - [ ] `pnpm content:optimize` después de cada tanda de fotos nuevas.
 - [ ] Probar en un teléfono real: carta, galería con el visor, formulario de

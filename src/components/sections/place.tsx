@@ -14,7 +14,9 @@ export async function PlaceSection() {
   const locale = await getLocale();
   const t = await getTranslations("place");
   const content = await getSiteContent();
-  const items = content.gallery.filter((item) => item.section === "lugar" || item.section === "deck");
+  const items = content.gallery.filter(
+    (item) => item.section === "lugar" || item.section === "deck",
+  );
 
   return (
     <section id="lugar" aria-labelledby="lugar-title" className="relative isolate py-20 md:py-28">
@@ -22,11 +24,18 @@ export async function PlaceSection() {
         <header className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="label text-[var(--c-ember)]">{t("title")}</p>
-            <h2 id="lugar-title" data-reveal="words" className="mt-3 max-w-[18ch] text-[var(--text-display)] text-[var(--fg)]">
+            <h2
+              id="lugar-title"
+              data-reveal="words"
+              className="mt-3 max-w-[18ch] text-[var(--text-display)] text-[var(--fg)]"
+            >
               {t("title")}
             </h2>
           </div>
-          <p data-reveal="fade" className="max-w-[46ch] text-[1.02rem] leading-relaxed text-[var(--fg-muted)]">
+          <p
+            data-reveal="fade"
+            className="max-w-[46ch] text-[1.02rem] leading-relaxed text-[var(--fg-muted)]"
+          >
             {t("text")}
           </p>
         </header>
@@ -95,14 +104,21 @@ async function VisitTimes() {
                 {block.days.map((day) => (
                   <li key={day} className="flex items-baseline gap-2 text-[0.92rem]">
                     <span className="text-[var(--fg-muted)]">{formatWeekday(day, locale)}</span>
-                    <span aria-hidden className="leader flex-1 translate-y-[-0.28em] text-[var(--line)]" />
-                    <span className="price text-[0.86rem] text-[var(--fg)]">{formatInterval(block.open, block.close)}</span>
+                    <span
+                      aria-hidden
+                      className="leader flex-1 translate-y-[-0.28em] text-[var(--line)]"
+                    />
+                    <span className="price text-[0.86rem] text-[var(--fg)]">
+                      {formatInterval(block.open, block.close)}
+                    </span>
                   </li>
                 ))}
               </ul>
             )}
             {block.note ? (
-              <p className="mt-1.5 text-[0.82rem] leading-relaxed text-[var(--fg-faint)]">{pickText(block.note, locale)}</p>
+              <p className="mt-1.5 text-[0.82rem] leading-relaxed text-[var(--fg-faint)]">
+                {pickText(block.note, locale)}
+              </p>
             ) : null}
           </li>
         ))}

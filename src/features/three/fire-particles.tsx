@@ -89,7 +89,8 @@ export function FireParticles({
 
     if (pointsRef.current) pointsRef.current.visible = count > 0;
     if (glowRef.current) {
-      const scale = 1 + Math.sin(state.clock.elapsedTime * 0.9) * 0.02 + smoothed.current.audio * 0.06;
+      const scale =
+        1 + Math.sin(state.clock.elapsedTime * 0.9) * 0.02 + smoothed.current.audio * 0.06;
       glowRef.current.scale.setScalar(scale);
     }
   });
@@ -100,7 +101,9 @@ export function FireParticles({
       <mesh ref={glowRef} position={[0, -0.22, 0.1]} scale={[2.6, 1.5, 1]}>
         <planeGeometry args={[1, 1]} />
         <shaderMaterial
-          vertexShader={"varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);}"}
+          vertexShader={
+            "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);}"
+          }
           fragmentShader={EMBER_GLOW_FRAGMENT}
           uniforms={glowUniforms}
           transparent

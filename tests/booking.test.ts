@@ -18,7 +18,16 @@ const labels = {
 describe("mensaje de WhatsApp pre-armado", () => {
   it("arma un mensaje legible para el local", () => {
     const text = buildBookingMessage(
-      { name: "Ana Rodríguez", date: "2026-12-24", time: "20:30", people: 4, occasion: "Cumpleaños", pet: true, experience: "Sunset", message: "Si puede ser mesa cerca del fuego" },
+      {
+        name: "Ana Rodríguez",
+        date: "2026-12-24",
+        time: "20:30",
+        people: 4,
+        occasion: "Cumpleaños",
+        pet: true,
+        experience: "Sunset",
+        message: "Si puede ser mesa cerca del fuego",
+      },
       labels,
     );
     expect(text).toContain("Reserva — Tartaruga Sea-Bar");
@@ -30,7 +39,10 @@ describe("mensaje de WhatsApp pre-armado", () => {
   });
 
   it("omite lo que no se llenó (no manda campos vacíos)", () => {
-    const text = buildBookingMessage({ name: "Juli", date: "2026-01-05", time: "19:00", people: 2 }, labels);
+    const text = buildBookingMessage(
+      { name: "Juli", date: "2026-01-05", time: "19:00", people: 2 },
+      labels,
+    );
     expect(text).not.toContain("Ocasión");
     expect(text).not.toContain("Mascota");
     expect(text).not.toContain("Mensaje");
@@ -44,17 +56,36 @@ describe("mensaje de WhatsApp pre-armado", () => {
 
 describe("validación del formulario", () => {
   it("rechaza fechas y horas mal formadas", () => {
-    expect(bookingSchema.safeParse({ name: "Ana", date: "22-10-2026", time: "20:00", people: 2 }).success).toBe(false);
-    expect(bookingSchema.safeParse({ name: "Ana", date: "2026-10-22", time: "25:70", people: 2 }).success).toBe(false);
+    expect(
+      bookingSchema.safeParse({ name: "Ana", date: "22-10-2026", time: "20:00", people: 2 })
+        .success,
+    ).toBe(false);
+    expect(
+      bookingSchema.safeParse({ name: "Ana", date: "2026-10-22", time: "25:70", people: 2 })
+        .success,
+    ).toBe(false);
   });
 
   it("acepta una reserva completa y normaliza `people` de string", () => {
-    const parsed = bookingSchema.parse({ name: " Ana ", date: "2026-10-22", time: "20:00", people: "3" });
+    const parsed = bookingSchema.parse({
+      name: " Ana ",
+      date: "2026-10-22",
+      time: "20:00",
+      people: "3",
+    });
     expect(parsed.people).toBe(3);
     expect(parsed.name).toBe("Ana");
   });
 
   it("el honeypot solo acepta vacío", () => {
-    expect(bookingSchema.safeParse({ name: "Ana", date: "2026-10-22", time: "20:00", people: 2, company: "bot" }).success).toBe(false);
+    expect(
+      bookingSchema.safeParse({
+        name: "Ana",
+        date: "2026-10-22",
+        time: "20:00",
+        people: 2,
+        company: "bot",
+      }).success,
+    ).toBe(false);
   });
 });

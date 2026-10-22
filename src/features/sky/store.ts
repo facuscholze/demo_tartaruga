@@ -34,9 +34,7 @@ export const useSkyStore = create<SkyStore>()(
         set({ mode: MODES[(index + 1) % MODES.length]! });
       },
       setRealSun: (elevation, azimuth) =>
-        set((state) =>
-          state.mode === "auto" ? { elevation, azimuth } : { elevation, azimuth },
-        ),
+        set((state) => (state.mode === "auto" ? { elevation, azimuth } : { elevation, azimuth })),
       setScrollOffset: (offset) => set({ scrollOffset: offset }),
     }),
     {

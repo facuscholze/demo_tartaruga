@@ -7,9 +7,16 @@ toca código, no se toca el diseño, y si algo queda mal escrito el comando
 Si tenés terminal a mano, los tres asistentes te ahorran abrir el JSON:
 
 ```bash
-pnpm add:dish                     # alta de un plato, pregunta a pregunta
-pnpm add:photo -- --module gallery   # copia la foto con el nombre correcto
-pnpm add:promo                    # alta de una promo/beneficio
+pnpm add:dish        # alta de un plato: te pregunta categoría, nombre, precio, foto
+pnpm add:photo       # copia una foto a la carpeta correcta con nombre normalizado
+pnpm add:promo       # alta de una promo/beneficio con su fecha de vencimiento
+```
+
+Corren en la terminal y te van preguntando. Si preferís automatizar (un script del
+local, un CI), aceptan las respuestas por caño, en el mismo orden en que se preguntan:
+
+```bash
+printf "2\nChorizo de mar\n\n0\nAlmejas del puerto a la brasa.\n\n\nn\n" | pnpm add:dish
 ```
 
 ---
@@ -19,19 +26,20 @@ pnpm add:promo                    # alta de una promo/beneficio
 ```bash
 pnpm add:dish
 ```
+
 O a mano: abrir `content/menu.json`, buscar la categoría y agregar una entrada a
 su `items`:
 
 ```jsonc
 {
-  "id": "salmide-a-la-brasa",              // único, sin espacios, sin tildes
+  "id": "salmide-a-la-brasa", // único, sin espacios, sin tildes
   "name": { "es": "Salmide a la brasa", "en": "Grilled bay scallop" },
   "description": { "es": "Con mantequilla de ajo y limón de la huerta." },
-  "price": 5200,                            // solo números. 0 o "consultar": poner 0
+  "price": 5200, // solo números. 0 o "consultar": poner 0
   "tags": ["brasa", "para-compartir"],
-  "featured": true,                         // lo destaca en la carta
-  "available": true,                        // false = no se muestra (temporada baja)
-  "order": 3                                // ordena la lista; si no va, el del archivo
+  "featured": true, // lo destaca en la carta
+  "available": true, // false = no se muestra (temporada baja)
+  "order": 3, // ordena la lista; si no va, el del archivo
 }
 ```
 
@@ -59,10 +67,10 @@ pnpm content:check
 {
   "image": "faro-atardecer.jpg",
   "alt": { "es": "El faro de Punta Colorada al atardecer desde el deck" },
-  "section": "sunset",              // lugar | sunset | noche | deck | fuego
+  "section": "sunset", // lugar | sunset | noche | deck | fuego
   "caption": { "es": "19:12, el último rayo sobre el faro" },
-  "weight": 3,                       // 0..3: qué tan grande se ve en la tira
-  "order": 1
+  "weight": 3, // 0..3: qué tan grande se ve en la tira
+  "order": 1,
 }
 ```
 
@@ -77,7 +85,7 @@ pnpm content:optimize
 pnpm content:check
 ```
 
-Si subís una foto que ningún JSON pide, `content:check` la lista como *huérfana*
+Si subís una foto que ningún JSON pide, `content:check` la lista como _huérfana_
 (y `content:sync-images` te dice en qué archivo la esperabas).
 
 ## 3 · Cargar una promo o beneficio
@@ -85,6 +93,7 @@ Si subís una foto que ningún JSON pide, `content:check` la lista como *huérfa
 ```bash
 pnpm add:promo
 ```
+
 o en `content/promos.json`:
 
 ```jsonc
@@ -95,9 +104,9 @@ o en `content/promos.json`:
   "validFrom": "2026-11-01",
   "validUntil": "2026-12-31",
   "active": true,
-  "pending": true,                    // true → se ve con sello "a confirmar"
+  "pending": true, // true → se ve con sello "a confirmar"
   "terms": { "es": "No acumulable con otras promociones." },
-  "image": "promo-scotiabank.jpg"
+  "image": "promo-scotiabank.jpg",
 }
 ```
 
@@ -118,7 +127,7 @@ En `content/site.json`, bloque `hours`:
   "open": "19:00",
   "close": "01:00",
   "note": { "es": "Cocina hasta las 23:30." },
-  "confirmed": true                  // false → el sitio muestra "a confirmar"
+  "confirmed": true, // false → el sitio muestra "a confirmar"
 }
 ```
 

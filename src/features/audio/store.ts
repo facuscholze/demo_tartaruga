@@ -33,7 +33,9 @@ export const useAmbience = create<AmbienceStore>()((set, get) => ({
     const ok = await ambience.start(volume);
     if (!ok) return;
     const { layers } = get();
-    (Object.keys(layers) as AmbienceLayer[]).forEach((layer) => ambience.setLayer(layer, layers[layer]));
+    (Object.keys(layers) as AmbienceLayer[]).forEach((layer) =>
+      ambience.setLayer(layer, layers[layer]),
+    );
     set({ enabled: true, started: true, volume });
     startLevelLoop();
   },

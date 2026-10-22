@@ -91,7 +91,9 @@ export function BookingForm({
       }
       setErrors(next);
       setStatus("idle");
-      const first = formRef.current?.querySelector<HTMLElement>(`[name="${Object.keys(next)[0] ?? "name"}"]`);
+      const first = formRef.current?.querySelector<HTMLElement>(
+        `[name="${Object.keys(next)[0] ?? "name"}"]`,
+      );
       first?.focus();
       return;
     }
@@ -249,7 +251,12 @@ export function BookingForm({
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
-        <button type="submit" className="btn" disabled={status === "sending"} data-cursor="reservar">
+        <button
+          type="submit"
+          className="btn"
+          disabled={status === "sending"}
+          data-cursor="reservar"
+        >
           {status === "sending" ? t("sending") : t("send")}
           <span aria-hidden className="ml-2">
             ↗

@@ -40,8 +40,12 @@ export function buildSnapshot(site: Site): SiteSnapshot {
     menuPdf: site.links.menuPdf,
     phoneDisplay: site.contact.phoneDisplay,
     phoneE164: site.contact.phoneE164,
-    whatsappE164: process.env.NEXT_PUBLIC_WHATSAPP_PHONE || site.contact.whatsapp.phoneE164 || site.contact.phoneE164,
-    whatsappShortLink: process.env.NEXT_PUBLIC_WHATSAPP_LINK || site.contact.whatsapp.shortLink || "",
+    whatsappE164:
+      process.env.NEXT_PUBLIC_WHATSAPP_PHONE ||
+      site.contact.whatsapp.phoneE164 ||
+      site.contact.phoneE164,
+    whatsappShortLink:
+      process.env.NEXT_PUBLIC_WHATSAPP_LINK || site.contact.whatsapp.shortLink || "",
     whatsappConfirmed: site.contact.whatsapp.confirmed,
     coords: site.coords,
     timezone: site.timezone,
@@ -74,7 +78,10 @@ export function buildWhatsappHref(target: WhatsappTarget, message: string): stri
 }
 
 export function whatsappHref(snapshot: SiteSnapshot, message: string): string {
-  return buildWhatsappHref({ shortLink: snapshot.whatsappShortLink, phoneE164: snapshot.whatsappE164 }, message);
+  return buildWhatsappHref(
+    { shortLink: snapshot.whatsappShortLink, phoneE164: snapshot.whatsappE164 },
+    message,
+  );
 }
 
 export function mapsHref(snapshot: SiteSnapshot): string {

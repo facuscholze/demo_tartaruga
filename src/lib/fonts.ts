@@ -64,4 +64,3 @@ export const instrumentSans = localFont({
 });
 
 export const fontVariables = `${fraunces.variable} ${courierPrime.variable} ${instrumentSans.variable}`;
-

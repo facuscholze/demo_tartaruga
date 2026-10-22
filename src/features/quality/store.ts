@@ -52,7 +52,9 @@ export function useQualitySettings(): QualitySettings {
   const reducedMotion = useQualityStore((state) => state.reducedMotion);
   const available = useQualityStore((state) => state.webglAvailable);
   const settings = settingsFor(quality, reducedMotion);
-  return available ? settings : { ...settings, webgl: false, photoDistortion: false, particleCount: 0 };
+  return available
+    ? settings
+    : { ...settings, webgl: false, photoDistortion: false, particleCount: 0 };
 }
 
 /** Toggle "Efectos: Max / Normal / Mínimo". */

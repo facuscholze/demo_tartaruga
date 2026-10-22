@@ -19,9 +19,12 @@ export function FireStage({ quality }: { quality: Quality }) {
   useEffect(() => {
     const node = hostRef.current;
     if (!node || typeof IntersectionObserver === "undefined") return;
-    const observer = new IntersectionObserver((entries) => setInView(entries.some((e) => e.isIntersecting)), {
-      rootMargin: "60px",
-    });
+    const observer = new IntersectionObserver(
+      (entries) => setInView(entries.some((e) => e.isIntersecting)),
+      {
+        rootMargin: "60px",
+      },
+    );
     observer.observe(node);
     return () => observer.disconnect();
   }, []);
@@ -35,7 +38,13 @@ export function FireStage({ quality }: { quality: Quality }) {
         frameloop="always"
         flat
         camera={{ position: [0, 0.15, 2.2], fov: 42 }}
-        gl={{ alpha: true, antialias: false, depth: false, stencil: false, powerPreference: "high-performance" }}
+        gl={{
+          alpha: true,
+          antialias: false,
+          depth: false,
+          stencil: false,
+          powerPreference: "high-performance",
+        }}
       >
         <FireRig quality={quality} />
       </Canvas>

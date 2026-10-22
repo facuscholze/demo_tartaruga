@@ -24,7 +24,10 @@ export function ToggleGroup<T extends string>({
   size?: "sm" | "md";
   className?: string;
 }) {
-  const index = Math.max(0, options.findIndex((option) => option.value === value));
+  const index = Math.max(
+    0,
+    options.findIndex((option) => option.value === value),
+  );
   return (
     <div
       role="radiogroup"
@@ -36,11 +39,15 @@ export function ToggleGroup<T extends string>({
       onKeyDown={(event) => {
         if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
         event.preventDefault();
-        const next = event.key === "ArrowRight" ? (index + 1) % options.length : (index - 1 + options.length) % options.length;
+        const next =
+          event.key === "ArrowRight"
+            ? (index + 1) % options.length
+            : (index - 1 + options.length) % options.length;
         const option = options[next];
         if (option) {
           onChange(option.value);
-          const el = event.currentTarget.querySelectorAll<HTMLButtonElement>("[role='radio']")[next];
+          const el =
+            event.currentTarget.querySelectorAll<HTMLButtonElement>("[role='radio']")[next];
           el?.focus();
         }
       }}
@@ -59,7 +66,9 @@ export function ToggleGroup<T extends string>({
             className={cn(
               "rounded-full font-type uppercase tracking-[0.14em] transition-[background-color,color] duration-[var(--d-2)]",
               size === "sm" ? "px-2 py-1 text-[0.6rem]" : "px-2.5 py-1.5 text-[0.64rem]",
-              active ? "bg-[var(--accent)] text-[var(--accent-ink)]" : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
+              active
+                ? "bg-[var(--accent)] text-[var(--accent-ink)]"
+                : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
             )}
           >
             {option.label}

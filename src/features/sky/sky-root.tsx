@@ -9,7 +9,14 @@
  * pasan por acá: se aplican en el shader vía `skyBus`.
  */
 import { createContext, useContext, useEffect, useState } from "react";
-import { skyCssVars, skyFor, skyLabel, skyUniforms, TOD_ELEVATION, type SkyState } from "./palettes";
+import {
+  skyCssVars,
+  skyFor,
+  skyLabel,
+  skyUniforms,
+  TOD_ELEVATION,
+  type SkyState,
+} from "./palettes";
 import { useSkyStore } from "./store";
 import { getSunInfo, LOCAL_TIME_ZONE } from "./sun";
 import { skyBus, skyInputs } from "./bus";

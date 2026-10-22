@@ -34,7 +34,10 @@ type Params = { locale: string };
 
 /** Base absoluta para OG/canonical/sitemap. Sin env, usa el dominio de deploy. */
 function siteUrl(): string {
-  return (process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.tartaruga.arena.site").replace(/\/$/, "");
+  return (process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.tartaruga.arena.site").replace(
+    /\/$/,
+    "",
+  );
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
@@ -45,7 +48,8 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const site = content.site;
   const t = await getTranslations({ locale, namespace: "meta" });
   const title = site.seo.defaultTitle as Record<string, string | undefined>;
-  const description = (title.es && (site.seo.description as Record<string, string | undefined>)) || undefined;
+  const description =
+    (title.es && (site.seo.description as Record<string, string | undefined>)) || undefined;
 
   const languages: Record<string, string> = {
     "es-UY": "/",
@@ -60,7 +64,10 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
       default: title[locale] ?? title.es ?? site.name,
       template: site.seo.titleTemplate,
     },
-    description: description?.[locale] ?? (site.seo.description as Record<string, string>).es ?? t("description"),
+    description:
+      description?.[locale] ??
+      (site.seo.description as Record<string, string>).es ??
+      t("description"),
     alternates: {
       canonical: path || "/",
       languages,
@@ -71,7 +78,9 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
       url: `${base}${path || "/"}`,
       siteName: site.name,
       title: title[locale] ?? title.es ?? site.name,
-      description: (site.seo.description as Record<string, string>)[locale] ?? (site.seo.description as Record<string, string>).es,
+      description:
+        (site.seo.description as Record<string, string>)[locale] ??
+        (site.seo.description as Record<string, string>).es,
       images: [
         {
           url: `${base}/og/${locale}`,
@@ -99,7 +108,13 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default async function LocaleLayout({ children, params }: { children: ReactNode; params: Promise<Params> }) {
+export default async function LocaleLayout({
+  children,
+  params,
+}: {
+  children: ReactNode;
+  params: Promise<Params>;
+}) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
@@ -141,10 +156,13 @@ export default async function LocaleLayout({ children, params }: { children: Rea
                   <main id="contenido" className="relative">
                     {children}
                   </main>
-                  <Footer snapshot={snapshot} links={{ whatsapp: reserveHref, tel: telHref(snapshot) }} />
+                  <Footer
+                    snapshot={snapshot}
+                    links={{ whatsapp: reserveHref, tel: telHref(snapshot) }}
+                  />
                   <MobileReserveBar reserveHref={reserveHref} />
                   <SoundGlobalToggle />
-                <JsonLd siteUrl={siteUrl()} />
+                  <JsonLd siteUrl={siteUrl()} />
                 </LenisProvider>
               </SkyRoot>
             </QualityProvider>

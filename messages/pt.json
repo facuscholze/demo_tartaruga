@@ -169,5 +169,10 @@
   "sunset": {
     "title": "Hora do pôr do sol",
     "text": "A mesma mesa, outro céu. Reserve olhando para o oeste."
+  },
+  "faq": {
+    "title": "Perguntas frequentes",
+    "note": "O que mais perguntam pelo WhatsApp. O que o local não confirmou está marcado.",
+    "pending": "a confirmar"
   }
 }

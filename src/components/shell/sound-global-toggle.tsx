@@ -38,7 +38,12 @@ export function SoundGlobalToggle() {
     >
       <Icon name={enabled ? "sound-on" : "sound-off"} size={19} />
       <span className="sr-only">{enabled ? t("mute") : t("sound")}</span>
-      {enabled ? <span className="absolute inset-0 -z-10 rounded-full bg-[radial-gradient(circle,rgba(245,169,75,0.25),transparent_70%)]" data-sound-pulse /> : null}
+      {enabled ? (
+        <span
+          className="absolute inset-0 -z-10 rounded-full bg-[radial-gradient(circle,rgba(245,169,75,0.25),transparent_70%)]"
+          data-sound-pulse
+        />
+      ) : null}
     </button>
   );
 }

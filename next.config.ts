@@ -16,7 +16,8 @@ const csp = [
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
   "media-src 'self' blob: data:",
-  "connect-src 'self'" + (process.env.BOOKING_WEBHOOK_URL ? ` ${new URL(process.env.BOOKING_WEBHOOK_URL).origin}` : ""),
+  "connect-src 'self'" +
+    (process.env.BOOKING_WEBHOOK_URL ? ` ${new URL(process.env.BOOKING_WEBHOOK_URL).origin}` : ""),
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

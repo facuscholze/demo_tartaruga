@@ -7,19 +7,19 @@ mapear tokens a clases, no para hardcodear colores.
 
 ## Paleta
 
-| Token | Hex | Uso |
-| --- | --- | --- |
-| `--c-night` | `#0E1526` | fondo general (no negro puro: el negro puro mata el grano) |
-| `--c-navy` | `#16213F` | superficie elevada, intro |
-| `--c-abyss` | `#080D18` | pie de página, cielo nocturno profundo |
-| `--c-haze` | `#1E2A4A` | tarjetas, bruma |
-| `--c-sand` / `--c-bone` | `#EFE3D0` / `#F6F0E6` | modo papel (carta, artesanal) y tinta clara |
-| `--c-sand-wet` | `#D9C6A8` | arena mojada, bordes de foto |
-| `--c-sunset` | `#E4703A` | **CTA de reserva** (el único naranja de acción) |
-| `--c-rust` | `#A9422A` | tinta sobre papel, links en modo claro |
-| `--c-ember` | `#F5A94B` | fuego, sellos “a confirmar” |
-| `--c-spark` | `#FFCE7A` | chispas, highlights, etiquetas sobre oscuro |
-| `--c-cactus` | `#7F9A70` | pet friendly (área total < 2% del sitio) |
+| Token                   | Hex                   | Uso                                                        |
+| ----------------------- | --------------------- | ---------------------------------------------------------- |
+| `--c-night`             | `#0E1526`             | fondo general (no negro puro: el negro puro mata el grano) |
+| `--c-navy`              | `#16213F`             | superficie elevada, intro                                  |
+| `--c-abyss`             | `#080D18`             | pie de página, cielo nocturno profundo                     |
+| `--c-haze`              | `#1E2A4A`             | tarjetas, bruma                                            |
+| `--c-sand` / `--c-bone` | `#EFE3D0` / `#F6F0E6` | modo papel (carta, artesanal) y tinta clara                |
+| `--c-sand-wet`          | `#D9C6A8`             | arena mojada, bordes de foto                               |
+| `--c-sunset`            | `#E4703A`             | **CTA de reserva** (el único naranja de acción)            |
+| `--c-rust`              | `#A9422A`             | tinta sobre papel, links en modo claro                     |
+| `--c-ember`             | `#F5A94B`             | fuego, sellos “a confirmar”                                |
+| `--c-spark`             | `#FFCE7A`             | chispas, highlights, etiquetas sobre oscuro                |
+| `--c-cactus`            | `#7F9A70`             | pet friendly (área total < 2% del sitio)                   |
 
 Nada de azul “club de neón” ni verde saturado: la referencia es el atardecer de
 Punta Colorada, rústico-chic. El verde está casi vetado por eso.
@@ -42,7 +42,7 @@ componentes salvo en micro-etiquetas.
 - Curvas: `--ease-sea cubic-bezier(.16,.84,.24,1)` (entradas),
   `--ease-swell cubic-bezier(.62,0,.12,1)` (revelados grandes),
   `--ease-ember cubic-bezier(.3,.7,.2,1.02)` (fuego/latidos). Las mismas curvas
-  están registradas en GSAP como `sea`/`swell`/`ember` (`src/lib/gsap.ts`) para
+  están registradas en GSAP como `sea`/`swell`/`ember` (`src/lib/gsap-core.ts`) para
   que CSS y JS se sientan idénticos.
 - Duraciones: `--d-1…5` = 180/380/720/1100/1800 ms.
 - Reveal de imagen: `clip-path inset(100% 0 0 0 → 0)` + `y 8%` + `scale 1.06→1`.
@@ -71,16 +71,16 @@ desplazamiento de agua/aire con filtros SVG (`#tart-water`, `#tart-turbulence`).
 
 ## Tiers
 
-| | High | Medium | Low |
-| --- | --- | --- | --- |
-| WebGL (cielo/fuego) | sí (DPR ≤ 2) | sí (DPR 1.35) | no |
-| Partículas de fuego | 900 | 380 | 0 (brasas CSS) |
-| Distorsión de fotos | sí | no | no |
-| Grano / parallax | sí / sí | sí / sí | no / no |
-| Analizador de audio | sí | no | no |
-| FPS objetivo | 60 | 60 | 30 |
+|                     | High         | Medium        | Low            |
+| ------------------- | ------------ | ------------- | -------------- |
+| WebGL (cielo/fuego) | sí (DPR ≤ 2) | sí (DPR 1.35) | no             |
+| Partículas de fuego | 900          | 380           | 0 (brasas CSS) |
+| Distorsión de fotos | sí           | no            | no             |
+| Grano / parallax    | sí / sí      | sí / sí       | no / no        |
+| Analizador de audio | sí           | no            | no             |
+| FPS objetivo        | 60           | 60            | 30             |
 
 Se elige con `detect-gpu` + `hardwareConcurrency` + `deviceMemory` + **FPS real**
 medido al arrancar, se persiste en `localStorage` y en `<html data-quality>`, y el
-usuario lo puede forzar con *Efectos: Max / Normal / Mínimo*. Primer render:
+usuario lo puede forzar con _Efectos: Max / Normal / Mínimo_. Primer render:
 Medium (nunca sobre-cargar un gama media por un flagship en otro lado).

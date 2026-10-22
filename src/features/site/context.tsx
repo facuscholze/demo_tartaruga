@@ -14,7 +14,13 @@ export type { SiteSnapshot };
 
 const SiteContext = createContext<SiteSnapshot | null>(null);
 
-export function SiteProvider({ snapshot, children }: { snapshot: SiteSnapshot; children: ReactNode }) {
+export function SiteProvider({
+  snapshot,
+  children,
+}: {
+  snapshot: SiteSnapshot;
+  children: ReactNode;
+}) {
   return <SiteContext.Provider value={snapshot}>{children}</SiteContext.Provider>;
 }
 

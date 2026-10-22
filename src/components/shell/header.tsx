@@ -48,8 +48,15 @@ export function Header({ reserveHref }: { reserveHref: string }) {
       }`}
     >
       <div className="shell flex h-[var(--header-h)] items-center gap-4">
-        <Link href="/" className="group flex shrink-0 items-center gap-2.5" aria-label={`${t("reserve")} — Tartaruga`}>
-          <TurtleMark className="h-7 w-auto text-[var(--fg)] transition-transform duration-[var(--d-4)] group-hover:-rotate-6" stroke={9} />
+        <Link
+          href="/"
+          className="group flex shrink-0 items-center gap-2.5"
+          aria-label={`${t("reserve")} — Tartaruga`}
+        >
+          <TurtleMark
+            className="h-7 w-auto text-[var(--fg)] transition-transform duration-[var(--d-4)] group-hover:-rotate-6"
+            stroke={9}
+          />
           <span className="hidden font-display text-[1.02rem] leading-none tracking-[0.02em] text-[var(--fg)] sm:block">
             Tartaruga<span className="text-[var(--fg-faint)]"> sea-bar</span>
           </span>
@@ -75,7 +82,11 @@ export function Header({ reserveHref }: { reserveHref: string }) {
             <SoundToggle />
           </div>
           <LocaleSwitch />
-          <ButtonLink href={reserveHref} dataCursor="reservar" className="shrink-0 px-4 py-2.5 text-[0.64rem]">
+          <ButtonLink
+            href={reserveHref}
+            dataCursor="reservar"
+            className="shrink-0 px-4 py-2.5 text-[0.64rem]"
+          >
             <Icon name="whatsapp" size={15} />
             <span>{t("reserve")}</span>
           </ButtonLink>
@@ -93,7 +104,10 @@ export function Header({ reserveHref }: { reserveHref: string }) {
       </div>
 
       {open ? (
-        <div id="nav-drawer" className="border-t border-[var(--line)] bg-[color-mix(in_oklab,var(--c-night)_94%,transparent)] backdrop-blur-xl lg:hidden">
+        <div
+          id="nav-drawer"
+          className="border-t border-[var(--line)] bg-[color-mix(in_oklab,var(--c-night)_94%,transparent)] backdrop-blur-xl lg:hidden"
+        >
           <div className="shell flex flex-col gap-1 py-4">
             {NAV.map((item) => (
               <a

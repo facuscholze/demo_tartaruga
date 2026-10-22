@@ -20,10 +20,18 @@ export async function ExperiencesSection() {
   const items = content.experiences.filter((item) => item.available);
 
   return (
-    <section id="experiencias" aria-labelledby="exp-title" className="relative isolate py-20 md:py-28">
+    <section
+      id="experiencias"
+      aria-labelledby="exp-title"
+      className="relative isolate py-20 md:py-28"
+    >
       <div className="shell flex flex-col gap-10">
         <header className="flex flex-wrap items-end justify-between gap-6">
-          <h2 id="exp-title" data-reveal="words" className="max-w-[16ch] text-[var(--text-display)] text-[var(--fg)]">
+          <h2
+            id="exp-title"
+            data-reveal="words"
+            className="max-w-[16ch] text-[var(--text-display)] text-[var(--fg)]"
+          >
             {t("title")}
           </h2>
           <p className="max-w-[40ch] text-[0.95rem] leading-relaxed text-[var(--fg-muted)]">
@@ -55,18 +63,27 @@ export async function ExperiencesSection() {
                   />
                   <div className="relative z-[2]">
                     <div className="flex items-start justify-between gap-3">
-                      <h3 className="text-[1.5rem] leading-tight text-[var(--fg)]">{pickText(item.name, locale)}</h3>
+                      <h3 className="text-[1.5rem] leading-tight text-[var(--fg)]">
+                        {pickText(item.name, locale)}
+                      </h3>
                       {item.iconSrc ? (
-                        <ShellIcon src={item.iconSrc} className="mt-1 h-5 w-5 shrink-0 text-[var(--c-ember)]" />
+                        <ShellIcon
+                          src={item.iconSrc}
+                          className="mt-1 h-5 w-5 shrink-0 text-[var(--c-ember)]"
+                        />
                       ) : null}
                     </div>
-                    <p className="label mt-1.5 text-[var(--c-spark)]/80">{pickText(item.tagline, locale)}</p>
+                    <p className="label mt-1.5 text-[var(--c-spark)]/80">
+                      {pickText(item.tagline, locale)}
+                    </p>
                     <p className="mt-3 max-w-[46ch] text-[0.94rem] leading-relaxed text-[var(--fg-muted)]">
                       {pickText(item.description, locale)}
                     </p>
                     {!item.confirmed ? (
                       <p className="label mt-3 text-[0.53rem] text-[var(--c-ember)]">
-                        {locale.startsWith("en") ? "times & format to confirm" : "horarios y formato a confirmar"}
+                        {locale.startsWith("en")
+                          ? "times & format to confirm"
+                          : "horarios y formato a confirmar"}
                       </p>
                     ) : null}
                   </div>
@@ -87,7 +104,9 @@ export async function ExperiencesSection() {
                     <a
                       href={whatsappHref(
                         snapshot,
-                        item.whatsappNote ? pickText(item.whatsappNote, locale) : pickText(item.name, locale),
+                        item.whatsappNote
+                          ? pickText(item.whatsappNote, locale)
+                          : pickText(item.name, locale),
                       )}
                       target="_blank"
                       rel="noopener noreferrer"

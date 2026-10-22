@@ -9,6 +9,7 @@ import { PetSection } from "@/components/sections/pet";
 import { ArtisanalSection } from "@/components/sections/artisanal";
 import { PerksSection } from "@/components/sections/perks";
 import { BookingSection } from "@/components/sections/booking";
+import { FaqSection } from "@/components/sections/faq";
 import { getSiteContent } from "@/features/content/load";
 import { buildSnapshot, quickReserveMessage, whatsappHref } from "@/features/site/links";
 
@@ -35,6 +36,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
       <ArtisanalSection />
       <PetSection />
       <PerksSection />
+      <FaqSection />
       <BookingSection />
     </>
   );

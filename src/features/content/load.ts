@@ -31,10 +31,7 @@ import { resolveImage, resolveIcon, type ResolvedImage } from "./images";
 export const CONTENT_DIR = join(process.cwd(), "content");
 
 export class ContentError extends Error {
-  constructor(
-    file: string,
-    message: string,
-  ) {
+  constructor(file: string, message: string) {
     super(`[contenido] content/${file}: ${message}`);
     this.name = "ContentError";
   }
@@ -99,7 +96,11 @@ export type ResolvedPromo = Omit<Promo, "image"> & {
 
 export type SiteContent = {
   site: z.infer<typeof siteSchema>;
-  menu: { demo: boolean; note?: { es: string; en?: string; pt?: string }; categories: ResolvedCategory[] };
+  menu: {
+    demo: boolean;
+    note?: { es: string; en?: string; pt?: string };
+    categories: ResolvedCategory[];
+  };
   gallery: ResolvedGalleryItem[];
   experiences: ResolvedExperience[];
   promos: ResolvedPromo[];

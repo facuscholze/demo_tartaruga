@@ -27,7 +27,9 @@ export async function FireSection() {
             {/* El fondo se ilumina desde abajo: la brasa manda la luz del bloque. */}
             <div
               className="h-full w-full bg-cover bg-center"
-              style={{ backgroundImage: `url(${first.image.src ?? "/images/_fallback/placeholder.svg"})` }}
+              style={{
+                backgroundImage: `url(${first.image.src ?? "/images/_fallback/placeholder.svg"})`,
+              }}
               aria-hidden
             />
           </div>
@@ -43,7 +45,10 @@ export async function FireSection() {
           {t("title")}
         </h2>
         <div className="flex flex-wrap items-end justify-between gap-8">
-          <p data-reveal="fade" className="max-w-[42ch] text-[1.05rem] leading-relaxed text-[var(--fg-muted)]">
+          <p
+            data-reveal="fade"
+            className="max-w-[42ch] text-[1.05rem] leading-relaxed text-[var(--fg-muted)]"
+          >
             {pickText(content.menu.note, "es") ? "" : ""}
             {t("text")}
           </p>

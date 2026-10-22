@@ -30,8 +30,23 @@ export type IconName =
   | "moon"
   | "paw";
 
-export function Icon({ name, className, size = 20 }: { name: IconName; className?: string; size?: number }) {
-  const common = { ...base, width: size, height: size, viewBox: "0 0 24 24", "aria-hidden": true, class: cn(className) };
+export function Icon({
+  name,
+  className,
+  size = 20,
+}: {
+  name: IconName;
+  className?: string;
+  size?: number;
+}) {
+  const common = {
+    ...base,
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    "aria-hidden": true,
+    class: cn(className),
+  };
   switch (name) {
     case "sound-on":
       return (
@@ -82,7 +97,10 @@ export function Icon({ name, className, size = 20 }: { name: IconName; className
       return (
         <svg {...common}>
           <path d="M4.2 19.8 5.5 15A7.6 7.6 0 1 1 9 18.4l-4.8 1.4Z" />
-          <path d="M9.2 8.6c.3 1.1 1 2.2 2 3.1s2 1.6 3.1 1.9c.6-.5.9-1.1 1-1.6l-2-.9-1 .8c-.7-.4-1.3-1-1.7-1.7l.8-1-.9-2c-.5.1-1.1.4-1.3 1.4Z" strokeWidth="1.2" />
+          <path
+            d="M9.2 8.6c.3 1.1 1 2.2 2 3.1s2 1.6 3.1 1.9c.6-.5.9-1.1 1-1.6l-2-.9-1 .8c-.7-.4-1.3-1-1.7-1.7l.8-1-.9-2c-.5.1-1.1.4-1.3 1.4Z"
+            strokeWidth="1.2"
+          />
         </svg>
       );
     case "phone":

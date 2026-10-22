@@ -15,7 +15,14 @@ export function LocaleSwitch({ className }: { className?: string }) {
   const t = useTranslations("nav");
 
   return (
-    <div className={cn("flex items-center gap-0.5 rounded-full border border-[var(--line)] p-0.5", className)} role="group" aria-label={t("language")}>
+    <div
+      className={cn(
+        "flex items-center gap-0.5 rounded-full border border-[var(--line)] p-0.5",
+        className,
+      )}
+      role="group"
+      aria-label={t("language")}
+    >
       {routing.locales.map((option) => (
         <button
           key={option}
@@ -24,7 +31,9 @@ export function LocaleSwitch({ className }: { className?: string }) {
           onClick={() => router.replace(pathname, { locale: option })}
           className={cn(
             "rounded-full px-2 py-1 font-type text-[0.62rem] uppercase tracking-[0.14em] transition-colors duration-[var(--d-2)]",
-            option === locale ? "bg-[var(--fg)] text-[var(--c-navy)]" : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
+            option === locale
+              ? "bg-[var(--fg)] text-[var(--c-navy)]"
+              : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
           )}
         >
           {LABELS[option] ?? option.toUpperCase()}

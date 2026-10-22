@@ -33,7 +33,9 @@ export async function SunsetSection() {
         <div data-parallax="0.06" className="absolute inset-x-0 -top-[12%] -z-20 h-[124%] w-full">
           <div
             className="h-full w-full bg-cover bg-center opacity-60"
-            style={{ backgroundImage: `url(${back.image.src ?? "/images/_fallback/placeholder.svg"})` }}
+            style={{
+              backgroundImage: `url(${back.image.src ?? "/images/_fallback/placeholder.svg"})`,
+            }}
             aria-hidden
           />
         </div>
@@ -45,11 +47,18 @@ export async function SunsetSection() {
 
       <div className="shell relative z-[3] flex flex-col gap-9 pb-16">
         <p className="label text-[var(--c-spark)]">{t("title")}</p>
-        <h2 id="sunset-title" data-reveal="words" className="max-w-[14ch] text-[var(--text-display)] text-[var(--fg)]">
+        <h2
+          id="sunset-title"
+          data-reveal="words"
+          className="max-w-[14ch] text-[var(--text-display)] text-[var(--fg)]"
+        >
           {t("title")}
         </h2>
         <div className="flex flex-wrap items-end justify-between gap-8">
-          <p data-reveal="fade" className="max-w-[40ch] text-[1.05rem] leading-relaxed text-[var(--fg-muted)]">
+          <p
+            data-reveal="fade"
+            className="max-w-[40ch] text-[1.05rem] leading-relaxed text-[var(--fg-muted)]"
+          >
             {t("text")}
           </p>
 
@@ -81,7 +90,8 @@ export async function SunsetSection() {
           className="btn self-start"
           data-cursor="reservar"
         >
-          {t("title")} · {locale.startsWith("en") ? "Book" : locale.startsWith("pt") ? "Reservar" : "Reservar"}
+          {t("title")} ·{" "}
+          {locale.startsWith("en") ? "Book" : locale.startsWith("pt") ? "Reservar" : "Reservar"}
         </a>
       </div>
     </section>

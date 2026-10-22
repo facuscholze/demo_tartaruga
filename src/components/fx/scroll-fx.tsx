@@ -39,7 +39,10 @@ export function ScrollFx() {
         // Reveals enmascarados (imagen/papel que "sube" desde abajo).
         gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((element) => {
           const mode = element.dataset.reveal || "mask";
-          const items = mode === "words" ? SplitText.create(element, { type: "words", wordsClass: "reveal-word" }).words : [element];
+          const items =
+            mode === "words"
+              ? SplitText.create(element, { type: "words", wordsClass: "reveal-word" }).words
+              : [element];
 
           if (mode === "words") {
             gsap.set(items, { opacity: 0, yPercent: 78, rotate: 1.5, transformOrigin: "0% 100%" });
@@ -137,10 +140,19 @@ export function ScrollFx() {
         if (hero) {
           const driver = () => {
             const rect = hero.getBoundingClientRect();
-            const progress = Math.min(1, Math.max(0, -rect.top / Math.max(1, window.innerHeight * 0.9)));
+            const progress = Math.min(
+              1,
+              Math.max(0, -rect.top / Math.max(1, window.innerHeight * 0.9)),
+            );
             setScrollTint(progress);
           };
-          ScrollTrigger.create({ trigger: hero, start: "top top", end: "bottom top", onUpdate: driver, onRefresh: driver });
+          ScrollTrigger.create({
+            trigger: hero,
+            start: "top top",
+            end: "bottom top",
+            onUpdate: driver,
+            onRefresh: driver,
+          });
           cleanupTint = () => setScrollTint(0);
         }
       });
@@ -161,14 +173,18 @@ export function ScrollFx() {
   /* Anclas: Lenis lleva el scroll y movemos el foco para que sea accesible. */
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
-      const anchor = (event.target as HTMLElement | null)?.closest<HTMLAnchorElement>("a[data-scroll-to]");
+      const anchor = (event.target as HTMLElement | null)?.closest<HTMLAnchorElement>(
+        "a[data-scroll-to]",
+      );
       if (!anchor) return;
       const hash = anchor.getAttribute("href");
       if (!hash || !hash.startsWith("#")) return;
       const target = document.querySelector<HTMLElement>(hash);
       if (!target) return;
       event.preventDefault();
-      const offset = (parseInt(getComputedStyle(document.documentElement).getPropertyValue("--header-h"), 10) || 66) + 8;
+      const offset =
+        (parseInt(getComputedStyle(document.documentElement).getPropertyValue("--header-h"), 10) ||
+          66) + 8;
       if (lenis) {
         lenis.scrollTo(target, { offset: -offset, duration: 1.4 });
       } else {

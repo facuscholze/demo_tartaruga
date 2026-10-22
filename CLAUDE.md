@@ -6,7 +6,7 @@ archivo en el mismo commit**.
 ## Qué es
 
 Demo comercial del sitio de **Tartaruga Sea-Bar** (mar-bar frente al mar, Faro de
-Punta Colorada, Maldonado, Uruguay). Concepto: *el último rayo de sol*. Objetivo
+Punta Colorada, Maldonado, Uruguay). Concepto: _el último rayo de sol_. Objetivo
 de negocio: que el visitante piense “quiero estar ahí al atardecer” y reserve por
 WhatsApp o teléfono. Mobile-first, y convertible en sitio real **sin rehacer nada**.
 
@@ -15,7 +15,7 @@ WhatsApp o teléfono. Mobile-first, y convertible en sitio real **sin rehacer na
 ```bash
 pnpm dev | build | start | verify        # verify = format:check+lint+typecheck+test+content:check+build
 pnpm content:check | optimize | placeholders | sync-images
-pnpm add:dish | add:photo | add:promo    # alta guiada (permisible por pipe para tests)
+pnpm add:dish | add:photo | add:promo    # alta guiada (admite respuestas por caño, testeable)
 pnpm test | lint | lint:fix | format | typecheck | analyze
 ```
 
@@ -46,7 +46,7 @@ src/features/booking/         schema.ts (Zod, único) · message.ts (arma el tex
 src/components/{shell,sections,controls,fx,ui,brand,seo}/
 src/hooks/                    use-lenis (Lenis+ScrollTrigger sincronizados) ·
                               use-pointer-sky · use-raf-scroll · use-drag-scroll
-src/lib/                      fonts.ts · gsap.ts (registro único de plugins) · utils.ts ·
+src/lib/                      fonts.ts · gsap-core.ts / gsap.ts (registro único, núcleo vs plugins) · utils.ts ·
                               naming.ts (contrato de nombres de archivo) · og-fonts.ts
 content/*.json                fuente de verdad del contenido
 public/images/<módulo>/       fotos (el JSON solo guarda el NOMBRE de archivo)
@@ -110,9 +110,13 @@ docs/                         contenido, deploy, diseño, a-confirmar, checklist
 ## GSAP vs Motion
 
 - **GSAP**: scroll (ScrollTrigger), coreografías, SplitText, Flip, DrawSVG,
-  MorphSVG, Observer, CustomEase. Registro único en `src/lib/gsap.ts` con
-  `setupGsap()`; easings `sea | swell | ember` espejados en `--ease-*`.
-- **Motion**: solo transiciones de layout/gesto de componentes React.
+  Observer, CustomEase. Núcleo en `src/lib/gsap-core.ts` (`setupGsapCore`, lo que
+  usa Lenis) y plugins en `src/lib/gsap.ts` (`setupGsap`): el primer chunk no
+  paga SplitText/Flip. MorphSVG está afuera porque no lo usa ninguna animación; easings `sea | swell | ember` espejados en `--ease-*`.
+- **Motion**: no está. La regla era "solo layout/gestos", y terminó sin uso
+  (Radix + CSS resuelven mejor los diálogos y los tabs). Lo saqué con
+  `pnpm remove motion` para no pagar 70 KB gzip en el bundle inicial. Si alguien
+  lo vuelve a agregar, que justifique qué hace que Motion no pueda hacer CSS.
 - Siempre dentro de `gsap.context()` y con cleanup; nada de animaciones si
   `prefers-reduced-motion` (se sale **antes** de importar GSAP).
 
@@ -129,7 +133,7 @@ texto, audio siempre opt-in con mute global.
   rompe Turbopack con `data did not match any variant of untagged enum SrcRequest`)
   y relativo **al archivo** (`src/lib/fonts.ts` → `"../../node_modules/…"`).
 - `eslint-config-next` 16 exporta flat configs nativas; con `FlatCompat` de
-  `@eslint/eslintrc` muere con *Converting circular structure to JSON*.
+  `@eslint/eslintrc` muere con _Converting circular structure to JSON_.
 - `next-intl` + Next 16: wrapper `NextIntlClientProvider` requerido y
   `getRequestConfig` devuelve `locale` explícito. El archivo es `proxy.ts`, no
   `middleware.ts`.

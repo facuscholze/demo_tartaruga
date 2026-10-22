@@ -11,9 +11,14 @@ import { Component, Suspense, lazy, type ReactNode } from "react";
 import { useQualitySettings } from "@/features/quality/store";
 import { cn } from "@/lib/utils";
 
-const FireStageLazy = lazy(() => import("@/features/three/fire-stage").then((m) => ({ default: m.FireStage })));
+const FireStageLazy = lazy(() =>
+  import("@/features/three/fire-stage").then((m) => ({ default: m.FireStage })),
+);
 
-class Boundary extends Component<{ children: ReactNode; onError: () => void }, { failed: boolean }> {
+class Boundary extends Component<
+  { children: ReactNode; onError: () => void },
+  { failed: boolean }
+> {
   override state = { failed: false };
   static getDerivedStateFromError() {
     return { failed: true };

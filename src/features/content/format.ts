@@ -37,9 +37,12 @@ export function formatSecondaryPrice(
 export function formatDate(iso: string, locale: string, timeZone = "America/Montevideo"): string {
   const date = new Date(`${iso}T12:00:00Z`);
   if (Number.isNaN(date.getTime())) return iso;
-  return new Intl.DateTimeFormat(locale, { day: "numeric", month: "long", year: "numeric", timeZone }).format(
-    date,
-  );
+  return new Intl.DateTimeFormat(locale, {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone,
+  }).format(date);
 }
 
 /** `18:42` (sin segundos), en la zona horaria pedida. */

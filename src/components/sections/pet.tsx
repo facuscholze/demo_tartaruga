@@ -25,15 +25,24 @@ export async function PetSection() {
       <div className="shell grid items-center gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
         <div>
           <p className="label text-[var(--c-cactus)]">{t("title")}</p>
-          <h2 id="pet-title" data-reveal="words" className="mt-3 max-w-[16ch] text-[var(--text-h2)] text-[var(--fg)]">
+          <h2
+            id="pet-title"
+            data-reveal="words"
+            className="mt-3 max-w-[16ch] text-[var(--text-h2)] text-[var(--fg)]"
+          >
             {t("title")}
           </h2>
-          <p data-reveal="fade" className="mt-5 max-w-[52ch] text-[1rem] leading-relaxed text-[var(--fg-muted)]">
+          <p
+            data-reveal="fade"
+            className="mt-5 max-w-[52ch] text-[1rem] leading-relaxed text-[var(--fg-muted)]"
+          >
             {content.site.pending
               .filter((line) => /mascota|pet/i.test(JSON.stringify(line)))
               .map((line) => pickText(line, "es"))[0] ?? t("note")}
           </p>
-          <p className="mt-4 max-w-[52ch] text-[0.92rem] leading-relaxed text-[var(--fg-faint)]">{t("note")}</p>
+          <p className="mt-4 max-w-[52ch] text-[0.92rem] leading-relaxed text-[var(--fg-faint)]">
+            {t("note")}
+          </p>
         </div>
 
         {shot ? (
@@ -60,7 +69,13 @@ export async function PetSection() {
         className="paw-trail pointer-events-none absolute inset-x-0 bottom-0 h-[90px] w-full opacity-40"
         preserveAspectRatio="none"
       >
-        <g className="paw-trail__prints" fill="none" stroke="var(--c-sand-wet)" strokeWidth="1.4" strokeLinecap="round">
+        <g
+          className="paw-trail__prints"
+          fill="none"
+          stroke="var(--c-sand-wet)"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+        >
           {Array.from({ length: 18 }, (_, i) => {
             const x = 26 + i * 49;
             const y = 54 + (i % 2 === 0 ? -18 : 14);

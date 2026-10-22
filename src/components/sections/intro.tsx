@@ -118,7 +118,10 @@ export function Intro() {
         <p data-intro-label className="label translate-y-2 opacity-0">
           {t("headline")}
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-2" onClick={(event) => event.stopPropagation()}>
+        <div
+          className="flex flex-wrap items-center justify-center gap-2"
+          onClick={(event) => event.stopPropagation()}
+        >
           <button type="button" className="btn" onClick={() => void enter(true)}>
             {t("withSound")}
           </button>
@@ -133,7 +136,9 @@ export function Intro() {
             {t("skip")}
           </button>
         </div>
-        <p className="label max-w-[34ch] text-[0.58rem] leading-relaxed text-[var(--fg-faint)]">{t("soundHint")}</p>
+        <p className="label max-w-[34ch] text-[0.58rem] leading-relaxed text-[var(--fg-faint)]">
+          {t("soundHint")}
+        </p>
       </div>
       <span className="sr-only" role="status">
         {t("loading")}

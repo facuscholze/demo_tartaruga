@@ -6,6 +6,7 @@ sitio real hay que resolver esta lista; cuando un dato llega, se escribe en
 `content/*.json` y se le pone `confirmed: true`.
 
 ## Contacto y conversión
+
 1. **WhatsApp real** (número E.164 o el link corto `wa.me/message/…`): el del
    perfil de Instagram puede no ser el de reservas. → `site.json → contact.whatsapp`.
 2. **Teléfono** `4432 18 31`: confirmar que es la línea que contestan y si
@@ -14,6 +15,7 @@ sitio real hay que resolver esta lista; cuando un dato llega, se escribe en
 4. Email de reservas/contacto, si existe.
 
 ## Horarios y temporada
+
 5. Días y franjas de apertura por temporada (alta / baja / eventos).
 6. Hora exacta de cierre de cocina y si hay “última mesa”.
 7. Temporada: ¿abre todo el año o solo de X a Y? (hoy `hours[].days: []` → el
@@ -21,6 +23,7 @@ sitio real hay que resolver esta lista; cuando un dato llega, se escribe en
 8. Feriados / lluvia / viento: política de cierre del deck.
 
 ## Carta
+
 9. Carta real con precios en UYU (y si quieren mostrar también referencia en ARS/USD
    → `currency.second`, ya está soportado con un `rate`).
 10. ¿Qué se muestra y qué no? (`available: false` esconde sin borrar.)
@@ -30,6 +33,7 @@ sitio real hay que resolver esta lista; cuando un dato llega, se escribe en
 13. PDF de la carta (hoy el botón sale deshabilitado a propósito).
 
 ## Experiencias
+
 14. Sunset: ¿hay reserva preferente? ¿hora exacta de la “hora dorada” que venden?
 15. Fuego/noche: ¿todos los días? ¿hay música en vivo y de qué tipo?
 16. Brunch: día, horario y si requiere reserva.
@@ -37,6 +41,7 @@ sitio real hay que resolver esta lista; cuando un dato llega, se escribe en
 18. ¿Estas 4 son las experiencias correctas o hay que renombrar/agregar?
 
 ## Diferenciales
+
 19. **Pet friendly**: adentro/afuera, size limit, si hay agua/comedero, reglas a
     publicar (hoy el bloque solo dice “a confirmar”).
 20. **Artesanal**: qué producen realmente (panadería, conservas, helados,
@@ -45,6 +50,7 @@ sitio real hay que resolver esta lista; cuando un dato llega, se escribe en
     `pending: true`), día/hora/tope de descuento, banco y medio de pago.
 
 ## Marca y material
+
 22. **Logo vectorial** (AI/SVG) + versiones claras/oscuras, y tipografías de la
     marca si las hay. Hoy usamos una tortuga propia dibujada para la demo.
 23. Name exacto para SEO: ¿“Tartaruga Sea-Bar”, “Tartaruga Punta Colorada”?

@@ -7,7 +7,19 @@ import { pickText } from "@/features/content/l10n";
  * El enlace real a Google Maps está abajo, así la precisión topográfica la
  * mantiene Google y nosotros solo damos el contexto.
  */
-export function CoastMap({ snapshot, locale, title, note, openLabel }: { snapshot: SiteSnapshot; locale: string; title: string; note: string; openLabel: string }) {
+export function CoastMap({
+  snapshot,
+  locale,
+  title,
+  note,
+  openLabel,
+}: {
+  snapshot: SiteSnapshot;
+  locale: string;
+  title: string;
+  note: string;
+  openLabel: string;
+}) {
   return (
     <figure className="card relative overflow-clip p-0">
       <figcaption className="flex items-baseline justify-between gap-3 border-b border-[var(--line)] px-4 py-3">
@@ -21,7 +33,13 @@ export function CoastMap({ snapshot, locale, title, note, openLabel }: { snapsho
             <stop offset="100%" stopColor="color-mix(in oklab, var(--sky-low) 60%, #050a12)" />
           </linearGradient>
           <pattern id="map-waves" width="26" height="14" patternUnits="userSpaceOnUse">
-            <path d="M0 8c4-5 9-5 13 0s9 5 13 0" fill="none" stroke="var(--c-bone)" strokeOpacity="0.13" strokeWidth="1" />
+            <path
+              d="M0 8c4-5 9-5 13 0s9 5 13 0"
+              fill="none"
+              stroke="var(--c-bone)"
+              strokeOpacity="0.13"
+              strokeWidth="1"
+            />
           </pattern>
         </defs>
 
@@ -45,7 +63,14 @@ export function CoastMap({ snapshot, locale, title, note, openLabel }: { snapsho
           strokeWidth="1.6"
         />
         {/* Camino al faro */}
-        <path d="M120 260c8-44 26-72 58-92 22-14 40-18 60-24" fill="none" stroke="var(--c-bone)" strokeOpacity="0.3" strokeWidth="2" strokeDasharray="6 7" />
+        <path
+          d="M120 260c8-44 26-72 58-92 22-14 40-18 60-24"
+          fill="none"
+          stroke="var(--c-bone)"
+          strokeOpacity="0.3"
+          strokeWidth="2"
+          strokeDasharray="6 7"
+        />
 
         {/* Faro */}
         <g transform="translate(236 132)">
@@ -55,18 +80,41 @@ export function CoastMap({ snapshot, locale, title, note, openLabel }: { snapsho
             <path d="M0-14-26-30M0-14 26-30M0-14-32-6M0-14 32-6" />
           </g>
           <circle r="2.6" fill="var(--c-spark)" className="map-beacon" />
-          <text x="0" y="30" textAnchor="middle" fontSize="8" fill="var(--fg-muted)" style={{ fontFamily: "var(--font-type)", letterSpacing: "0.14em" }}>
+          <text
+            x="0"
+            y="30"
+            textAnchor="middle"
+            fontSize="8"
+            fill="var(--fg-muted)"
+            style={{ fontFamily: "var(--font-type)", letterSpacing: "0.14em" }}
+          >
             Faro
           </text>
         </g>
 
         {/* Marcador del local */}
         <g transform="translate(168 176)" className="map-pin">
-          <circle cx="0" cy="0" r="16" fill="none" stroke="var(--c-sunset)" strokeOpacity="0.45" strokeWidth="1.2" className="map-pin__ring" />
+          <circle
+            cx="0"
+            cy="0"
+            r="16"
+            fill="none"
+            stroke="var(--c-sunset)"
+            strokeOpacity="0.45"
+            strokeWidth="1.2"
+            className="map-pin__ring"
+          />
           <path d="M0 14c7-9 11-13 11-19a11 11 0 1 0-22 0c0 6 4 10 11 19Z" fill="var(--c-sunset)" />
           <circle cx="0" cy="-5" r="4.4" fill="var(--c-abyss)" />
         </g>
-        <text x="168" y="212" textAnchor="middle" fontSize="10" fill="var(--fg)" style={{ fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>
+        <text
+          x="168"
+          y="212"
+          textAnchor="middle"
+          fontSize="10"
+          fill="var(--fg)"
+          style={{ fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}
+        >
           {snapshot.name}
         </text>
 
@@ -75,7 +123,13 @@ export function CoastMap({ snapshot, locale, title, note, openLabel }: { snapsho
           <circle r="17" fill="none" stroke="var(--c-bone)" strokeOpacity="0.3" />
           <path d="M0-15 4 0H-4Z" fill="var(--c-spark)" />
           <path d="M0 15 4 0H-4Z" fill="var(--c-bone)" fillOpacity="0.4" />
-          <text y="-21" textAnchor="middle" fontSize="7.5" fill="var(--fg-muted)" style={{ fontFamily: "var(--font-type)" }}>
+          <text
+            y="-21"
+            textAnchor="middle"
+            fontSize="7.5"
+            fill="var(--fg-muted)"
+            style={{ fontFamily: "var(--font-type)" }}
+          >
             N
           </text>
         </g>
@@ -85,7 +139,12 @@ export function CoastMap({ snapshot, locale, title, note, openLabel }: { snapsho
         <p className="text-[0.86rem] text-[var(--fg-muted)]">
           {pickText(snapshot.address.street, locale)}, {pickText(snapshot.address.locality, locale)}
         </p>
-        <a href={mapsHref(snapshot)} target="_blank" rel="noopener noreferrer" className="btn btn-ghost py-2 text-[0.78rem]">
+        <a
+          href={mapsHref(snapshot)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-ghost py-2 text-[0.78rem]"
+        >
           {openLabel}
           <span aria-hidden> ↗</span>
         </a>

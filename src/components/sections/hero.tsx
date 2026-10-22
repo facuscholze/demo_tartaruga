@@ -53,7 +53,11 @@ export async function Hero({ reserveHref }: { reserveHref: string }) {
         <HorizonWaves className="h-12 w-full max-w-[70rem] text-[color-mix(in_oklab,var(--c-bone)_70%,transparent)]" />
 
         <div className="flex flex-wrap items-center gap-3">
-          <ButtonLink href={reserveHref} dataCursor="reservar" className="px-6 py-3.5 text-[0.72rem]">
+          <ButtonLink
+            href={reserveHref}
+            dataCursor="reservar"
+            className="px-6 py-3.5 text-[0.72rem]"
+          >
             <Icon name="whatsapp" size={17} />
             <span>{t("reserveCta")}</span>
           </ButtonLink>

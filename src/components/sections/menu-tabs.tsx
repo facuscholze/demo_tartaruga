@@ -105,7 +105,10 @@ export function MenuTabs({
               )}
             >
               {category.icon ? (
-                <ShellIcon src={category.icon} className={cn("h-3.5 w-3.5", category.id === active && "opacity-90")} />
+                <ShellIcon
+                  src={category.icon}
+                  className={cn("h-3.5 w-3.5", category.id === active && "opacity-90")}
+                />
               ) : null}
               {category.name}
             </Tabs.Trigger>
@@ -139,7 +142,9 @@ export function MenuTabs({
           className="grid gap-8 outline-none data-[state=active]:animate-[fade-up_var(--d-3)_var(--ease-sea)] lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:gap-12"
         >
           <ul className="flex flex-col gap-1">
-            {category.note ? <li className="label mb-3 text-[var(--paper-muted)]">{category.note}</li> : null}
+            {category.note ? (
+              <li className="label mb-3 text-[var(--paper-muted)]">{category.note}</li>
+            ) : null}
             {category.items.map((item) => (
               <li
                 key={item.id}
@@ -148,14 +153,17 @@ export function MenuTabs({
                 onFocus={() => showPeek(item)}
                 className={cn(
                   "group relative border-b border-dashed border-[color-mix(in_oklab,var(--paper-ink)_16%,transparent)] py-3.5 transition-[background-color,transform] duration-[var(--d-2)]",
-                  item.featured && "bg-[color-mix(in_oklab,var(--c-ember)_9%,transparent)] px-3 -mx-3 rounded-sm",
+                  item.featured &&
+                    "bg-[color-mix(in_oklab,var(--c-ember)_9%,transparent)] px-3 -mx-3 rounded-sm",
                 )}
               >
                 <div className="flex items-baseline gap-2">
                   <h3 className="font-display text-[1.28rem] leading-snug font-medium text-[var(--paper-ink)]">
                     {item.name}
                     {item.badge ? (
-                      <span className="label ml-2 align-middle text-[0.55rem] text-[var(--c-rust)]">{item.badge}</span>
+                      <span className="label ml-2 align-middle text-[0.55rem] text-[var(--c-rust)]">
+                        {item.badge}
+                      </span>
                     ) : null}
                     {item.featured ? (
                       <span className="label ml-2 align-middle text-[0.55rem] text-[var(--c-ember)]">
@@ -167,7 +175,9 @@ export function MenuTabs({
                     aria-hidden
                     className="leader mx-1 flex-1 self-end translate-y-[-0.28em] text-[color-mix(in_oklab,var(--paper-ink)_38%,transparent)]"
                   />
-                  <span className="price shrink-0 text-[1.02rem] text-[var(--paper-ink)]">{item.price}</span>
+                  <span className="price shrink-0 text-[1.02rem] text-[var(--paper-ink)]">
+                    {item.price}
+                  </span>
                 </div>
                 {item.description ? (
                   <p className="mt-1 max-w-[62ch] text-[0.93rem] leading-relaxed text-[var(--paper-muted)]">

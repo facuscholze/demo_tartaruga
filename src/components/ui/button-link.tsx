@@ -13,11 +13,26 @@ type Props = {
 };
 
 /** CTA reservable: `Link` interno, `<a>` para tel:/wa.me, botón deshabilitado si no hay archivo. */
-export function ButtonLink({ href, children, variant = "solid", className, external, disabled, ariaLabel, dataCursor }: Props) {
+export function ButtonLink({
+  href,
+  children,
+  variant = "solid",
+  className,
+  external,
+  disabled,
+  ariaLabel,
+  dataCursor,
+}: Props) {
   const classes = cn("btn", variant === "ghost" && "btn-ghost", className);
   if (disabled) {
     return (
-      <button type="button" disabled className={classes} aria-label={ariaLabel} data-disabled="true">
+      <button
+        type="button"
+        disabled
+        className={classes}
+        aria-label={ariaLabel}
+        data-disabled="true"
+      >
         {children}
       </button>
     );

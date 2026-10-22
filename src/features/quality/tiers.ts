@@ -124,10 +124,14 @@ export function detectQuality(input: DetectInput): Quality {
 }
 
 /** `detect-gpu` devuelve un número 0..3 (0 = sin GPU / no soportado). */
-export async function probeGpu(): Promise<{ tier: "low" | "mid" | "high" | "none"; mobile: boolean }> {
+export async function probeGpu(): Promise<{
+  tier: "low" | "mid" | "high" | "none";
+  mobile: boolean;
+}> {
   try {
     const info = await getGPUTier({ failIfMajorPerformanceCaveat: true });
-    const tier = info.tier >= 3 ? "high" : info.tier === 2 ? "mid" : info.tier === 1 ? "low" : "none";
+    const tier =
+      info.tier >= 3 ? "high" : info.tier === 2 ? "mid" : info.tier === 1 ? "low" : "none";
     return { tier, mobile: Boolean(info.isMobile) };
   } catch {
     return { tier: "none", mobile: false };
@@ -139,7 +143,9 @@ export function webglAvailable(): boolean {
     const canvas = document.createElement("canvas");
     return Boolean(
       window.WebGLRenderingContext &&
-        (canvas.getContext("webgl2") ?? canvas.getContext("webgl") ?? canvas.getContext("experimental-webgl")),
+      (canvas.getContext("webgl2") ??
+        canvas.getContext("webgl") ??
+        canvas.getContext("experimental-webgl")),
     );
   } catch {
     return false;
@@ -150,7 +156,8 @@ export function connectionQuality(): { saveData: boolean; slow: boolean } {
   const connection = (navigator as Navigator & { connection?: NetworkInformationLike }).connection;
   return {
     saveData: Boolean(connection?.saveData),
-    slow: /(^|-)2g$/.test(connection?.effectiveType ?? "") || connection?.effectiveType === "slow-2g",
+    slow:
+      /(^|-)2g$/.test(connection?.effectiveType ?? "") || connection?.effectiveType === "slow-2g",
   };
 }
 

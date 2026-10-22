@@ -7,7 +7,10 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import type Lenis from "lenis";
 
-type LenisApi = { lenis: Lenis | null; scrollTo: (target: string | HTMLElement, offset?: number) => void };
+type LenisApi = {
+  lenis: Lenis | null;
+  scrollTo: (target: string | HTMLElement, offset?: number) => void;
+};
 
 const LenisContext = createContext<LenisApi>({ lenis: null, scrollTo: () => {} });
 
@@ -15,7 +18,13 @@ export function useLenis() {
   return useContext(LenisContext);
 }
 
-export function LenisProvider({ children, enabled = true }: { children: ReactNode; enabled?: boolean }) {
+export function LenisProvider({
+  children,
+  enabled = true,
+}: {
+  children: ReactNode;
+  enabled?: boolean;
+}) {
   const lenisRef = useRef<Lenis | null>(null);
   const [api, setApi] = useState<LenisApi>({ lenis: null, scrollTo: () => {} });
 
@@ -25,7 +34,10 @@ export function LenisProvider({ children, enabled = true }: { children: ReactNod
     let lenis: Lenis | null = null;
 
     void (async () => {
-      const [lenisModule, gsapModule] = await Promise.all([import("lenis"), import("@/lib/gsap")]);
+      const [lenisModule, gsapModule] = await Promise.all([
+        import("lenis"),
+        import("@/lib/gsap-core"),
+      ]);
       if (disposed) return;
       const LenisClass = lenisModule.default;
       const { gsap, ScrollTrigger } = gsapModule;
@@ -60,7 +72,7 @@ export function LenisProvider({ children, enabled = true }: { children: ReactNod
       disposed = true;
       lenis?.destroy();
       lenisRef.current = null;
-      void import("@/lib/gsap").then(({ gsap }) => gsap.ticker.remove(() => {}));
+      void import("@/lib/gsap-core").then(({ gsap }) => gsap.ticker.remove(() => {}));
     };
   }, [enabled]);
 

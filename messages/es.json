@@ -169,5 +169,10 @@
   "sunset": {
     "title": "Hora del atardecer",
     "text": "La misma mesa, otro cielo. Reservá mirando al oeste."
+  },
+  "faq": {
+    "title": "Preguntas frecuentes",
+    "note": "Lo que más nos preguntan por WhatsApp. Lo que el local no confirmó está marcado.",
+    "pending": "a confirmar"
   }
 }

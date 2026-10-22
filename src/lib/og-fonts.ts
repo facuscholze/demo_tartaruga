@@ -20,11 +20,31 @@ export type OgFont = { name: string; data: Buffer; weight: 400 | 700; style: "no
  * (el sitio usa las variables, que son las que van al bundle).
  */
 const SOURCES: { name: string; file: string; weight: 400 | 700 }[] = [
-  { name: "Fraunces", file: "@fontsource/fraunces/files/fraunces-latin-700-normal.woff2", weight: 700 },
-  { name: "Fraunces", file: "@fontsource/fraunces/files/fraunces-latin-400-normal.woff2", weight: 400 },
-  { name: "Instrument", file: "@fontsource/instrument-sans/files/instrument-sans-latin-400-normal.woff2", weight: 400 },
-  { name: "Instrument", file: "@fontsource/instrument-sans/files/instrument-sans-latin-600-normal.woff2", weight: 700 },
-  { name: "Courier", file: "@fontsource/courier-prime/files/courier-prime-latin-400-normal.woff2", weight: 400 },
+  {
+    name: "Fraunces",
+    file: "@fontsource/fraunces/files/fraunces-latin-700-normal.woff2",
+    weight: 700,
+  },
+  {
+    name: "Fraunces",
+    file: "@fontsource/fraunces/files/fraunces-latin-400-normal.woff2",
+    weight: 400,
+  },
+  {
+    name: "Instrument",
+    file: "@fontsource/instrument-sans/files/instrument-sans-latin-400-normal.woff2",
+    weight: 400,
+  },
+  {
+    name: "Instrument",
+    file: "@fontsource/instrument-sans/files/instrument-sans-latin-600-normal.woff2",
+    weight: 700,
+  },
+  {
+    name: "Courier",
+    file: "@fontsource/courier-prime/files/courier-prime-latin-400-normal.woff2",
+    weight: 400,
+  },
 ];
 
 let cache: Promise<OgFont[]> | null = null;
@@ -48,7 +68,12 @@ async function build(): Promise<OgFont[]> {
       const key = `${source.name}-${source.weight}`;
       if (seen.has(key)) continue;
       seen.add(key);
-      fonts.push({ name: source.name, data: Buffer.from(out), weight: source.weight, style: "normal" });
+      fonts.push({
+        name: source.name,
+        data: Buffer.from(out),
+        weight: source.weight,
+        style: "normal",
+      });
     } catch (error) {
       // Sin una fuente no hay layout: ImageResponse exige al menos una, así que
       // agregamos la de Courier (static, sin ejes) como red de seguridad.

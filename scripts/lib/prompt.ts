@@ -36,7 +36,9 @@ function write(prompt: string) {
 
 export async function ask(question: string, fallback = ""): Promise<string> {
   if (isTty) {
-    const answer = await new Promise<string>((resolve) => interface_().question(`${question} `, resolve));
+    const answer = await new Promise<string>((resolve) =>
+      interface_().question(`${question} `, resolve),
+    );
     write("\n");
     const trimmed = answer.trim();
     return trimmed.length > 0 ? trimmed : fallback;
@@ -53,7 +55,11 @@ export async function askNumber(question: string, fallback = 0): Promise<number>
   return Number.isFinite(parsed) ? Math.round(parsed) : fallback;
 }
 
-export async function askChoice(question: string, options: string[], fallback: string): Promise<string> {
+export async function askChoice(
+  question: string,
+  options: string[],
+  fallback: string,
+): Promise<string> {
   write(`  ${options.map((option, index) => `${index + 1}) ${option}`).join("   ")}\n`);
   const raw = await ask(question, fallback);
   const index = Number(raw) - 1;

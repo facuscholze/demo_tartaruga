@@ -65,7 +65,12 @@ export function MediaFallback({ alt, className }: { alt?: string; className?: st
         className,
       )}
     >
-      <svg viewBox="0 0 64 64" className="h-1/2 w-1/2 translate-x-4 -translate-y-2 opacity-25" fill="none" aria-hidden>
+      <svg
+        viewBox="0 0 64 64"
+        className="h-1/2 w-1/2 translate-x-4 -translate-y-2 opacity-25"
+        fill="none"
+        aria-hidden
+      >
         <g stroke="#F6F0E6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
           <path d="M44 14c9 6 12 18 6 27-6 9-19 12-28 6-7-4.5-9-13-5-19.5" />
           <path d="M23 27c5-4 12-4 16 1s3 12-2 15-12 2-15-3" />

@@ -28,7 +28,15 @@ const SIZES: Record<number, string> = {
   3: "h-[23rem] w-[26rem]",
 };
 
-export function GalleryStrip({ items, label, hint }: { items: GalleryItemProps[]; label: string; hint?: string }) {
+export function GalleryStrip({
+  items,
+  label,
+  hint,
+}: {
+  items: GalleryItemProps[];
+  label: string;
+  hint?: string;
+}) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState<number | null>(null);
   const [originRect, setOriginRect] = useState<DOMRect | null>(null);

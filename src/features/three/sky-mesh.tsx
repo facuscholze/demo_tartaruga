@@ -69,9 +69,21 @@ export function SkyMesh({ quality }: { quality: "high" | "medium" | "low" }) {
       uniforms.uSkyTop.value.setRGB(inputs.uSkyTop[0], inputs.uSkyTop[1], inputs.uSkyTop[2]);
       uniforms.uSkyMid.value.setRGB(inputs.uSkyMid[0], inputs.uSkyMid[1], inputs.uSkyMid[2]);
       uniforms.uSkyLow.value.setRGB(inputs.uSkyLow[0], inputs.uSkyLow[1], inputs.uSkyLow[2]);
-      uniforms.uSkyHorizon.value.setRGB(inputs.uSkyHorizon[0], inputs.uSkyHorizon[1], inputs.uSkyHorizon[2]);
-      uniforms.uSunColor.value.setRGB(inputs.uSunColor[0], inputs.uSunColor[1], inputs.uSunColor[2]);
-      uniforms.uSeaColor.value.setRGB(inputs.uSeaColor[0], inputs.uSeaColor[1], inputs.uSeaColor[2]);
+      uniforms.uSkyHorizon.value.setRGB(
+        inputs.uSkyHorizon[0],
+        inputs.uSkyHorizon[1],
+        inputs.uSkyHorizon[2],
+      );
+      uniforms.uSunColor.value.setRGB(
+        inputs.uSunColor[0],
+        inputs.uSunColor[1],
+        inputs.uSunColor[2],
+      );
+      uniforms.uSeaColor.value.setRGB(
+        inputs.uSeaColor[0],
+        inputs.uSeaColor[1],
+        inputs.uSeaColor[2],
+      );
       uniforms.uSunSize.value = inputs.uSunSize;
       uniforms.uStars.value = inputs.uStars;
       uniforms.uWarm.value = inputs.uWarm;
@@ -87,7 +99,10 @@ export function SkyMesh({ quality }: { quality: "high" | "medium" | "low" }) {
 
     const baseX = inputs?.uSunPos[0] ?? 0.62;
     const baseY = inputs?.uSunPos[1] ?? 0.4;
-    uniforms.uSunPos.value.set(clamp(baseX + (s.pointerX - 0.5) * 0.05, -0.1, 1.1), baseY + (s.pointerY - 0.5) * 0.02);
+    uniforms.uSunPos.value.set(
+      clamp(baseX + (s.pointerX - 0.5) * 0.05, -0.1, 1.1),
+      baseY + (s.pointerY - 0.5) * 0.02,
+    );
     uniforms.uPointer.value.set(s.pointerX, s.pointerY);
     uniforms.uScrollT.value = s.scrollT;
     uniforms.uAudio.value = s.audio;

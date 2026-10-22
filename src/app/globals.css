@@ -69,7 +69,10 @@
     font-weight: 300;
     line-height: 0.98;
     letter-spacing: var(--tracking-display);
-    font-variation-settings: "SOFT" 40, "WONK" 1, "opsz" 96;
+    font-variation-settings:
+      "SOFT" 40,
+      "WONK" 1,
+      "opsz" 96;
     text-wrap: balance;
     margin: 0;
   }
@@ -376,7 +379,13 @@
    Cielos claros → velo más fuerte para sostener el texto oscuro. */
 .sky-veil {
   background:
-    linear-gradient(to bottom, rgba(8, 13, 24, 0.30), transparent 34%, transparent 58%, rgba(8, 13, 24, 0.55)),
+    linear-gradient(
+      to bottom,
+      rgba(8, 13, 24, 0.3),
+      transparent 34%,
+      transparent 58%,
+      rgba(8, 13, 24, 0.55)
+    ),
     radial-gradient(120% 80% at 50% 100%, rgba(8, 13, 24, 0.42), transparent 60%);
   mix-blend-mode: multiply;
   opacity: calc(0.55 + (0.5 - var(--sky-luma)) * 0.5);
@@ -415,7 +424,9 @@
   height: 0.5rem;
   border-radius: 999px;
   background: currentColor;
-  transition: opacity var(--d-2) linear, width var(--d-3) var(--ease-sea);
+  transition:
+    opacity var(--d-2) linear,
+    width var(--d-3) var(--ease-sea);
 }
 
 .tart-cursor__label {
@@ -499,8 +510,16 @@ html[data-js="1"]:not([data-reduced-motion="true"])[data-quality="high"] [data-r
   inset: auto 0 0 0;
   height: 52%;
   background:
-    radial-gradient(46% 62% at 50% 100%, color-mix(in oklab, var(--c-ember) 55%, transparent), transparent 70%),
-    radial-gradient(22% 40% at 42% 100%, color-mix(in oklab, var(--c-spark) 40%, transparent), transparent 72%);
+    radial-gradient(
+      46% 62% at 50% 100%,
+      color-mix(in oklab, var(--c-ember) 55%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      22% 40% at 42% 100%,
+      color-mix(in oklab, var(--c-spark) 40%, transparent),
+      transparent 72%
+    );
   filter: blur(0.5px);
   animation: ember-breathe 5.5s var(--ease-sea) infinite;
 }
@@ -641,7 +660,12 @@ html[data-js="1"]:not([data-reduced-motion="true"])[data-quality="high"] [data-r
   inset: 0;
   z-index: 90;
   pointer-events: none;
-  background: linear-gradient(to top, var(--c-abyss) 0%, color-mix(in oklab, var(--c-haze) 92%, transparent) 70%, transparent 100%);
+  background: linear-gradient(
+    to top,
+    var(--c-abyss) 0%,
+    color-mix(in oklab, var(--c-haze) 92%, transparent) 70%,
+    transparent 100%
+  );
   transform: translateY(101%);
   opacity: 0;
 }
@@ -692,5 +716,32 @@ html[data-js="1"]:not([data-reduced-motion="true"]) [data-paw-trail] .paw-trail_
   }
   .paw-trail__prints > g {
     opacity: 0.5;
+  }
+}
+
+/* Acordeón de preguntas: altura animada por grid-template-rows (sin medir JS). */
+@keyframes accordion-down {
+  from {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+  to {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+@keyframes accordion-up {
+  from {
+    grid-template-rows: 1fr;
+  }
+  to {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-state="open"],
+  [data-state="closed"] {
+    animation: none !important;
   }
 }

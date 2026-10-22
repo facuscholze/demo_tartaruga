@@ -84,7 +84,9 @@ async function main() {
         .toBuffer();
       writeFileSync(target, buffer);
       created += 1;
-      console.info(`  + public/images/${ref.module}/${ref.filename}  (${(buffer.length / 1024).toFixed(0)} KB)`);
+      console.info(
+        `  + public/images/${ref.module}/${ref.filename}  (${(buffer.length / 1024).toFixed(0)} KB)`,
+      );
     }
   }
   console.info(

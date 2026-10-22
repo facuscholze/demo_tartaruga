@@ -12,7 +12,8 @@ export function collectImageRefsLocal(
 ): Ref[] {
   const refs: Ref[] = [];
   const push = (filename: unknown, mod: ImageModule, implied = false) => {
-    if (typeof filename === "string" && filename.length > 0) refs.push({ module: mod, filename, implied });
+    if (typeof filename === "string" && filename.length > 0)
+      refs.push({ module: mod, filename, implied });
   };
   const arr = (key: string): Record<string, unknown>[] => {
     const value = data[key];
@@ -22,7 +23,9 @@ export function collectImageRefsLocal(
   if (file === "menu.json") {
     for (const category of arr("categories")) {
       push(category["icon"], "icons");
-      const items = Array.isArray(category["items"]) ? (category["items"] as Record<string, unknown>[]) : [];
+      const items = Array.isArray(category["items"])
+        ? (category["items"] as Record<string, unknown>[])
+        : [];
       for (const item of items) {
         if (item["image"]) push(item["image"], module);
         else push(`${String(item["id"] ?? "item")}.placeholder`, module, true);

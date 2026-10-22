@@ -53,7 +53,13 @@ export function CustomCursor() {
   }, [ready]);
 
   return (
-    <div ref={ref} className="tart-cursor" data-mode={mode} aria-hidden="true" style={{ opacity: ready ? 1 : 0 }}>
+    <div
+      ref={ref}
+      className="tart-cursor"
+      data-mode={mode}
+      aria-hidden="true"
+      style={{ opacity: ready ? 1 : 0 }}
+    >
       <span className="tart-cursor__dot" />
       <span className="tart-cursor__label">{mode === "idle" ? "" : LABELS[mode]}</span>
     </div>

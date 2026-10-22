@@ -1,44 +1,42 @@
 /**
- * GSAP en un único punto: los plugins se registran una sola vez y todos los
- * componentes importan de acá (así ningún bundle de sección registra de más).
+ * GSAP con los plugins de coreografía, en un segundo módulo para que el scroll
+ * base (Lenis + ScrollTrigger) no espere por SplitText/Flip/DrawSVG/Observer.
+ * Registro único: ningún componente de sección registra de más.
  *
  * Convención del proyecto (documentada en CLAUDE.md):
  *  - GSAP  → scroll (ScrollTrigger), coreografías, SplitText, Flip, DrawSVG,
- *            MorphSVG, Observer, easings.
- *  - Motion → SOLO transiciones de layout/gesto de componentes React
- *            (diálogos, indicador de tabs, drag de sheets).
+ *            Observer, easings.
+ *  - Sin Motion: Radix + CSS resuelven mejor diálogos y tabs, y Motion en el
+ *    bundle inicial costaba ~70 KB gzip.
+ *
+ * MORPHSVG a propósito AFUERA: estaba registrado pero no lo usaba ninguna
+ * animación, y son ~20 KB minificados. Si aparece un morph real (la tortuga
+ * deformándose), se agrega acá y se documenta en CLAUDE.md.
  */
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { Flip } from "gsap/Flip";
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
-import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
-import { CustomEase } from "gsap/CustomEase";
 import { Observer } from "gsap/Observer";
+import { gsap, ScrollTrigger, CustomEase, setupGsapCore, type EaseName } from "./gsap-core";
 
-let registered = false;
-
-export type EaseName = "sea" | "swell" | "ember";
-
-/** Curvas espejo de `--ease-*` en tokens.css: misma sensación en JS y CSS. */
-const EASES: Record<EaseName, string> = {
-  sea: "0.16,0.84,0.24,1",
-  swell: "0.62,0,0.12,1",
-  ember: "0.3,0.7,0.2,1.02",
-};
+let pluginsRegistered = false;
 
 export function setupGsap(): typeof gsap {
-  if (registered) return gsap;
-  registered = true;
-  gsap.registerPlugin(ScrollTrigger, SplitText, Flip, DrawSVGPlugin, MorphSVGPlugin, CustomEase, Observer);
-
-  (Object.keys(EASES) as EaseName[]).forEach((name) => {
-    if (!gsap.parseEase(name)) CustomEase.create(name, `M0,0 C${EASES[name]} 1,1`);
-  });
-
-  gsap.defaults({ ease: "sea", duration: 0.9 });
+  setupGsapCore();
+  if (pluginsRegistered) return gsap;
+  pluginsRegistered = true;
+  gsap.registerPlugin(SplitText, Flip, DrawSVGPlugin, Observer);
   return gsap;
 }
 
-export { gsap, ScrollTrigger, SplitText, Flip, DrawSVGPlugin, MorphSVGPlugin, CustomEase, Observer };
+export {
+  gsap,
+  ScrollTrigger,
+  CustomEase,
+  SplitText,
+  Flip,
+  DrawSVGPlugin,
+  Observer,
+  setupGsapCore,
+  type EaseName,
+};

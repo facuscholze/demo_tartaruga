@@ -41,7 +41,9 @@ export function problems() {
   };
 }
 
-export function readJsonRaw(file: string): { ok: true; data: unknown } | { ok: false; message: string } {
+export function readJsonRaw(
+  file: string,
+): { ok: true; data: unknown } | { ok: false; message: string } {
   const path = join(CONTENT_DIR, file);
   if (!existsSync(path)) return { ok: false, message: `no existe content/${file}` };
   try {
@@ -99,7 +101,11 @@ export type ImageRef = {
   implied?: boolean;
 };
 
-export function collectImageRefs(data: Record<string, unknown>, file: string, mod: ImageModule): ImageRef[] {
+export function collectImageRefs(
+  data: Record<string, unknown>,
+  file: string,
+  mod: ImageModule,
+): ImageRef[] {
   const refs: ImageRef[] = [];
   const cat = file === "menu.json" ? "categories" : undefined;
 
@@ -110,11 +116,15 @@ export function collectImageRefs(data: Record<string, unknown>, file: string, mo
   };
 
   if (file === "menu.json") {
-    const categories = Array.isArray(data["categories"]) ? (data["categories"] as Record<string, unknown>[]) : [];
+    const categories = Array.isArray(data["categories"])
+      ? (data["categories"] as Record<string, unknown>[])
+      : [];
     categories.forEach((category, ci) => {
       const cid = String(category["id"] ?? `#${ci + 1}`);
       push(category["icon"], `${cid}.icon (carpeta icons)`);
-      const items = Array.isArray(category["items"]) ? (category["items"] as Record<string, unknown>[]) : [];
+      const items = Array.isArray(category["items"])
+        ? (category["items"] as Record<string, unknown>[])
+        : [];
       items.forEach((item, ii) => {
         const iid = String(item["id"] ?? `#${ii + 1}`);
         if (item["image"]) push(item["image"], `${cid} › ${iid}.image`);
@@ -139,7 +149,9 @@ export function collectImageRefs(data: Record<string, unknown>, file: string, mo
       push(item["icon"], `${id}.icon (carpeta icons)`);
     });
   } else if (file === "promos.json") {
-    const items = Array.isArray(data["promos"]) ? (data["promos"] as Record<string, unknown>[]) : [];
+    const items = Array.isArray(data["promos"])
+      ? (data["promos"] as Record<string, unknown>[])
+      : [];
     items.forEach((item, i) => push(item["image"], `promos[${i}].image`));
   } else if (file === "site.json") {
     // site.json no referencia fotos de contenido (solo links externos).

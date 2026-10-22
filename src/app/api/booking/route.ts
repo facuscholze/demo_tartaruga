@@ -21,7 +21,11 @@ export async function POST(request: Request) {
   const parsed = bookingSchema.safeParse(payload);
   if (!parsed.success) {
     return NextResponse.json(
-      { ok: false, error: "invalid", issues: parsed.error.issues.map((i) => ({ path: i.path.join("."), message: i.message })) },
+      {
+        ok: false,
+        error: "invalid",
+        issues: parsed.error.issues.map((i) => ({ path: i.path.join("."), message: i.message })),
+      },
       { status: 422 },
     );
   }

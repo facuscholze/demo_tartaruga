@@ -32,7 +32,10 @@ async function main() {
     return;
   }
 
-  const altEs = await ask("Descripción de la foto (alt, obligatorio para accesibilidad):", titleCase(copied.filename.replace(/\.[a-z]+$/i, "")));
+  const altEs = await ask(
+    "Descripción de la foto (alt, obligatorio para accesibilidad):",
+    titleCase(copied.filename.replace(/\.[a-z]+$/i, "")),
+  );
   const altEn = await ask("Descripción en inglés (Enter = usa la de español):", "");
   const section = await askChoice("Sección:", [...gallerySections], "lugar");
   const weight = await ask("Peso visual 0–3 (3 = la más grande):", "1");
@@ -44,7 +47,9 @@ async function main() {
     weight: Math.max(0, Math.min(3, Number(weight) || 1)),
   });
   writeFileSync(path, `${JSON.stringify(data, null, 2)}\n`, "utf8");
-  info(`\n  ✔ Foto en public/images/gallery/${copied.filename} y entrada agregada (sección ${section}).\n     Validá con \`pnpm content:check\`.\n`);
+  info(
+    `\n  ✔ Foto en public/images/gallery/${copied.filename} y entrada agregada (sección ${section}).\n     Validá con \`pnpm content:check\`.\n`,
+  );
   done();
 }
 

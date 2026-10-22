@@ -7,7 +7,13 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useSite } from "@/features/site/context";
-import { formatClock, formatCountdown, getSunInfo, todFromElevation, type SunInfo } from "@/features/sky/sun";
+import {
+  formatClock,
+  formatCountdown,
+  getSunInfo,
+  todFromElevation,
+  type SunInfo,
+} from "@/features/sky/sun";
 
 export function SunTicker() {
   const t = useTranslations("hero");
@@ -40,7 +46,9 @@ export function SunTicker() {
       </div>
       <div>
         <dt className="label text-[var(--fg-faint)]">{t("sunriseLabel")}</dt>
-        <dd className="m-0 font-type text-lg tabular-nums text-[var(--fg-muted)]">{sun?.sunriseLabel ?? "—"}</dd>
+        <dd className="m-0 font-type text-lg tabular-nums text-[var(--fg-muted)]">
+          {sun?.sunriseLabel ?? "—"}
+        </dd>
       </div>
       <div>
         <dt className="label text-[var(--fg-faint)]">{t("nowLabel")}</dt>

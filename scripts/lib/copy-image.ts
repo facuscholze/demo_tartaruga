@@ -9,14 +9,20 @@ const VALID = /\.(jpe?g|png|webp|avif)$/i;
 
 export type Copied = { filename: string; path: string; skipped: boolean; bytes: number };
 
-export function copyIntoModule(mod: ImageModule, source: string, preferred?: string): Copied | { error: string } {
+export function copyIntoModule(
+  mod: ImageModule,
+  source: string,
+  preferred?: string,
+): Copied | { error: string } {
   if (!source) return { error: "sin archivo" };
   const path = source.replace(/^~/, process.env.HOME ?? "");
   if (!existsSync(path)) return { error: `no existe el archivo: ${path}` };
-  if (!VALID.test(extname(path))) return { error: "formato no soportado (jpg, jpeg, png, webp, avif)" };
+  if (!VALID.test(extname(path)))
+    return { error: "formato no soportado (jpg, jpeg, png, webp, avif)" };
 
   const filename = normalizeFilename(preferred ? `${preferred}${extname(path)}` : basename(path));
-  if (!VALID.test(extname(filename))) return { error: `el nombre normalizado quedó inválido: "${filename}"` };
+  if (!VALID.test(extname(filename)))
+    return { error: `el nombre normalizado quedó inválido: "${filename}"` };
 
   const dir = join(IMAGES_DIR, mod);
   mkdirSync(dir, { recursive: true });

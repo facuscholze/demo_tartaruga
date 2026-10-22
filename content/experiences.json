@@ -5,7 +5,11 @@
       "id": "sunset",
       "order": 1,
       "name": { "es": "Sunset", "en": "Sunset", "pt": "Pôr do sol" },
-      "tagline": { "es": "La hora dorada, desde el deck", "en": "Golden hour, from the deck", "pt": "A hora dourada, do deck" },
+      "tagline": {
+        "es": "La hora dorada, desde el deck",
+        "en": "Golden hour, from the deck",
+        "pt": "A hora dourada, do deck"
+      },
       "description": {
         "es": "La terraza se llena cuando el sol empieza a bajar sobre el faro. Mesa, trago y el cielo haciendo el trabajo.",
         "en": "The terrace fills as the sun starts dropping behind the lighthouse. A table, a drink and the sky doing all the work."
@@ -23,7 +27,11 @@
       "id": "fuego-noche",
       "order": 2,
       "name": { "es": "Fuego y noche", "en": "Fire & night", "pt": "Fogo e noite" },
-      "tagline": { "es": "Brasas, charla larga y mar oscuro", "en": "Embers, long talk and dark sea", "pt": "Brasas, conversa longa e mar escuro" },
+      "tagline": {
+        "es": "Brasas, charla larga y mar oscuro",
+        "en": "Embers, long talk and dark sea",
+        "pt": "Brasas, conversa longa e mar escuro"
+      },
       "description": {
         "es": "Cuando se va la luz quedan los braseros y las lámparas. La parte del día que más se parece a quedarse.",
         "en": "When the light goes the fire pits and lamps stay. The part of the day that feels like not leaving."
@@ -41,7 +49,11 @@
       "id": "brunch",
       "order": 3,
       "name": { "es": "Brunch", "en": "Brunch", "pt": "Brunch" },
-      "tagline": { "es": "Mañana tranquila con el mar de frente", "en": "Slow morning facing the sea", "pt": "Manhã tranquila de frente pro mar" },
+      "tagline": {
+        "es": "Mañana tranquila con el mar de frente",
+        "en": "Slow morning facing the sea",
+        "pt": "Manhã tranquila de frente pro mar"
+      },
       "description": {
         "es": "Bloque de mañana con café, pan y fruta. Disponibilidad y horarios: a confirmar con el local.",
         "en": "A morning block with coffee, bread and fruit. Availability and hours: to confirm with the venue."
@@ -59,7 +71,11 @@
       "id": "eventos",
       "order": 4,
       "name": { "es": "Eventos", "en": "Events", "pt": "Eventos" },
-      "tagline": { "es": "Cumpleaños, casamientos y mesas largas", "en": "Birthdays, weddings and long tables", "pt": "Aniversários, casamentos e mesas longas" },
+      "tagline": {
+        "es": "Cumpleaños, casamientos y mesas largas",
+        "en": "Birthdays, weddings and long tables",
+        "pt": "Aniversários, casamentos e mesas longas"
+      },
       "description": {
         "es": "Bloque reservado para eventos privados. Formatos, capacidad y presupuesto: a confirmar con el local.",
         "en": "Reserved block for private events. Formats, capacity and budget: to confirm with the venue."

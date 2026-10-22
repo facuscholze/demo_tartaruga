@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { FILENAME_RE, ID, menuSchema, promosSchema, siteSchema } from "../src/features/content/schema";
+import {
+  FILENAME_RE,
+  ID,
+  menuSchema,
+  promosSchema,
+  siteSchema,
+} from "../src/features/content/schema";
 import { loadContent } from "../src/features/content/load";
 
 describe("esquemas de contenido", () => {
@@ -17,7 +23,13 @@ describe("esquemas de contenido", () => {
 
   it("rechaza precios que no son número y explica en español", () => {
     const parsed = menuSchema.safeParse({
-      categories: [{ id: "entradas", name: { es: "Entradas" }, items: [{ id: "x", name: { es: "X" }, price: "$4.500" }] }],
+      categories: [
+        {
+          id: "entradas",
+          name: { es: "Entradas" },
+          items: [{ id: "x", name: { es: "X" }, price: "$4.500" }],
+        },
+      ],
     });
     expect(parsed.success).toBe(false);
     const issue = parsed.error!.issues.find((i) => i.path.includes("price"));
@@ -26,14 +38,22 @@ describe("esquemas de contenido", () => {
 
   it("el precio 0 significa 'Consultar' (no lo inventa)", () => {
     const parsed = menuSchema.parse({
-      categories: [{ id: "entradas", name: { es: "Entradas" }, items: [{ id: "x", name: { es: "X" }, price: 0 }] }],
+      categories: [
+        {
+          id: "entradas",
+          name: { es: "Entradas" },
+          items: [{ id: "x", name: { es: "X" }, price: 0 }],
+        },
+      ],
     });
     expect(parsed.categories[0]!.items[0]!.price).toBe(0);
   });
 
   it("`available: false` sigue siendo válido (se oculta sin borrar)", () => {
     const parsed = menuSchema.parse({
-      categories: [{ id: "a", name: { es: "A" }, items: [{ id: "x", name: { es: "X" }, available: false }] }],
+      categories: [
+        { id: "a", name: { es: "A" }, items: [{ id: "x", name: { es: "X" }, available: false }] },
+      ],
     });
     expect(parsed.categories[0]!.items[0]!.available).toBe(false);
   });

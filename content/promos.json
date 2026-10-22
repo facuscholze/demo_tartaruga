@@ -4,7 +4,11 @@
     {
       "id": "scotiabank",
       "order": 1,
-      "title": { "es": "Beneficio Scotiabank", "en": "Scotiabank benefit", "pt": "Benefício Scotiabank" },
+      "title": {
+        "es": "Beneficio Scotiabank",
+        "en": "Scotiabank benefit",
+        "pt": "Benefício Scotiabank"
+      },
       "details": {
         "es": "25% y 15% según tarjeta (Platinum, Infinite, Gold y débito Premium). Porcentajes, días y condiciones: A CONFIRMAR con el local.",
         "en": "25% and 15% depending on the card (Platinum, Infinite, Gold and Premium debit). Percentages, days and terms: TO CONFIRM with the venue."
@@ -23,7 +27,10 @@
       "id": "ejemplo-vencida",
       "order": 2,
       "title": { "es": "Promo vencida (prueba técnica)", "en": "Expired promo (technical test)" },
-      "details": { "es": "Esta promo no debe aparecer: su `validUntil` ya pasó.", "en": "This promo must not render: its `validUntil` has passed." },
+      "details": {
+        "es": "Esta promo no debe aparecer: su `validUntil` ya pasó.",
+        "en": "This promo must not render: its `validUntil` has passed."
+      },
       "validFrom": "2025-01-01",
       "validUntil": "2025-02-01",
       "active": true,

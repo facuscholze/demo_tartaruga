@@ -38,7 +38,9 @@ async function main() {
 
   const id = normalizeId(nameEs);
   if (category.items.some((item) => item["id"] === id)) {
-    info(`  ✖ Ya existe un plato con id "${id}" en ${category.name.es}. Cambiá el nombre o editá el JSON.`);
+    info(
+      `  ✖ Ya existe un plato con id "${id}" en ${category.name.es}. Cambiá el nombre o editá el JSON.`,
+    );
     done();
     process.exit(1);
   }
@@ -59,7 +61,9 @@ async function main() {
       info(`  ⚠ No copié la foto: ${copied.error}. El plato igual se agrega con fallback visual.`);
     } else {
       item["image"] = copied.filename;
-      info(`  ✔ Foto en public/images/menu/${copied.filename} (${(copied.bytes / 1024).toFixed(0)} KB)`);
+      info(
+        `  ✔ Foto en public/images/menu/${copied.filename} (${(copied.bytes / 1024).toFixed(0)} KB)`,
+      );
     }
   }
 

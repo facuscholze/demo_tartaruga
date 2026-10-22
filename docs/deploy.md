@@ -20,8 +20,8 @@ vercel deploy --prod
 ```
 
 Sin CLI: importá el repo en `vercel.com/new`, framework **Next.js**, build
-command `pnpm build`, y cargá las tres variables en *Settings → Environment
-Variables*.
+command `pnpm build`, y cargá las tres variables en _Settings → Environment
+Variables_.
 
 Qué ya viene listo en el repo:
 `vercel.json` con región `gru1` (São Paulo: menos latencia desde Uruguay),
@@ -46,9 +46,9 @@ docker run -d --name tartaruga -p 3000:3000 \
   --restart unless-stopped tartaruga
 ```
 
-Coolify: *New Resource → Docker Compose* (o *Dockerfile*), y en Build Settings
+Coolify: _New Resource → Docker Compose_ (o _Dockerfile_), y en Build Settings
 `Context: .`, `Dockerfile: Dockerfile`. Puente de puerto 3000, dominio en
-*Domains*, y Let's Encrypt con *Auto Let's Encrypt Check*.
+_Domains_, y Let's Encrypt con _Auto Let's Encrypt Check_.
 
 `docker-compose.yml` mínimo si preferís declarativo:
 
@@ -66,12 +66,12 @@ services:
 
 ### Variables
 
-| Variable | Dónde | Si no la ponés |
-| --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | build **y** runtime | canonical, OG, sitemap y robots salen con el dominio de ejemplo |
-| `NEXT_PUBLIC_WHATSAPP_PHONE` | runtime | usa `contact.whatsapp.phoneE164` de `content/site.json` |
-| `NEXT_PUBLIC_WHATSAPP_LINK` | runtime | usa `contact.whatsapp.shortLink`, o `wa.me/<teléfono>` |
-| `BOOKING_WEBHOOK_URL` | runtime | `/api/booking` responde OK y no reenvía (el formulario igual abre WhatsApp) |
+| Variable                     | Dónde               | Si no la ponés                                                              |
+| ---------------------------- | ------------------- | --------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`       | build **y** runtime | canonical, OG, sitemap y robots salen con el dominio de ejemplo             |
+| `NEXT_PUBLIC_WHATSAPP_PHONE` | runtime             | usa `contact.whatsapp.phoneE164` de `content/site.json`                     |
+| `NEXT_PUBLIC_WHATSAPP_LINK`  | runtime             | usa `contact.whatsapp.shortLink`, o `wa.me/<teléfono>`                      |
+| `BOOKING_WEBHOOK_URL`        | runtime             | `/api/booking` responde OK y no reenvía (el formulario igual abre WhatsApp) |
 
 `NEXT_PUBLIC_*` se **inlinan en la build**: si las cambiás, hay que reconstruir la
 imagen (en Vercel: redeploy).
@@ -104,7 +104,7 @@ ponés en los dos lados, se pegan dos veces).
 
 1. `A`/`CNAME` del dominio al proveedor, y `NEXT_PUBLIC_SITE_URL` exacto
    (sin `/` final, con `https://`).
-2. Search Console → *Add property* (Domain) → verificar con el TXT que da Google.
+2. Search Console → _Add property_ (Domain) → verificar con el TXT que da Google.
 3. Submit de `https://dominio.com/sitemap.xml`.
 4. Revisar en 1-2 semanas que las 3 versiones (`/`, `/en`, `/pt`) indexen con su
    `hreflang` (el tag ya lo emite el layout).

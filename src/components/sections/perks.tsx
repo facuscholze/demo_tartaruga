@@ -17,10 +17,18 @@ export async function PerksSection() {
   if (promos.length === 0) return null;
 
   return (
-    <section id="beneficios" aria-labelledby="perks-title" className="relative isolate py-18 md:py-20">
+    <section
+      id="beneficios"
+      aria-labelledby="perks-title"
+      className="relative isolate py-18 md:py-20"
+    >
       <div className="shell flex flex-col gap-8">
         <header className="flex flex-wrap items-end justify-between gap-4">
-          <h2 id="perks-title" data-reveal="words" className="text-[var(--text-h2)] text-[var(--fg)]">
+          <h2
+            id="perks-title"
+            data-reveal="words"
+            className="text-[var(--text-h2)] text-[var(--fg)]"
+          >
             {t("title")}
           </h2>
           <p className="label text-[var(--fg-faint)]">
@@ -35,7 +43,9 @@ export async function PerksSection() {
             <li key={promo.id} data-reveal="mask">
               <article className="card flex flex-col gap-3 p-5 md:p-6">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="text-[1.28rem] leading-snug text-[var(--fg)]">{pickText(promo.title, locale)}</h3>
+                  <h3 className="text-[1.28rem] leading-snug text-[var(--fg)]">
+                    {pickText(promo.title, locale)}
+                  </h3>
                   {promo.pending ? (
                     <span className="label rounded-full border border-dashed border-[var(--c-ember)]/60 px-2 py-1 text-[0.5rem] text-[var(--c-ember)]">
                       {t("pending")}
@@ -48,7 +58,9 @@ export async function PerksSection() {
                   </p>
                 ) : null}
                 <p className="label text-[0.55rem] text-[var(--fg-faint)]">
-                  {t("validUntil", { date: formatDate(promo.validUntil, locale, content.site.timezone) })}
+                  {t("validUntil", {
+                    date: formatDate(promo.validUntil, locale, content.site.timezone),
+                  })}
                 </p>
                 {promo.terms ? (
                   <p className="border-t border-[var(--line)] pt-3 text-[0.78rem] leading-relaxed text-[var(--fg-faint)]">

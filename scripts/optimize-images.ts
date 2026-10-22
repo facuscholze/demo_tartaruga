@@ -13,7 +13,14 @@
  * No duplica a `next/image`: el servidor ya sirve AVIF/WebP en los tamaños que
  * pide cada dispositivo. Acá solo se resuelve "¿cuánto mide y cómo se ve borroso?".
  */
-import { existsSync, readdirSync, readFileSync, renameSync, statSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  readdirSync,
+  readFileSync,
+  renameSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import { join } from "node:path";
 import sharp from "sharp";
 import { IMAGES_DIR, ROOT, relFromRoot } from "./lib/content";
@@ -101,11 +108,15 @@ async function main() {
 
   console.info(`\n  ${heavy.length} imagen(es) para optimizar:`);
   for (const item of heavy) {
-    console.info(`    • ${relFromRoot(item.path)} — ${(item.bytes / 1024 / 1024).toFixed(1)} MB, ${item.width}px`);
+    console.info(
+      `    • ${relFromRoot(item.path)} — ${(item.bytes / 1024 / 1024).toFixed(1)} MB, ${item.width}px`,
+    );
   }
 
   if (!inPlace) {
-    console.info("\n  Corré con `--in-place` para re-encodearlas (se guarda el original como .orig.jpg).\n");
+    console.info(
+      "\n  Corré con `--in-place` para re-encodearlas (se guarda el original como .orig.jpg).\n",
+    );
     return;
   }
 

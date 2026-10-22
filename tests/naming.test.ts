@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { hasValidName, nameProblems, normalizeFilename, normalizeId, suggestName } from "../src/lib/naming";
+import {
+  hasValidName,
+  nameProblems,
+  normalizeFilename,
+  normalizeId,
+  suggestName,
+} from "../src/lib/naming";
 
 describe("convenciones de nombres de archivo", () => {
   it("normaliza mayúsculas, espacios y tildes", () => {

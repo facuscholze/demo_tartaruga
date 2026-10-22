@@ -15,7 +15,11 @@ export function HeroTitle({ title, claim }: { title: string; claim: string }) {
     const node = ref.current;
     if (!node) return;
     const root = document.documentElement;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || root.dataset.quality === "low") return;
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      root.dataset.quality === "low"
+    )
+      return;
 
     let cancelled = false;
     let split: { revert?: () => void } | null = null;
@@ -42,11 +46,7 @@ export function HeroTitle({ title, claim }: { title: string; claim: string }) {
         ease: "sea",
         stagger: 0.085,
       });
-      timeline.to(
-        "[data-hero-claim]",
-        { opacity: 1, y: 0, duration: 0.9, ease: "sea" },
-        "-=0.65",
-      );
+      timeline.to("[data-hero-claim]", { opacity: 1, y: 0, duration: 0.9, ease: "sea" }, "-=0.65");
       timeline.to(
         "[data-hero-turtle]",
         { opacity: 1, scale: 1, rotate: 0, duration: 1.5, ease: "sea" },
@@ -80,7 +80,10 @@ export function HeroTitle({ title, claim }: { title: string; claim: string }) {
         </span>
       </span>
       <span className="sr-only">{`${title} — ${claim}`}</span>
-      <span data-hero-claim className="mt-6 block max-w-[26ch] font-body text-[clamp(1rem,1.4vw,1.28rem)] leading-snug tracking-normal text-[var(--fg-muted)] opacity-0">
+      <span
+        data-hero-claim
+        className="mt-6 block max-w-[26ch] font-body text-[clamp(1rem,1.4vw,1.28rem)] leading-snug tracking-normal text-[var(--fg-muted)] opacity-0"
+      >
         {claim}
       </span>
     </h1>

@@ -31,16 +31,29 @@ export async function BookingSection() {
         <div className="flex flex-col gap-6">
           <div>
             <p className="label text-[var(--c-spark)]">{t("title")}</p>
-            <h2 id="booking-title" data-reveal="words" className="mt-3 max-w-[12ch] text-[var(--text-display)] text-[var(--fg)]">
+            <h2
+              id="booking-title"
+              data-reveal="words"
+              className="mt-3 max-w-[12ch] text-[var(--text-display)] text-[var(--fg)]"
+            >
               {t("title")}
             </h2>
           </div>
 
           <div className="flex flex-col gap-2">
-            <a href={reserveHref} target="_blank" rel="noopener noreferrer" className="btn self-start" data-cursor="reservar">
+            <a
+              href={reserveHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn self-start"
+              data-cursor="reservar"
+            >
               {t("whatsappLabel")}
             </a>
-            <a href={telHref(snapshot)} className="label self-start text-[var(--fg-muted)] underline underline-offset-4 hover:text-[var(--fg)]">
+            <a
+              href={telHref(snapshot)}
+              className="label self-start text-[var(--fg-muted)] underline underline-offset-4 hover:text-[var(--fg)]"
+            >
               {t("phoneLabel")} · {snapshot.phoneDisplay}
             </a>
           </div>
@@ -66,7 +79,10 @@ export async function BookingSection() {
           <BookingForm
             venue={snapshot.name}
             whatsapp={{ shortLink: snapshot.whatsappShortLink, phoneE164: snapshot.whatsappE164 }}
-            experienceOptions={content.experiences.map((item) => ({ id: item.id, name: pickText(item.name, locale) }))}
+            experienceOptions={content.experiences.map((item) => ({
+              id: item.id,
+              name: pickText(item.name, locale),
+            }))}
           />
           <span className="sr-only">{reserveHref}</span>
         </div>

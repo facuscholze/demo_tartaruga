@@ -8,7 +8,14 @@
  *   pnpm content:sync-images                       → escanea public/images/{menu,gallery,experiences,promos}
  *   pnpm content:sync-images ~/Fotos/tartaruga     → copia las fotos a public/images/menu/ y las indexa
  */
-import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from "node:fs";
 import { basename, join } from "node:path";
 import { CONTENT_DIR, IMAGES_DIR } from "./lib/content";
 import { normalizeFilename, normalizeId, stripExt } from "../src/lib/naming";
@@ -28,18 +35,26 @@ function readContent(file: string): Record<string, unknown> {
   return JSON.parse(readFileSync(join(CONTENT_DIR, file), "utf8")) as Record<string, unknown>;
 }
 
-function collectReferenced(data: Record<string, unknown>, key: string, nestedKey?: string): Set<string> {
+function collectReferenced(
+  data: Record<string, unknown>,
+  key: string,
+  nestedKey?: string,
+): Set<string> {
   const set = new Set<string>();
   if (nestedKey) {
-    const groups = Array.isArray(data[nestedKey]) ? (data[nestedKey] as Record<string, unknown>[]) : [];
+    const groups = Array.isArray(data[nestedKey])
+      ? (data[nestedKey] as Record<string, unknown>[])
+      : [];
     for (const group of groups) {
       const items = Array.isArray(group[key]) ? (group[key] as Record<string, unknown>[]) : [];
-      for (const item of items) if (typeof item["image"] === "string") set.add(item["image"] as string);
+      for (const item of items)
+        if (typeof item["image"] === "string") set.add(item["image"] as string);
       if (typeof group["image"] === "string") set.add(group["image"] as string);
     }
   } else {
     const items = Array.isArray(data[key]) ? (data[key] as Record<string, unknown>[]) : [];
-    for (const item of items) if (typeof item["image"] === "string") set.add(item["image"] as string);
+    for (const item of items)
+      if (typeof item["image"] === "string") set.add(item["image"] as string);
   }
   return set;
 }
@@ -64,8 +79,13 @@ function main() {
     mkdirSync(dir, { recursive: true });
     const { file, data } = targets.menu();
     const referenced = collectReferenced(data, "items", "categories");
-    const firstCategory = (Array.isArray(data["categories"]) ? (data["categories"] as Record<string, unknown>[]) : [])[0];
-    const items = firstCategory && Array.isArray(firstCategory["items"]) ? (firstCategory["items"] as unknown[]) : [];
+    const firstCategory = (
+      Array.isArray(data["categories"]) ? (data["categories"] as Record<string, unknown>[]) : []
+    )[0];
+    const items =
+      firstCategory && Array.isArray(firstCategory["items"])
+        ? (firstCategory["items"] as unknown[])
+        : [];
 
     for (const raw of readdirSync(source)) {
       if (!EXTENSIONS.test(raw)) continue;
@@ -92,14 +112,20 @@ function main() {
       const dir = join(IMAGES_DIR, mod);
       if (!existsSync(dir)) continue;
       const { file, data } = targets[mod]();
-      const referenced = collectReferenced(data, "items", mod === "menu" ? "categories" : undefined);
+      const referenced = collectReferenced(
+        data,
+        "items",
+        mod === "menu" ? "categories" : undefined,
+      );
       const files = readdirSync(dir).filter((f) => EXTENSIONS.test(f));
       const missing = files.filter((f) => !referenced.has(f));
       if (missing.length === 0) {
         console.info(`\n  ✔ ${mod}: las ${files.length} imágenes del módulo están indexadas.`);
         continue;
       }
-      console.info(`\n  ${mod}: ${missing.length} imagen(es) sin entrada → creando base en ${file}`);
+      console.info(
+        `\n  ${mod}: ${missing.length} imagen(es) sin entrada → creando base en ${file}`,
+      );
       for (const filename of missing) {
         const id = normalizeId(stripExt(filename));
         const entry = {
@@ -130,7 +156,12 @@ function main() {
         } else {
           const items = (data["items"] ??= []) as unknown[];
           if (mod === "gallery") {
-            items.push({ image: filename, alt: { es: `Foto ${titleFrom(filename)}: describila acá`, en: "" }, section: "lugar", weight: 1 });
+            items.push({
+              image: filename,
+              alt: { es: `Foto ${titleFrom(filename)}: describila acá`, en: "" },
+              section: "lugar",
+              weight: 1,
+            });
           } else {
             items.push(entry);
           }

@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { skyCssVars, skyFor, skyLabel, sunPosition, TOD_ELEVATION } from "../src/features/sky/palettes";
+import {
+  skyCssVars,
+  skyFor,
+  skyLabel,
+  sunPosition,
+  TOD_ELEVATION,
+} from "../src/features/sky/palettes";
 import { formatClock, getSunInfo, todFromElevation } from "../src/features/sky/sun";
 
 describe("motor del cielo", () => {

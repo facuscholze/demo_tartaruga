@@ -169,5 +169,10 @@
   "sunset": {
     "title": "Sunset hour",
     "text": "The same table, a different sky. Book facing west."
+  },
+  "faq": {
+    "title": "Common questions",
+    "note": "What people ask us on WhatsApp. Anything the venue hasn't confirmed is flagged.",
+    "pending": "to confirm"
   }
 }

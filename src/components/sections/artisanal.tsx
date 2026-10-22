@@ -27,13 +27,20 @@ export async function ArtisanalSection() {
             <ShellIcon src="/images/icons/estrella-1.svg" className="h-4 w-4" />
             {t("title")}
           </p>
-          <h2 id="art-title" data-reveal="words" className="mt-3 text-[var(--text-display)] text-[var(--paper-ink)]">
+          <h2
+            id="art-title"
+            data-reveal="words"
+            className="mt-3 text-[var(--text-display)] text-[var(--paper-ink)]"
+          >
             {t("title")}
           </h2>
         </div>
 
         <div className="flex flex-col gap-6">
-          <p data-reveal="fade" className="max-w-[58ch] text-[1.02rem] leading-relaxed text-[var(--paper-muted)]">
+          <p
+            data-reveal="fade"
+            className="max-w-[58ch] text-[1.02rem] leading-relaxed text-[var(--paper-muted)]"
+          >
             {note || t("note")}
           </p>
           <ul className="grid gap-3 sm:grid-cols-3">
@@ -44,11 +51,17 @@ export async function ArtisanalSection() {
                   en: ["Sourdough daily", "Baked in-house, wood-fired when the wind allows."],
                 },
                 {
-                  es: ["Conservas propias", "Escabeches y encurtidos de la temporada, en frasco rotulado a mano."],
+                  es: [
+                    "Conservas propias",
+                    "Escabeches y encurtidos de la temporada, en frasco rotulado a mano.",
+                  ],
                   en: ["House preserves", "Seasonal escabeche and pickles, hand-labeled jars."],
                 },
                 {
-                  es: ["Fuego lento", "La brasa no tiene apuro: el menú acompaña lo que da el día."],
+                  es: [
+                    "Fuego lento",
+                    "La brasa no tiene apuro: el menú acompaña lo que da el día.",
+                  ],
                   en: ["Slow fire", "Embers don't rush: the menu follows the day."],
                 },
               ] as { es: [string, string]; en: [string, string] }[]
@@ -56,9 +69,14 @@ export async function ArtisanalSection() {
               const lang = locale.startsWith("en") ? "en" : "es";
               const [title, body] = card[lang];
               return (
-                <li key={index} className="stamp-edge bg-[color-mix(in_oklab,var(--c-bone)_58%,transparent)] p-4">
+                <li
+                  key={index}
+                  className="stamp-edge bg-[color-mix(in_oklab,var(--c-bone)_58%,transparent)] p-4"
+                >
                   <p className="font-display text-[1.06rem] text-[var(--paper-ink)]">{title}</p>
-                  <p className="mt-1.5 text-[0.86rem] leading-relaxed text-[var(--paper-muted)]">{body}</p>
+                  <p className="mt-1.5 text-[0.86rem] leading-relaxed text-[var(--paper-muted)]">
+                    {body}
+                  </p>
                 </li>
               );
             })}

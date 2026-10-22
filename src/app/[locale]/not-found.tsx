@@ -25,10 +25,17 @@ export default async function NotFound() {
       <div className="relative flex flex-col items-center gap-8">
         <p className="label text-[var(--c-spark)]">404</p>
         <div className="relative w-[min(64vw,20rem)] rotate-180 opacity-90 [filter:drop-shadow(0_18px_28px_rgba(0,0,0,0.45))]">
-          <TurtleMark className="w-full text-[var(--c-bone)]" stroke={4} animated={false} title="" />
+          <TurtleMark
+            className="w-full text-[var(--c-bone)]"
+            stroke={4}
+            animated={false}
+            title=""
+          />
         </div>
         <h1 className="max-w-[18ch] text-[var(--text-display)] text-[var(--fg)]">{t("title")}</h1>
-        <p className="max-w-[46ch] text-[1rem] leading-relaxed text-[var(--fg-muted)]">{t("text")}</p>
+        <p className="max-w-[46ch] text-[1rem] leading-relaxed text-[var(--fg-muted)]">
+          {t("text")}
+        </p>
         <Link href="/" className="btn mt-2" data-cursor="reservar">
           {t("back")}
         </Link>
@@ -36,7 +43,14 @@ export default async function NotFound() {
 
       {shot?.image.src ? (
         <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-30 h-[60%] opacity-25">
-          <Media src={shot.image.src} alt="" width={shot.image.width} height={shot.image.height} fill sizes="100vw" />
+          <Media
+            src={shot.image.src}
+            alt=""
+            width={shot.image.width}
+            height={shot.image.height}
+            fill
+            sizes="100vw"
+          />
         </div>
       ) : null}
     </main>

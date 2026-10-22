@@ -39,10 +39,14 @@ export function buildBookingMessage(input: BookingInput, labels: BookingLabels):
   lines.push(`${labels.date}: ${formatDateLocal(input.date)}`);
   lines.push(`${labels.time}: ${input.time}`);
   lines.push(`${labels.people}: ${input.people}`);
-  if (input.occasion && input.occasion !== "none") lines.push(`${labels.occasion}: ${input.occasion}`);
+  if (input.occasion && input.occasion !== "none")
+    lines.push(`${labels.occasion}: ${input.occasion}`);
   if (input.pet) lines.push(`${labels.pet}: ${labels.petYes}`);
   if (input.experience) lines.push(`* ${input.experience}`);
   const note = input.message?.trim();
   if (note) lines.push("", `${labels.message}:`, note);
-  return lines.join("\n").replace(/[ \t]+\n/g, "\n").trim();
+  return lines
+    .join("\n")
+    .replace(/[ \t]+\n/g, "\n")
+    .trim();
 }
