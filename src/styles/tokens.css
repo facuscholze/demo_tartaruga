@@ -1,0 +1,121 @@
+/* ==========================================================================
+   Design tokens de Tartaruga Sea-Bar — "El último rayo de sol".
+   Única fuente de verdad: los colores del shader del cielo se inyectan desde
+   `src/features/sky/palettes.ts` (mismos hex, mismo orden) y `--sky-*` los
+   comparte con el CSS. Cambiá acá, cambia en todo el sitio.
+   ========================================================================== */
+
+@layer tokens {
+  :root {
+    /* --- Paleta institucional / sensorial ------------------------------- */
+    --c-navy: #16213f; /* azul del logo: marca, no fondo */
+    --c-night: #0e1526; /* fondo base: oscuro CÁLIDO, nunca negro puro */
+    --c-abyss: #080d18; /* sombra del deck, gradiente inferior */
+    --c-haze: #1e2a4a; /* bruma de noche */
+
+    --c-sand: #efe3d0; /* papel de la carta */
+    --c-bone: #f6f0e6; /* texto claro sobre cielo */
+    --c-sand-wet: #d9c6a8; /* borde de papel */
+
+    --c-sunset: #e4703a; /* acento principal (CTA) */
+    --c-rust: #a9422a; /* óxido / cobre: brasas y sellos */
+    --c-ember: #f5a94b; /* ámbar del fuego */
+    --c-spark: #ffce7a; /* chispa */
+    --c-cactus: #7f9a70; /* acento mínimo: <2% del área */
+
+    /* --- Cielo (lo pisa el motor de hora del día, ver sky/store.ts) ----- */
+    --sky-top: #1b2a55;
+    --sky-mid: #b4432e;
+    --sky-low: #e4703a;
+    --sky-horizon: #f5a94b;
+    --sky-sun: #ffe7b8;
+    --sky-sea: #7a3350;
+    --sky-luma: 0.28; /* 0 = noche … 1 = mediodía: gobierna el color de texto */
+    --sun-x: 0.5; /* 0..1 posición horizontal del sol */
+    --sun-y: 0.62; /* 0..1 (1 = tocando el horizonte) */
+    --star-opacity: 0;
+    --sky-warm: 0.7; /* cantidad de calor del degradé, 0..1 */
+
+    /* --- Derivados semánticos ------------------------------------------- */
+    --bg: var(--c-night);
+    --fg: var(--c-bone);
+    --fg-muted: color-mix(in oklab, var(--c-bone) 66%, transparent);
+    --fg-faint: color-mix(in oklab, var(--c-bone) 40%, transparent);
+    --line: color-mix(in oklab, var(--c-bone) 14%, transparent);
+    --accent: var(--c-sunset);
+    --accent-ink: #2b1005;
+    --halo: color-mix(in oklab, var(--sky-sun) 55%, transparent);
+    --surface: color-mix(in oklab, var(--c-navy) 72%, var(--c-night));
+    --surface-raised: color-mix(in oklab, var(--c-navy) 86%, var(--c-bone));
+
+    /* Modo "papel" para la carta: oscuro sobre arena, no tema paralelo */
+    --paper-bg: var(--c-sand);
+    --paper-ink: #1d2433;
+    --paper-muted: #5b6473;
+    --paper-line: color-mix(in oklab, var(--c-rust) 22%, transparent);
+
+    /* --- Tipografía ------------------------------------------------------ */
+    --font-display: var(--font-fraunces), "Fraunces", Georgia, "Times New Roman", serif;
+    --font-type: var(--font-courier), "Courier Prime", "Courier New", monospace;
+    --font-body: var(--font-instrument), "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+
+    --text-hero: clamp(3.1rem, 13.5vw, 12.5rem);
+    --text-display: clamp(2.1rem, 6.4vw, 5.4rem);
+    --text-h2: clamp(1.6rem, 3.6vw, 2.9rem);
+    --text-h3: clamp(1.25rem, 2.2vw, 1.7rem);
+    --text-body: clamp(1rem, 0.55vw + 0.86rem, 1.14rem);
+    --text-label: clamp(0.7rem, 0.2vw + 0.64rem, 0.79rem);
+
+    --tracking-display: -0.03em;
+    --tracking-label: 0.2em;
+
+    /* --- Layout ---------------------------------------------------------- */
+    --gutter: clamp(1.15rem, 4.4vw, 4.5rem);
+    --max: 84rem;
+    --max-text: 46rem;
+    --radius: 0.55rem;
+    --radius-lg: clamp(0.9rem, 2vw, 1.6rem);
+    --header-h: 4.15rem;
+
+    /* --- Motion tokens: lentos y orgánicos, como el mar ----------------- */
+    --ease-sea: cubic-bezier(0.16, 0.84, 0.24, 1);
+    --ease-swell: cubic-bezier(0.62, 0, 0.12, 1);
+    --ease-ember: cubic-bezier(0.3, 0.7, 0.2, 1.02);
+    --d-1: 180ms;
+    --d-2: 380ms;
+    --d-3: 720ms;
+    --d-4: 1100ms;
+    --d-5: 1800ms;
+    --reveal-clip: inset(0 0 0 0 round 0.4rem);
+    --stagger-word: 0.05s;
+
+    /* --- Estados / efectos ---------------------------------------------- */
+    --grain-opacity: 0.055;
+    --audio-level: 0; /* 0..1 del analizador de audio ambiente */
+    --fire-intensity: 0.35; /* crece al scrollear hacia la noche */
+    --focus: 0 0 0 2px var(--c-night), 0 0 0 4px var(--c-ember);
+
+    /* Grano de película y papel: SVG en línea, 0 requests, 0 KB de red. */
+    --grain-url: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+    --paper-url: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.62' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23p)' opacity='.13'/%3E%3C/svg%3E");
+  }
+
+  /* Cielos claros: texto oscuro con halo suave para no perder legibilidad.
+     Es la regla de accesibilidad del brief: legibilidad > efecto. */
+  [data-sky-bright="true"] {
+    --fg: #16213f;
+    --fg-muted: color-mix(in oklab, #16213f 72%, transparent);
+    --fg-faint: color-mix(in oklab, #16213f 46%, transparent);
+    --line: color-mix(in oklab, #16213f 18%, transparent);
+    --halo: color-mix(in oklab, #fff8ec 72%, transparent);
+    --accent-ink: #fff8ec;
+  }
+
+  [data-surface="sand"] {
+    color-scheme: light;
+    --fg: var(--paper-ink);
+    --fg-muted: var(--paper-muted);
+    --line: var(--paper-line);
+    --bg: var(--paper-bg);
+  }
+}

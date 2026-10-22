@@ -1,0 +1,54 @@
+/* Texturas: grano de película, papel y brasas. Todas en CSS/SVG, sin assets pesados. */
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  pointer-events: none;
+  background-image: var(--grain-url);
+  background-size: 180px 180px;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: soft-light;
+  animation: grain-drift 6s steps(6, end) infinite;
+  z-index: 3;
+}
+
+@keyframes grain-drift {
+  0% { transform: translate3d(0, 0, 0); }
+  20% { transform: translate3d(-6px, 4px, 0); }
+  40% { transform: translate3d(4px, -8px, 0); }
+  60% { transform: translate3d(-8px, -3px, 0); }
+  80% { transform: translate3d(5px, 6px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+.paper {
+  background-color: var(--c-sand);
+  background-image:
+    radial-gradient(120% 80% at 50% 0%, color-mix(in oklab, var(--c-spark) 16%, transparent), transparent 60%),
+    var(--paper-url);
+}
+
+/* Calor sobre el fuego / agua: desplazamiento por SVG filter (feTurbulence).
+   En tier low se desactiva: solo queda el degradé. */
+.heat-haze {
+  filter: url(#tart-turbulence);
+}
+.water-warp {
+  filter: url(#tart-water);
+}
+
+.vignette-warm {
+  background:
+    radial-gradient(120% 90% at 50% 118%, color-mix(in oklab, var(--c-ember) 26%, transparent), transparent 62%),
+    linear-gradient(to top, color-mix(in oklab, var(--c-abyss) 88%, transparent), transparent 46%);
+}
+
+/* Borde de sello grabado (para cards de promo / experiencias) */
+.stamp-edge {
+  --stamp: 6px;
+  mask:
+    radial-gradient(circle at var(--stamp) var(--stamp), transparent calc(var(--stamp) - 1.6px), #000 0)
+      calc(var(--stamp) * -1) calc(var(--stamp) * -1) / calc(var(--stamp) * 2) calc(var(--stamp) * 2) repeat-x,
+    linear-gradient(#000 0 0) padding-box;
+}

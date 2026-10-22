@@ -1,0 +1,16 @@
+{
+  "demo": true,
+  "items": [
+    { "image": "lugar-01.jpg", "alt": { "es": "Deck de madera con mesas y luces cálidas colgantes frente al mar", "en": "Wooden deck with tables and warm hanging lights facing the sea" }, "section": "lugar", "weight": 3 },
+    { "image": "lugar-02.jpg", "alt": { "es": "Toldo y faroles sobre la terraza al atardecer", "en": "Awning and lanterns over the terrace at sunset" }, "section": "lugar", "weight": 1 },
+    { "image": "faro-01.jpg", "alt": { "es": "Faro de Punta Colorada visto desde la costa", "en": "Punta Colorada lighthouse seen from the shore" }, "section": "lugar", "weight": 2 },
+    { "image": "cactus-01.jpg", "alt": { "es": "Cactus y plantas del jardín del sea-bar con luz de tarde", "en": "Sea-bar garden cacti and plants in late light" }, "section": "lugar", "weight": 1 },
+    { "image": "sunset-01.jpg", "alt": { "es": "Cielo naranja sobre el mar al ponerse el sol", "en": "Orange sky over the sea as the sun goes down" }, "section": "sunset", "weight": 3 },
+    { "image": "sunset-02.jpg", "alt": { "es": "Reflejos dorados en el agua desde la terraza", "en": "Golden reflections on the water from the terrace" }, "section": "sunset", "weight": 2 },
+    { "image": "sunset-03.jpg", "alt": { "es": "Trago en primer plano con el atardecer de fondo", "en": "Cocktail in the foreground with the sunset behind" }, "section": "sunset", "weight": 1 },
+    { "image": "fuego-01.jpg", "alt": { "es": "Brasero encendido junto a las mesas", "en": "Fire pit lit beside the tables" }, "section": "fuego", "weight": 3 },
+    { "image": "fuego-02.jpg", "alt": { "es": "Olla de hierro colgada del trípode sobre la brasa", "en": "Cast iron pot hanging over the coals" }, "section": "fuego", "weight": 1 },
+    { "image": "noche-01.jpg", "alt": { "es": "La terraza de noche con luces y mar oscuro", "en": "The terrace at night with lights and dark sea" }, "section": "noche", "weight": 2 },
+    { "image": "deck-01.jpg", "alt": { "es": "Detalle de la madera del deck con la luz rasante", "en": "Deck timber detail in raking light" }, "section": "deck", "weight": 1 }
+  ]
+}

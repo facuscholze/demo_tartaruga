@@ -1,0 +1,127 @@
+import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
+import { notFound } from "next/navigation";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { routing } from "@/i18n/routing";
+import { getSiteContent } from "@/features/content/load";
+import { buildSnapshot, quickReserveMessage, telHref, whatsappHref } from "@/features/site/links";
+import { SiteProvider } from "@/features/site/context";
+import { fontVariables } from "@/lib/fonts";
+import { QualityProvider } from "@/features/quality/provider";
+import { SkyRoot } from "@/features/sky/sky-root";
+import { LenisProvider } from "@/hooks/use-lenis";
+import { Header } from "@/components/shell/header";
+import { Footer } from "@/components/shell/footer";
+import { Intro } from "@/components/sections/intro";
+import { ScrollFx } from "@/components/fx/scroll-fx";
+import { CustomCursor } from "@/components/fx/cursor";
+import { SvgDefs } from "@/components/fx/svg-defs";
+import { MobileReserveBar } from "@/components/shell/mobile-reserve-bar";
+import { SoundGlobalToggle } from "@/components/shell/sound-global-toggle";
+import "../globals.css";
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+export const dynamicParams = true;
+
+type Params = { locale: string };
+
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+  const { locale } = await params;
+  const content = await getSiteContent();
+  const site = content.site;
+  const t = await getTranslations({ locale, namespace: "meta" });
+  const title = site.seo.defaultTitle as Record<string, string | undefined>;
+  const description = (title.es && (site.seo.description as Record<string, string | undefined>)) || undefined;
+
+  const languages: Record<string, string> = {
+    "es-UY": `/${locale === "es" ? "" : "es"}`.replace(/\/$/, "") || "/",
+    en: "/en",
+    "pt-BR": "/pt",
+    "x-default": "/",
+  };
+
+  return {
+    title: {
+      default: title[locale] ?? title.es ?? site.name,
+      template: site.seo.titleTemplate,
+    },
+    description: description?.[locale] ?? (site.seo.description as Record<string, string>).es ?? t("description"),
+    alternates: {
+      canonical: "/",
+      languages,
+    },
+    openGraph: {
+      type: "website",
+      locale: locale === "es" ? "es_UY" : locale === "en" ? "en_US" : "pt_BR",
+      url: "/",
+      siteName: site.name,
+      title: title[locale] ?? title.es ?? site.name,
+      description: (site.seo.description as Record<string, string>)[locale] ?? (site.seo.description as Record<string, string>).es,
+      images: [{ url: "/og?locale=es", width: 1200, height: 630, alt: site.name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: title[locale] ?? title.es ?? site.name,
+      description: (site.seo.description as Record<string, string>).es,
+      images: ["/og?locale=es"],
+    },
+    icons: { icon: "/icon", apple: "/apple-icon" },
+    other: { "hl:locale": "es-UY" },
+  };
+}
+
+export const viewport: Viewport = {
+  themeColor: "#0E1526",
+  colorScheme: "dark light",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
+export default async function LocaleLayout({ children, params }: { children: ReactNode; params: Promise<Params> }) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
+
+  const content = await getSiteContent();
+  const snapshot = buildSnapshot(content.site);
+  const reserveHref = whatsappHref(snapshot, quickReserveMessage(snapshot.name, locale));
+
+  return (
+    <html lang={locale} data-locale={locale} suppressHydrationWarning>
+      <body
+        className={`${fontVariables} bg-[var(--bg)] text-[var(--fg)] antialiased`}
+        style={{ viewTransitionName: "root" }}
+      >
+        <a href="#contenido" className="skip-link">
+          Saltar al contenido
+        </a>
+        <NextIntlClientProvider>
+          <SiteProvider snapshot={snapshot}>
+            <QualityProvider>
+              <SkyRoot coords={snapshot.coords} timeZone={snapshot.timezone}>
+                <LenisProvider>
+                  <Intro />
+                  <SvgDefs />
+                  <CustomCursor />
+                  <ScrollFx />
+                  <Header reserveHref={reserveHref} />
+                  <main id="contenido" className="relative">
+                    {children}
+                  </main>
+                  <Footer snapshot={snapshot} links={{ whatsapp: reserveHref, tel: telHref(snapshot) }} />
+                  <MobileReserveBar reserveHref={reserveHref} />
+                  <SoundGlobalToggle />
+                </LenisProvider>
+              </SkyRoot>
+            </QualityProvider>
+          </SiteProvider>
+        </NextIntlClientProvider>
+      </body>
+    </html>
+  );
+}

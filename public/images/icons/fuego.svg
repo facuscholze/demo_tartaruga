@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Llama">
+ <g stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+  <path d="M32 6c8 10 16 16 16 28 0 10-7 18-16 18s-16-8-16-18c0-8 6-12 9-19 3 6 4 9 7 9s2-8 0-18Z"/>
+  <path d="M32 34c3 4 6 6 6 11s-3 8-6 8-6-3-6-8 3-7 6-11Z" stroke-width="1.2" opacity=".65"/>
+ </g></svg>

@@ -1,0 +1,54 @@
+{
+  "items": [
+    {
+      "id": "reservas",
+      "order": 1,
+      "question": { "es": "¿Cómo reservo?", "en": "How do I book?" },
+      "answer": {
+        "es": "Por WhatsApp o al teléfono 4432 18 31. Con el formulario de este sitio se abre el chat con el mensaje ya escrito: solo revisás y enviás.",
+        "en": "By WhatsApp or by calling 4432 18 31. The form on this site opens the chat with the message already written: you just review and send."
+      },
+      "confirmed": true
+    },
+    {
+      "id": "mascotas",
+      "order": 2,
+      "question": { "es": "¿Puedo ir con mi perro?", "en": "Can I bring my dog?" },
+      "answer": {
+        "es": "El local se comunica como pet friendly. Áreas permitidas, horarios y reglas concretas: a confirmar con el cliente antes de publicar.",
+        "en": "The venue presents itself as pet friendly. Allowed areas, hours and the exact rules: to confirm with the client before publishing."
+      },
+      "confirmed": false
+    },
+    {
+      "id": "donde",
+      "order": 3,
+      "question": { "es": "¿Dónde están exactamente?", "en": "Where exactly are you?" },
+      "answer": {
+        "es": "En el Faro de Punta Colorada, departamento de Maldonado, sobre la costa entre Piriápolis y José Ignacio. El botón \"Cómo llegar\" abre el mapa.",
+        "en": "At the Punta Colorada lighthouse, Maldonado department, on the coast between Piriápolis and José Ignacio. The \"Directions\" button opens the map."
+      },
+      "confirmed": true
+    },
+    {
+      "id": "clima",
+      "order": 4,
+      "question": { "es": "¿Qué pasa si el día está feo?", "en": "What happens in bad weather?" },
+      "answer": {
+        "es": "El mar y el faro se ven igual desde la terraza cubierta. Política de reprogramación por clima: a confirmar con el local.",
+        "en": "The sea and the lighthouse are still visible from the covered terrace. Weather rebooking policy: to confirm with the venue."
+      },
+      "confirmed": false
+    },
+    {
+      "id": "pago",
+      "order": 5,
+      "question": { "es": "¿Qué medios de pago aceptan?", "en": "What payment methods do you take?" },
+      "answer": {
+        "es": "Los beneficios bancarios vigentes figuran en el bloque \"Beneficios\". Lista completa de medios de pago: a confirmar con el local.",
+        "en": "Current bank benefits are listed in the \"Benefits\" block. Full list of payment methods: to confirm with the venue."
+      },
+      "confirmed": false
+    }
+  ]
+}
