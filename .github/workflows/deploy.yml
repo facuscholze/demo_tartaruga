@@ -105,24 +105,44 @@ jobs:
       # un asset prefijado responde 404, el deploy se corta acá.
       - name: Smoke test del export
         run: |
-          set -euo pipefail
+          set -uo pipefail
           base="${{ steps.pages.outputs.base_path }}"
-          test -s out/index.html || { echo "falta out/index.html"; exit 1; }
-          test -s out/404.html || { echo "falta out/404.html"; exit 1; }
-          test -s out/.nojekyll || { echo "falta out/.nojekyll"; exit 1; }
-          test -s out/es/index.html || { echo "falta out/es/index.html"; exit 1; }
-          test -s out/sitemap.xml || { echo "falta out/sitemap.xml"; exit 1; }
-          npx --yes serve@latest out --listen 8099 &>/tmp/serve.log &
-          sleep 3
-          curl -fsS "http://localhost:8099${base}/" | grep -qi 'tartaruga'
-          curl -fsS "http://localhost:8099${base}/es/" | grep -qi 'carta'
-          curl -fsSI "http://localhost:8099${base}/404.html" >/dev/null
-          # Un asset del <picture> (srcset con basePath aplicado en código):
+          port=8099
+          # stop(): el wrapper `pnpm serve` no siempre reenvía la señal al hijo de
+          # node, así que se busca también por patrón. El `[v]e` evita que pkill le
+          # pegue a este mismo shell (su argv contiene el script con el patrón literal).
+          stop() { pkill -f "scripts/ser[v]e.ts" 2>/dev/null; kill "$pid" 2>/dev/null || true; }
+          fail() { echo "✖ $1"; stop; exit 1; }
+          for f in index.html 404.html .nojekyll es/index.html en/index.html pt/index.html sitemap.xml robots.txt; do
+            [ -s "out/$f" ] || fail "falta out/$f en el export"
+          done
+          NEXT_PUBLIC_BASE_PATH=$base PORT=$port pnpm serve &>/tmp/serve.log &
+          pid=$!
+          for i in $(seq 1 20); do
+            curl -fsS -o /dev/null "http://127.0.0.1:$port$base/es/" && break
+            sleep 1
+            [ "$i" = 20 ] && { cat /tmp/serve.log; fail "el server del export no respondió"; }
+          done
+          check() {
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:$port$base$1")
+            [ "$code" = "${2:-200}" ] || fail "$base$1 devolvió $code (esperaba ${2:-200})"
+          }
+          check /
+          check /es/
+          check /en/
+          check /pt/
+          check /404.html
+          check /sitemap.xml
+          check /manifest.webmanifest
+          check /no-existe/ 404
+          # Un asset del <picture> (el srcset con basePath aplicado en código):
           url=$(grep -o '/[^" ]*_generated/[^" ]*\.webp' out/es/index.html | head -1 || true)
           if [ -n "$url" ]; then
-            curl -fsSI "http://localhost:8099${url}" | grep -qi 'content-type: image/webp'
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:$port$url")
+            [ "$code" = 200 ] || fail "$url devolvió $code"
           fi
-          echo "✔ smoke test ok"
+          stop
+          echo "✔ smoke test ok sobre ${base:-la raíz del dominio}"
 
       - uses: actions/configure-pages@v5
         with:

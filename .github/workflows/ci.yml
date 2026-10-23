@@ -64,31 +64,55 @@ jobs:
 
       - name: Smoke test del export (servido bajo /demo_tartaruga/)
         run: |
-          set -euo pipefail
-          mkdir -p /tmp/root && ln -sfn "$PWD/out" /tmp/root/demo_tartaruga
-          (cd /tmp/root && python3 -m http.server 8099 --bind 127.0.0.1 &>/tmp/serve.log &)
-          sleep 2
-          B=http://127.0.0.1:8099/demo_tartaruga
-          curl -fsS "$B/" | grep -qi 'tartaruga'
-          curl -fsS "$B/es/" | grep -qi 'carta'
-          curl -fsS "$B/en/" >/dev/null
-          curl -fsSI "$B/404.html" >/dev/null
-          curl -fsSI "$B/sitemap.xml" | grep -qi 'xml'
-          # assets reales del export: CSS, una fuente self-hosted y una variante
-          css=$(grep -o '/demo_tartaruga/_next/static/css/[^"]*\.css' out/es/index.html | head -1)
-          font=$(grep -o '/demo_tartaruga/_next/static/media/[^"]*\.woff2' out/es/index.html | head -1)
-          img=$(grep -o '/demo_tartaruga/images/[^" ]*\.webp' out/es/index.html | head -1)
-          for path in "$css" "$font" "$img"; do
-            [ -n "$path" ] || { echo "no se encontró el asset esperado en out/es/index.html"; exit 1; }
-            curl -fsSI "http://127.0.0.1:8099${path}" >/dev/null || { echo "404: ${path}"; exit 1; }
+          set -uo pipefail
+          base=/demo_tartaruga
+          port=8099
+          # stop(): el wrapper `pnpm serve` no siempre reenvía la señal al hijo de
+          # node, así que se busca también por patrón. El `[v]e` evita que pkill le
+          # pegue a este mismo shell (su argv contiene el script con el patrón literal).
+          stop() { pkill -f "scripts/ser[v]e.ts" 2>/dev/null; kill "$pid" 2>/dev/null || true; }
+          fail() { echo "✖ $1"; stop; exit 1; }
+          # `pnpm serve` monta el export en el prefijo y responde out/404.html
+          # con status 404, igual que Pages. Sin dependencias ni descargas.
+          NEXT_PUBLIC_BASE_PATH=$base PORT=$port pnpm serve &>/tmp/serve.log &
+          pid=$!
+          for i in $(seq 1 20); do
+            curl -fsS -o /dev/null "http://127.0.0.1:$port$base/es/" && break
+            sleep 1
+            [ "$i" = 20 ] && { cat /tmp/serve.log; fail "el server no respondió a tiempo"; }
           done
-          # Nada de rutas absolutas sin prefijo en el HTML prerenderado: toda
-          # `src` absoluta tiene que colgar de /demo_tartaruga/ (las relativas y
-          # las `data:`/`#anclas` no las toma este grep porque no arrancan con "/).
-          if grep -oE 'src="/[^"]*"' out/es/index.html | grep -vE '^src="/demo_tartaruga/'; then
-            echo "▲ hay src=\"/…\" sin el prefijo del repo"; exit 1
-          fi
-          echo "✔ smoke test ok"
+          check() {
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:$port$base$1")
+            [ "$code" = "${2:-200}" ] || fail "$1 devolvió $code (esperaba ${2:-200})"
+          }
+          # Sin -f: acá también interesa el CUERPO del 404 (con -f curl fallaría a propósito).
+          body() { curl -s "http://127.0.0.1:$port$base$1"; }
+          check /
+          check /es/
+          check /en/
+          check /pt/
+          check /404.html
+          check /sitemap.xml
+          check /robots.txt
+          check /no-existe/ 404
+          grep -qi tartaruga <<<"$(body /)"        || fail "la raíz no menciona a Tartaruga"
+          grep -qi carta   <<<"$(body /es/)"       || fail "/es/ no trae la carta"
+          grep -qi "zamarre\|404" <<<"$(body /no-existe/)" || fail "el 404 no es la tortuga"
+          # assets reales citados por el HTML prerenderado (todos con prefijo)
+          for pattern in '_next/static/[^"]*\.css' \
+                         '_next/static/media/[^"]*\.woff2' \
+                         'images/[^" ]*\.webp'; do
+            url=$(grep -o "/demo_tartaruga/${pattern}" out/es/index.html | head -1)
+            [ -n "$url" ] || { grep -q "$pattern" out/es/index.html || fail "el HTML no referencia ${pattern}"; continue; }
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:$port$url")
+            [ "$code" = 200 ] || fail "$url devolvió $code"
+          done
+          # Nada de rutas absolutas sin prefijo en el HTML (las relativas y las
+          # `data:`/`#ancla` no las toma este grep porque no arrancan con "/").
+          bad=$(grep -oE 'src="/[^"]*"' out/es/index.html | grep -vE '^src="/demo_tartaruga/' || true)
+          [ -z "$bad" ] || fail "src= sin el prefijo del repo: $bad"
+          stop
+          echo "✔ smoke test ok (raíz, 3 idiomas, 404, CSS/fuentes/variantes y rutas prefijadas)"
 
   docker:
     # La ruta Vercel/Docker queda opcional: solo se valida que la imagen arme.

@@ -24,13 +24,34 @@ import { routing } from "../src/i18n/routing";
 const OUT = "out";
 const DEFAULT_LOCALE = routing.defaultLocale;
 
+/** Prefijo de despliegue leído del entorno del paso (`pages:build` corre con el
+ * mismo `NEXT_PUBLIC_BASE_PATH` que `next build`). */
+const BASE = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").trim().replace(/\/+$/, "");
+
+/**
+ * Enlaza el CSS ya compilado del build. Next 16 lo deja en
+ * `_next/static/chunks/*.css` (en otras versiones, en `static/css`); se prueban
+ * los dos. La ruta es RELATIVA a propósito: `out/404.html` sirve igual en la raíz
+ * del dominio y bajo `/<repo>/`, sin que el script sepa el basePath.
+ */
 function cssLinks(): string {
-  const dir = join(OUT, "_next", "static", "css");
-  if (!existsSync(dir)) return "";
-  return readdirSync(dir)
-    .filter((f) => f.endsWith(".css"))
-    .map((f) => `<link rel="stylesheet" href="_next/static/css/${encodeURIComponent(f)}"/>`)
-    .join("\n");
+  const dirs = ["_next/static/chunks", "_next/static/css"];
+  for (const rel of dirs) {
+    const dir = join(OUT, rel);
+    if (!existsSync(dir)) continue;
+    // Con basePath conocido se emite absoluto (un 404 de Pages puede llegar desde
+    // cualquier profundidad: `/repo/a/b` + href relativo buscaría `/repo/a/_next/…`).
+    // Sin basePath se deja relativo, que es lo que funciona en un `file://` o en
+    // una prueba rápida sin variables de entorno.
+    const found = readdirSync(dir)
+      .filter((f) => f.endsWith(".css"))
+      .map(
+        (f) =>
+          `<link rel="stylesheet" href="${BASE ? `/${BASE.split("/").filter(Boolean).join("/")}` : "."}/${rel}/${encodeURIComponent(f)}"/>`,
+      );
+    if (found.length > 0) return found.join("\n");
+  }
+  return "";
 }
 
 /** Tortuga en línea: el 404 no puede esperar a un chunk de JS para existir. */
