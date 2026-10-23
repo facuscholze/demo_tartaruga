@@ -1,0 +1,178 @@
+{
+  "meta": {
+    "title": "Tartaruga Sea-Bar · Restaurante frente al mar en Punta Colorada",
+    "description": "Tartaruga Sea-Bar en el Faro de Punta Colorada, Maldonado, Uruguay. Mar, fuego y atardecer: carta, experiencias y reservas por WhatsApp."
+  },
+  "nav": {
+    "menu": "Carta",
+    "place": "Lugar",
+    "sunset": "Sunset",
+    "experiences": "Experiencias",
+    "perks": "Beneficios",
+    "visit": "Visitar",
+    "reserve": "Reservar",
+    "directions": "Cómo llegar",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "language": "Idioma"
+  },
+  "intro": {
+    "headline": "El último rayo de sol",
+    "loading": "Abriendo el atardecer…",
+    "withSound": "Entrar con sonido",
+    "withoutSound": "Entrar sin sonido",
+    "skip": "Saltar intro",
+    "soundHint": "Olas y fuego de fondo. Siempre podés silenciar."
+  },
+  "hero": {
+    "kicker": "Faro de Punta Colorada · Maldonado, Uruguay",
+    "line1": "Mar,",
+    "line2": "fuego y",
+    "line3": "atardecer",
+    "sunsetLabel": "Hoy el sol se pone",
+    "sunriseLabel": "Amanece",
+    "nowLabel": "Ahora en Punta Colorada",
+    "scroll": "Bajá al deck",
+    "tod": {
+      "label": "Hora del día",
+      "morning": "Mañana",
+      "afternoon": "Tarde",
+      "sunset": "Atardecer",
+      "night": "Noche",
+      "auto": "Real"
+    },
+    "reserveCta": "Reservar",
+    "directionsCta": "Cómo llegar"
+  },
+  "fire": {
+    "title": "El fuego",
+    "text": "Los braseros se encienden antes que el sol baje. Es nuestro horario real: mientras hay luz, hay mar; cuando se va la luz, queda el fuego.",
+    "caption": "Fuego · demo"
+  },
+  "menu": {
+    "title": "Carta",
+    "demoBadge": "DEMO · contenido de muestra, a confirmar con el local",
+    "consult": "Consultar",
+    "download": "Descargar carta PDF",
+    "downloadDisabled": "Aún no hay PDF de carta",
+    "empty": "Esta categoría todavía no tiene productos cargados.",
+    "featuredLabel": "Recomendado",
+    "close": "Cerrar",
+    "photo": "ver foto",
+    "hidePhoto": "ocultar foto"
+  },
+  "gallery": {
+    "title": "El lugar",
+    "openImage": "Ver imagen",
+    "closeImage": "Cerrar imagen",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "drag": "Arrastrá para recorrer",
+    "counter": "{current} de {total}"
+  },
+  "experiences": {
+    "title": "Experiencias",
+    "reserve": "Reservar esta experiencia"
+  },
+  "pet": {
+    "title": "Pet friendly",
+    "note": "Reglas para venir con tu mascota: a confirmar con el local."
+  },
+  "artisanal": {
+    "title": "Artesanal",
+    "note": "Copy provisorio: estamos definiendo con el local qué significa exactamente."
+  },
+  "perks": {
+    "title": "Beneficios",
+    "validUntil": "Vigente hasta {date}",
+    "pending": "a confirmar"
+  },
+  "booking": {
+    "title": "Reservar",
+    "name": "Nombre y apellido",
+    "date": "Fecha",
+    "time": "Hora",
+    "people": "Personas",
+    "occasion": "Ocasión",
+    "occasionNone": "Sin ocasión especial",
+    "birthday": "Cumpleaños",
+    "anniversary": "Aniversario",
+    "other": "Otro",
+    "pet": "¿Venís con mascota?",
+    "petYes": "Sí, vengo con perro",
+    "petNo": "No",
+    "message": "Mensaje (opcional)",
+    "send": "Enviar por WhatsApp",
+    "sending": "Abriendo WhatsApp…",
+    "webhookOk": "Reserva registrada. Te esperamos.",
+    "webhookFail": "No pudimos registrar la reserva, abrimos WhatsApp igual.",
+    "errorName": "Necesitamos tu nombre.",
+    "errorDate": "Elegí una fecha válida.",
+    "errorTime": "Elegí un horario válido.",
+    "errorPeople": "Entre 1 y 40 personas.",
+    "honeypot": "Dejá este campo vacío",
+    "phoneLabel": "O llamá",
+    "whatsappLabel": "WhatsApp",
+    "experienceContext": "Reserva: {experience}"
+  },
+  "visit": {
+    "title": "Visitar",
+    "address": "Faro de Punta Colorada, Maldonado, Uruguay",
+    "phone": "Teléfono",
+    "hoursTitle": "Horarios",
+    "hoursPending": "Días y horarios de atención: a confirmar con el local.",
+    "instagram": "Instagram",
+    "map": "Ver en Google Maps",
+    "mapTitle": "Cómo llegar al faro",
+    "pendingTag": "a confirmar",
+    "pendingTitle": "El local todavía no confirmó estos horarios."
+  },
+  "controls": {
+    "sound": "Sonido ambiente",
+    "soundOn": "Sonido: olas y fuego",
+    "soundOff": "Sonido: apagado",
+    "effects": "Efectos",
+    "effectsMax": "Max",
+    "effectsNormal": "Normal",
+    "effectsMin": "Mínimo",
+    "timeOfDay": "Hora del día",
+    "openReserve": "Ir a reservar",
+    "mute": "Silenciar todo"
+  },
+  "footer": {
+    "demoTitle": "Demo del sitio",
+    "demoBody": "Sitio de demostración hecho para Tartaruga Sea-Bar. La carta, los horarios, las fotos y los textos son de muestra hasta que el local los confirme.",
+    "rights": "Tartaruga Sea-Bar · Punta Colorada, Uruguay",
+    "madeWith": "Motion, WebGL y contenido editable por archivo",
+    "pendingTag": "a confirmar",
+    "pendingTitle": "A confirmar con el cliente"
+  },
+  "notFound": {
+    "title": "La tortuga se fue de paseo",
+    "text": "Esta página no está, pero el atardecer sigue en su horario.",
+    "back": "Volver al principio"
+  },
+  "a11y": {
+    "skipToContent": "Saltar al contenido",
+    "close": "Cerrar",
+    "mainNav": "Navegación principal",
+    "imageFallback": "Imagen de muestra"
+  },
+  "place": {
+    "title": "El lugar",
+    "text": "Frente al mar, a los pies del Faro de Punta Colorada. Maderas recuperadas, luces cálidas y la rambla a un paso: el mismo escenario todo el año, con otra luz en cada hora.",
+    "hint": "Arrastrá para recorrer",
+    "mapTitle": "Cómo llegar",
+    "mapNote": "Mapa ilustrativo, sin API de terceros.",
+    "openInMaps": "Abrir en Google Maps"
+  },
+  "sunset": {
+    "title": "Hora del atardecer",
+    "text": "La misma mesa, otro cielo. Reservá mirando al oeste."
+  },
+  "faq": {
+    "title": "Preguntas frecuentes",
+    "note": "Lo que más nos preguntan por WhatsApp. Lo que el local no confirmó está marcado.",
+    "pending": "a confirmar"
+  }
+}

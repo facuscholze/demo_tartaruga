@@ -1,0 +1,127 @@
+name: CI
+
+# Solo PR: el deploy real lo hace `deploy.yml` (GitHub Pages) sobre `main`.
+# Acá se valida lo mismo, más el smoke test sirviendo `out/` con un prefijo de
+# repo, que es donde se rompen las rutas hardcodeadas.
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      - name: Formato (Prettier)
+        run: pnpm format:check
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Tests
+        run: pnpm test
+
+      - name: Chequeo de contenido (content:check)
+        run: pnpm content:check
+
+      - name: Variantes AVIF/WebP (images:build)
+        run: pnpm images:build
+
+      - name: Imagen social por idioma
+        run: pnpm og:build
+
+      - name: Build estático con basePath de project pages
+        run: pnpm exec next build && pnpm pages:build
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+          # Se prueba CON prefijo a propósito: si algo hardcodea `/images/...`
+          # sin `withBase`, el smoke test de abajo lo agarra.
+          NEXT_PUBLIC_BASE_PATH: /demo_tartaruga
+          NEXT_PUBLIC_SITE_URL: https://facuscholze.github.io
+
+      - name: Smoke test del export (servido bajo /demo_tartaruga/)
+        run: |
+          set -uo pipefail
+          base=/demo_tartaruga
+          port=8099
+          # stop(): el wrapper `pnpm serve` no siempre reenvía la señal al hijo de
+          # node, así que se busca también por patrón. El `[v]e` evita que pkill le
+          # pegue a este mismo shell (su argv contiene el script con el patrón literal).
+          stop() { pkill -f "scripts/ser[v]e.ts" 2>/dev/null; kill "$pid" 2>/dev/null || true; }
+          fail() { echo "✖ $1"; stop; exit 1; }
+          # `pnpm serve` monta el export en el prefijo y responde out/404.html
+          # con status 404, igual que Pages. Sin dependencias ni descargas.
+          NEXT_PUBLIC_BASE_PATH=$base PORT=$port pnpm serve &>/tmp/serve.log &
+          pid=$!
+          for i in $(seq 1 20); do
+            curl -fsS -o /dev/null "http://127.0.0.1:$port$base/es/" && break
+            sleep 1
+            [ "$i" = 20 ] && { cat /tmp/serve.log; fail "el server no respondió a tiempo"; }
+          done
+          check() {
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:$port$base$1")
+            [ "$code" = "${2:-200}" ] || fail "$1 devolvió $code (esperaba ${2:-200})"
+          }
+          # Sin -f: acá también interesa el CUERPO del 404 (con -f curl fallaría a propósito).
+          body() { curl -s "http://127.0.0.1:$port$base$1"; }
+          check /
+          check /es/
+          check /en/
+          check /pt/
+          check /404.html
+          check /sitemap.xml
+          check /robots.txt
+          check /no-existe/ 404
+          grep -qi tartaruga <<<"$(body /)"        || fail "la raíz no menciona a Tartaruga"
+          grep -qi carta   <<<"$(body /es/)"       || fail "/es/ no trae la carta"
+          grep -qi "zamarre\|404" <<<"$(body /no-existe/)" || fail "el 404 no es la tortuga"
+          # assets reales citados por el HTML prerenderado (todos con prefijo)
+          for pattern in '_next/static/[^"]*\.css' \
+                         '_next/static/media/[^"]*\.woff2' \
+                         'images/[^" ]*\.webp'; do
+            url=$(grep -o "/demo_tartaruga/${pattern}" out/es/index.html | head -1)
+            [ -n "$url" ] || { grep -q "$pattern" out/es/index.html || fail "el HTML no referencia ${pattern}"; continue; }
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:$port$url")
+            [ "$code" = 200 ] || fail "$url devolvió $code"
+          done
+          # Nada de rutas absolutas sin prefijo en el HTML (las relativas y las
+          # `data:`/`#ancla` no las toma este grep porque no arrancan con "/").
+          bad=$(grep -oE 'src="/[^"]*"' out/es/index.html | grep -vE '^src="/demo_tartaruga/' || true)
+          [ -z "$bad" ] || fail "src= sin el prefijo del repo: $bad"
+          stop
+          echo "✔ smoke test ok (raíz, 3 idiomas, 404, CSS/fuentes/variantes y rutas prefijadas)"
+
+  docker:
+    # La ruta Vercel/Docker queda opcional: solo se valida que la imagen arme.
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: quality
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/build-push-action@v6
+        with:
+          push: false
+          tags: tartaruga-demo:ci

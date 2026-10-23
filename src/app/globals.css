@@ -1,0 +1,747 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+@import "../styles/textures.css";
+
+/* Tailwind v4: mapea los tokens a utilidades (bg-night, text-bone, font-display…).
+   Definido una sola vez; las utilidades no introducen color propio. */
+@theme inline {
+  --color-navy: var(--c-navy);
+  --color-night: var(--c-night);
+  --color-abyss: var(--c-abyss);
+  --color-haze: var(--c-haze);
+  --color-sand: var(--c-sand);
+  --color-bone: var(--c-bone);
+  --color-sunset: var(--c-sunset);
+  --color-rust: var(--c-rust);
+  --color-ember: var(--c-ember);
+  --color-spark: var(--c-spark);
+  --color-cactus: var(--c-cactus);
+
+  --font-display: var(--font-display);
+  --font-type: var(--font-type);
+  --font-body: var(--font-body);
+
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--line);
+  }
+
+  html {
+    background-color: var(--bg);
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    min-height: 100dvh;
+    margin: 0;
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.62;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    line-height: 0.98;
+    letter-spacing: var(--tracking-display);
+    font-variation-settings:
+      "SOFT" 40,
+      "WONK" 1,
+      "opsz" 96;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
+    text-underline-offset: 0.22em;
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--focus);
+    border-radius: 0.25rem;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--c-ember) 70%, var(--c-night));
+    color: #16213f;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Lenis: el scroll lo maneja JS, así que no puede haber scroll nativo "doble". */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  /* Scrollbar mínima y en el tono del sitio (no la blanca de Windows). */
+  * {
+    scrollbar-color: color-mix(in oklab, var(--c-bone) 22%, transparent) transparent;
+    scrollbar-width: thin;
+  }
+}
+
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: var(--max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .label {
+    font-family: var(--font-type);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .price {
+    font-family: var(--font-type);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+
+  .u-line {
+    border-top: 1px solid var(--line);
+  }
+
+  /* Botón principal: la reserva siempre se ve, aun sobre cielo naranja. */
+  .btn {
+    --btn-bg: var(--accent);
+    --btn-fg: var(--accent-ink);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55em;
+    padding: 0.85em 1.35em;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    font-family: var(--font-type);
+    font-size: var(--text-label);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    overflow: hidden;
+    isolation: isolate;
+    transition:
+      transform var(--d-2) var(--ease-ember),
+      box-shadow var(--d-3) var(--ease-sea),
+      background-color var(--d-2) var(--ease-sea);
+  }
+
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(120% 140% at 50% 120%, var(--c-spark), transparent 62%);
+    opacity: 0;
+    transition: opacity var(--d-3) var(--ease-sea);
+  }
+
+  .btn:hover:not(:disabled) {
+    transform: translate3d(0, -1px, 0);
+    box-shadow: 0 12px 30px -12px color-mix(in oklab, var(--c-sunset) 65%, transparent);
+  }
+  .btn:hover:not(:disabled)::before {
+    opacity: 0.55;
+  }
+  .btn:active:not(:disabled) {
+    transform: translate3d(0, 0, 0) scale(0.985);
+  }
+
+  .btn-ghost {
+    --btn-bg: transparent;
+    --btn-fg: var(--fg);
+    border-color: var(--line);
+    backdrop-filter: blur(6px);
+  }
+
+  .btn-ghost:hover:not(:disabled) {
+    border-color: color-mix(in oklab, var(--c-ember) 60%, transparent);
+    box-shadow: 0 10px 26px -16px color-mix(in oklab, var(--c-ember) 60%, transparent);
+  }
+
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .card {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: color-mix(in oklab, var(--surface) 82%, transparent);
+    overflow: clip;
+  }
+
+  /* Regla de puntos entre plato y precio (estilo carta de papel). */
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  .leader {
+    flex: 1 1 auto;
+    min-width: 1.5rem;
+    border-bottom: 1px dotted color-mix(in oklab, currentColor 34%, transparent);
+    transform: translateY(-0.28em);
+  }
+
+  .skip-link {
+    position: fixed;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 999;
+    padding: 0.7rem 1rem;
+    background: var(--c-bone);
+    color: var(--c-navy);
+    border-radius: 0.4rem;
+    transform: translateY(-200%);
+    transition: transform var(--d-2) var(--ease-sea);
+  }
+  .skip-link:focus-visible {
+    transform: none;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+  }
+  .mask-fade-edges {
+    mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  }
+  @supports not (mask-image: linear-gradient(#000, #000)) {
+    .mask-fade-b,
+    .mask-fade-edges {
+      mask-image: none;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Cielo en CSS: el fallback "igual de lindo" (tier low / reduced-motion).
+   Los 4 keyframes usan las mismas vars que el shader. La animación solo corre
+   en modo "auto" y se pausa fuera de pantalla (ver `[data-active="false"]`).
+   -------------------------------------------------------------------------- */
+@property --sky-mix-top {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1b2a55;
+}
+@property --sky-mix-mid {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #b4432e;
+}
+@property --sky-mix-low {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #e4703a;
+}
+@property --sky-mix-horizon {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f5a94b;
+}
+
+.sky-gradient {
+  background:
+    radial-gradient(
+      58% 42% at calc(var(--sun-x, 0.5) * 100%) calc(var(--sun-y, 0.62) * 100%),
+      color-mix(in oklab, var(--sky-sun) 78%, transparent) 0%,
+      transparent 62%
+    ),
+    linear-gradient(
+      to bottom,
+      var(--sky-top) 0%,
+      var(--sky-mid) 34%,
+      var(--sky-low) 62%,
+      var(--sky-horizon) 78%,
+      var(--sky-sea) 100%
+    );
+  transition: background-color var(--d-5) var(--ease-sea);
+  will-change: background;
+}
+
+/* Sol en CSS: mismo uv que el shader, así ambas capas coinciden. */
+.sky-gradient::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at calc(var(--sun-x, 0.5) * 100%) calc(var(--sun-y, 0.62) * 100%),
+      color-mix(in oklab, var(--sky-sun) 92%, white 8%) 0 0.9vmin,
+      transparent 1.1vmin
+    ),
+    radial-gradient(
+      circle at calc(var(--sun-x, 0.5) * 100%) calc(var(--sun-y, 0.62) * 100%),
+      color-mix(in oklab, var(--sky-sun) 34%, transparent) 0 6vmin,
+      transparent 26vmin
+    );
+  opacity: calc(1 - var(--sky-luma) * 0.15);
+  mix-blend-mode: screen;
+}
+
+/* Estrellas en CSS puro (noche): box-shadows en un solo elemento, 0 requests. */
+.sky-stars {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 62%;
+  opacity: var(--star-opacity);
+  transition: opacity var(--d-5) var(--ease-sea);
+  background-image:
+    radial-gradient(1.2px 1.2px at 12% 24%, #fff 45%, transparent 55%),
+    radial-gradient(1px 1px at 28% 12%, #fff 45%, transparent 55%),
+    radial-gradient(1.4px 1.4px at 41% 33%, #fff 45%, transparent 55%),
+    radial-gradient(1px 1px at 57% 18%, #fff 45%, transparent 55%),
+    radial-gradient(1.1px 1.1px at 68% 40%, #fff 45%, transparent 55%),
+    radial-gradient(0.9px 0.9px at 79% 22%, #fff 45%, transparent 55%),
+    radial-gradient(1.3px 1.3px at 88% 36%, #fff 45%, transparent 55%),
+    radial-gradient(1px 1px at 19% 52%, #fff 45%, transparent 55%),
+    radial-gradient(1.1px 1.1px at 48% 62%, #fff 45%, transparent 55%),
+    radial-gradient(0.9px 0.9px at 74% 58%, #fff 45%, transparent 55%);
+  animation: star-breathe 9s ease-in-out infinite;
+}
+
+@keyframes star-breathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.62;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sky-stars {
+    animation: none;
+  }
+}
+
+/* Velo de legibilidad: se autoajusta con la luminosidad del cielo (--sky-luma).
+   Cielos claros → velo más fuerte para sostener el texto oscuro. */
+.sky-veil {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(8, 13, 24, 0.3),
+      transparent 34%,
+      transparent 58%,
+      rgba(8, 13, 24, 0.55)
+    ),
+    radial-gradient(120% 80% at 50% 100%, rgba(8, 13, 24, 0.42), transparent 60%);
+  mix-blend-mode: multiply;
+  opacity: calc(0.55 + (0.5 - var(--sky-luma)) * 0.5);
+}
+
+/* --------------------------------------------------------------------------
+   Cursor propio (desktop fine-pointer). Por defecto una gota; cambia a
+   "ver", "arrastrar" o "reservar" según el `data-cursor` del elemento bajo.
+   -------------------------------------------------------------------------- */
+.tart-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 90;
+  pointer-events: none;
+  display: none;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  translate: -50% -50%;
+  color: var(--c-bone);
+  mix-blend-mode: difference;
+  transition:
+    scale var(--d-3) var(--ease-sea),
+    opacity var(--d-2) linear;
+}
+
+.tart-cursor[data-mode="ver"],
+.tart-cursor[data-mode="arrastrar"],
+.tart-cursor[data-mode="reservar"] {
+  scale: 1.55;
+}
+
+.tart-cursor__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: currentColor;
+  transition:
+    opacity var(--d-2) linear,
+    width var(--d-3) var(--ease-sea);
+}
+
+.tart-cursor__label {
+  position: absolute;
+  font-family: var(--font-type);
+  font-size: 0.52rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+}
+
+@media (pointer: fine) {
+  .tart-cursor {
+    display: grid;
+  }
+  [data-cursor] {
+    cursor: none;
+  }
+  [data-cursor="reservar"] a,
+  [data-cursor="reservar"] button {
+    cursor: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tart-cursor {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Estados iniciales de las animaciones. Solo cuando hay JS (`data-js`): sin
+   script no hay GSAP, y el contenido tiene que verse completo. Con
+   `prefers-reduced-motion` tampoco se oculta nada.
+   -------------------------------------------------------------------------- */
+html[data-js="1"]:not([data-reduced-motion="true"]) [data-reveal] {
+  opacity: 0;
+}
+
+html[data-js="1"]:not([data-reduced-motion="true"])[data-quality="medium"] [data-reveal],
+html[data-js="1"]:not([data-reduced-motion="true"])[data-quality="high"] [data-reveal] {
+  clip-path: inset(100% 0 0 0);
+  opacity: 1;
+}
+
+.reveal-word {
+  display: inline-block;
+}
+
+.hero-line {
+  display: inline-block;
+}
+
+[data-hero-title] .hero-word {
+  display: inline-block;
+}
+
+/* El hero se apila sobre el cielo; el sol y el reflejo siguen al puntero vía vars. */
+[data-hero] {
+  --hero-glow: radial-gradient(
+    60% 45% at calc(var(--pointer-x, 0.5) * 100%) calc(20% + var(--pointer-y, 0.5) * 12%),
+    color-mix(in oklab, var(--sky-sun) 24%, transparent),
+    transparent 60%
+  );
+}
+
+[data-hero]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--hero-glow);
+  pointer-events: none;
+  transition: background var(--d-4) var(--ease-sea);
+}
+
+/* Fuego de la sección: en tier low es un glow CSS que respira, no un canvas. */
+.fire-ember {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 52%;
+  background:
+    radial-gradient(
+      46% 62% at 50% 100%,
+      color-mix(in oklab, var(--c-ember) 55%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      22% 40% at 42% 100%,
+      color-mix(in oklab, var(--c-spark) 40%, transparent),
+      transparent 72%
+    );
+  filter: blur(0.5px);
+  animation: ember-breathe 5.5s var(--ease-sea) infinite;
+}
+
+.fire-ember[data-layer="2"] {
+  height: 34%;
+  opacity: 0.7;
+  animation-duration: 7.5s;
+  animation-delay: -2s;
+}
+
+@keyframes ember-breathe {
+  0%,
+  100% {
+    opacity: calc(0.55 + var(--audio-level) * 0.25);
+    transform: scale(1);
+  }
+  50% {
+    opacity: calc(0.78 + var(--audio-level) * 0.22);
+    transform: scale(1.035);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fire-ember {
+    animation: none;
+  }
+  [data-hero]::before {
+    transition: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-dish-peek] {
+    transition: none;
+  }
+  .heat-haze,
+  .water-warp {
+    filter: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Galería y visor
+   -------------------------------------------------------------------------- */
+.gallery-card {
+  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition:
+    transform var(--d-3) var(--ease-sea),
+    filter var(--d-3) var(--ease-sea);
+  transform-style: preserve-3d;
+}
+
+[data-dragging="true"] .gallery-card {
+  transition: none;
+  cursor: grabbing;
+}
+
+.lb-nav {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--fg-muted);
+  font-size: 0.95rem;
+  transition:
+    color var(--d-2) var(--ease-sea),
+    border-color var(--d-2) var(--ease-sea),
+    transform var(--d-2) var(--ease-sea);
+}
+
+.lb-nav:hover {
+  color: var(--fg);
+  border-color: color-mix(in oklab, var(--c-ember) 60%, transparent);
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-card {
+    transform: none;
+  }
+}
+
+/* Mapa del local: el haz del faro y el pin laten suave, nada de strobo. */
+.map-beacon {
+  animation: beacon 4.2s var(--ease-sea) infinite;
+  transform-origin: center;
+}
+.map-pin__ring {
+  animation: beacon-ring 5.4s var(--ease-sea) infinite;
+  transform-origin: center;
+}
+@keyframes beacon {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes beacon-ring {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.9);
+  }
+  55% {
+    opacity: 0.5;
+    transform: scale(1.12);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-beacon,
+  .map-pin__ring {
+    animation: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Ola de transición y huellitas
+   -------------------------------------------------------------------------- */
+.wave-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    var(--c-abyss) 0%,
+    color-mix(in oklab, var(--c-haze) 92%, transparent) 70%,
+    transparent 100%
+  );
+  transform: translateY(101%);
+  opacity: 0;
+}
+
+.wave-overlay[data-playing="true"] {
+  animation: wave-rise 880ms var(--ease-swell) forwards;
+}
+
+.wave-overlay__crest {
+  position: absolute;
+  top: -58px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  fill: var(--c-abyss);
+}
+
+@keyframes wave-rise {
+  0% {
+    transform: translateY(101%);
+    opacity: 1;
+  }
+  52% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-102%);
+    opacity: 1;
+  }
+}
+
+.paw-trail__prints > g {
+  opacity: 0.08;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+html[data-js="1"]:not([data-reduced-motion="true"]) [data-paw-trail] .paw-trail__prints > g {
+  transition:
+    opacity 420ms var(--ease-sea),
+    scale 420ms var(--ease-sea);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave-overlay {
+    display: none;
+  }
+  .paw-trail__prints > g {
+    opacity: 0.5;
+  }
+}
+
+/* Acordeón de preguntas: altura animada por grid-template-rows (sin medir JS). */
+@keyframes accordion-down {
+  from {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+  to {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+@keyframes accordion-up {
+  from {
+    grid-template-rows: 1fr;
+  }
+  to {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-state="open"],
+  [data-state="closed"] {
+    animation: none !important;
+  }
+}

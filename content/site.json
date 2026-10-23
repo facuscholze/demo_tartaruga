@@ -1,0 +1,111 @@
+{
+  "demo": true,
+  "name": "Tartaruga Sea-Bar",
+  "category": "Restaurante",
+  "claim": {
+    "es": "Mar, fuego y atardecer frente al faro",
+    "en": "Sea, fire and sunset by the lighthouse",
+    "pt": "Mar, fogo e pôr do sol em frente ao farol"
+  },
+  "address": {
+    "street": {
+      "es": "Faro de Punta Colorada",
+      "en": "Punta Colorada lighthouse",
+      "pt": "Farol de Punta Colorada"
+    },
+    "locality": { "es": "Punta Colorada", "en": "Punta Colorada", "pt": "Punta Colorada" },
+    "region": { "es": "Maldonado", "en": "Maldonado", "pt": "Maldonado" },
+    "country": { "es": "Uruguay", "en": "Uruguay", "pt": "Uruguai" },
+    "countryCode": "UY"
+  },
+  "coords": { "lat": -34.9016, "lng": -55.2635 },
+  "timezone": "America/Montevideo",
+  "contact": {
+    "phoneDisplay": "4432 18 31",
+    "phoneE164": "+59844321831",
+    "whatsapp": {
+      "phoneE164": "+59844321831",
+      "shortLink": "",
+      "confirmed": false
+    },
+    "email": ""
+  },
+  "links": {
+    "instagram": "https://www.instagram.com/tartaruga.puntacolorada/",
+    "instagramHandle": "@tartaruga.puntacolorada",
+    "maps": "https://www.google.com/maps/search/?api=1&query=Punta+Colorada+Lighthouse%2C+Uruguay",
+    "menuPdf": ""
+  },
+  "currency": {
+    "code": "UYU",
+    "locale": "es-UY",
+    "consultLabel": { "es": "Consultar", "en": "Ask us", "pt": "Consultar" },
+    "second": { "enabled": false, "code": "USD", "rate": 40 }
+  },
+  "hours": [
+    {
+      "id": "temporada",
+      "order": 1,
+      "label": { "es": "Temporada", "en": "Season", "pt": "Temporada" },
+      "days": [],
+      "note": {
+        "es": "Días y horarios de atención a confirmar con el local.",
+        "en": "Opening days and hours to be confirmed with the venue.",
+        "pt": "Dias e horários a confirmar com o local."
+      },
+      "confirmed": false
+    }
+  ],
+  "seo": {
+    "titleTemplate": "%s · Tartaruga Sea-Bar",
+    "defaultTitle": {
+      "es": "Tartaruga Sea-Bar · Restaurante frente al mar en Punta Colorada",
+      "en": "Tartaruga Sea-Bar · Oceanfront restaurant in Punta Colorada",
+      "pt": "Tartaruga Sea-Bar · Restaurante à beira-mar em Punta Colorada"
+    },
+    "description": {
+      "es": "Tartaruga Sea-Bar en el Faro de Punta Colorada, Maldonado, Uruguay: mar, fuego y atardecer. Carta, experiencias y reservas por WhatsApp al 4432 18 31.",
+      "en": "Tartaruga Sea-Bar at the Punta Colorada lighthouse, Maldonado, Uruguay: sea, fire and sunset. Menu, experiences and WhatsApp reservations at +598 4432 18 31.",
+      "pt": "Tartaruga Sea-Bar no farol de Punta Colorada, Maldonado, Uruguai: mar, fogo e pôr do sol. Carta, experiências e reservas pelo WhatsApp."
+    },
+    "servesCuisine": "",
+    "priceRange": ""
+  },
+  "pending": [
+    { "es": "Carta completa y precios reales", "en": "Full menu and real prices" },
+    { "es": "Días, horarios y temporada de apertura", "en": "Opening days, hours and season" },
+    {
+      "es": "Política de mascotas (dónde pueden sentarse, horarios, accesorios)",
+      "en": "Pet policy (seating areas, hours, amenities)"
+    },
+    {
+      "es": "Qué significa \"Artesanal\" para el local (cócteles, cerveza, cocina, objetos)",
+      "en": "What \"Artisanal\" means for the venue"
+    },
+    {
+      "es": "Código exacto del link de WhatsApp del perfil (0/O ambiguos en la captura)",
+      "en": "Exact WhatsApp link from the profile (0/O ambiguous in the screenshot)"
+    },
+    {
+      "es": "Vigencia y condiciones de la promo Scotiabank (25% / 15% según tarjeta)",
+      "en": "Scotiabank promo validity and terms (25% / 15% by card)"
+    },
+    {
+      "es": "Permisos de uso de fotos y videos de Instagram",
+      "en": "Rights to use Instagram photos and videos"
+    },
+    {
+      "es": "Logo en vector y tipografías de marca, si existen",
+      "en": "Vector logo and brand typefaces, if any"
+    },
+    {
+      "es": "Experiencias vigentes (sunset, fuego, brunch, eventos)",
+      "en": "Active experiences (sunset, fire, brunch, events)"
+    },
+    {
+      "es": "Capacidad, mínimo de consumo y política de cancelación",
+      "en": "Capacity, minimum spend and cancellation policy"
+    }
+  ],
+  "i18n": { "locales": ["es", "en", "pt"], "defaultLocale": "es" }
+}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Estrella de mar">
+ <g stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+  <path d="M32 6c4 10 7 16 13 20 8 5 10 9 6 15-4 5-9 6-14 10-4 3-7 7-11 4-5-4-5-10-9-15-3-4-8-6-7-11 2-7 8-8 13-12 4-3 6-7 9-11Z"/>
+  <circle cx="32" cy="30" r="1.6" fill="currentColor" stroke="none"/>
+  <circle cx="26" cy="26" r="1.1" fill="currentColor" stroke="none" opacity=".7"/>
+  <circle cx="38" cy="26" r="1.1" fill="currentColor" stroke="none" opacity=".7"/>
+  <circle cx="30" cy="36" r="1.1" fill="currentColor" stroke="none" opacity=".7"/>
+  <circle cx="36" cy="36" r="1.1" fill="currentColor" stroke="none" opacity=".7"/>
+ </g></svg>

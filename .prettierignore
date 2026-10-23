@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+pnpm-lock.yaml
+public/images
+coverage
+# El contenido lo edita el local (y los `scripts/add-*` lo reescriben con
+# JSON.stringify): pelear con Prettier por los arrays cortos solo genera churn en
+# los diffs de la carta. Se valida con `pnpm content:check`, no con formato.
+content

@@ -1,0 +1,32 @@
+# dependencias
+node_modules/
+.pnpm-store/
+
+# build
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+next-env.d.ts
+.next-optimize/
+
+# optimización de imágenes (se regenera en el build)
+public/images/**/_generated/
+*.avif.manifest.json
+
+# entorno y secretos
+.env
+.env*.local
+.vercel
+
+# reporte de lighthouse / analizador
+.lighthouseci/
+.next-analysis/
+
+# sistema
+.DS_Store
+Thumbs.db
+.eslintcache
+.og-preview.png
+public/og/
