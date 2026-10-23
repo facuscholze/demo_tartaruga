@@ -4,7 +4,13 @@
 FROM node:22-alpine AS base
 ENV PNPM_HOME=/pnpm
 ENV PATH=$PNPM_HOME:$PATH
-RUN corepack enable pnpm@9.15.0
+# pnpm se instala explícito, sin corepack: la imagen node:22-alpine lo trae pero
+# está deprecado (y en Node 25 se va), y `corepack enable pnpm@9.15.0` — que es
+# como estaba antes — ni siquiera es sintaxis válida: `enable` solo acepta nombres
+# de paquete, así que la build de la imagen moría con
+# "Only 'npm', 'pnpm', 'yarn' … are supported". La misma versión (9.15.0) que usa
+# `pnpm/action-setup` en CI, para que el lockfile se resuelva igual.
+RUN npm i -g pnpm@9.15.0 && pnpm --version
 
 # ---- deps -------------------------------------------------------------------
 FROM base AS deps
