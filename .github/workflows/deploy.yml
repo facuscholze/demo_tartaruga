@@ -112,10 +112,13 @@ jobs:
           # node, así que se busca también por patrón. El `[v]e` evita que pkill le
           # pegue a este mismo shell (su argv contiene el script con el patrón literal).
           stop() { pkill -f "scripts/ser[v]e.ts" 2>/dev/null; kill "$pid" 2>/dev/null || true; }
-          fail() { echo "✖ $1"; stop; exit 1; }
-          for f in index.html 404.html .nojekyll es/index.html en/index.html pt/index.html sitemap.xml robots.txt; do
-            [ -s "out/$f" ] || fail "falta out/$f en el export"
+          fail() { echo "✖ $1"; echo "── out/ contiene:"; ls -la out | head -20; stop; exit 1; }
+          for f in index.html 404.html es/index.html en/index.html pt/index.html sitemap.xml robots.txt; do
+            [ -s "out/$f" ] || fail "falta out/$f (o está vacío) en el export"
           done
+          # `.nojekyll` existe PERO es de 0 bytes a propósito: se chequea con -f,
+          # con -s el deploy se cae (así murió el run 40368752209 en main).
+          [ -f out/.nojekyll ] || fail "falta out/.nojekyll"
           NEXT_PUBLIC_BASE_PATH=$base PORT=$port pnpm serve &>/tmp/serve.log &
           pid=$!
           for i in $(seq 1 20); do
@@ -144,13 +147,20 @@ jobs:
           stop
           echo "✔ smoke test ok sobre ${base:-la raíz del dominio}"
 
-      - uses: actions/configure-pages@v5
-        with:
-          static_site_generator: next
+      # Sin `static_site_generator: next`: este action intentaría leer la config de
+      # Next para derivar el basePath, y acá el basePath ya lo calcula el paso de
+      # arriba (CNAME / <usuario>.github.io / /<repo>) y se le pasa al build. No lo
+      # pedimos para que no haya dos fuentes de verdad ni un parseo de TS de por medio.
+      - name: Configurar Pages
+        uses: actions/configure-pages@v6
 
-      - uses: actions/upload-pages-artifact@v3
+      # include-hidden-files: true para que `.nojekyll` viaje en el artefacto
+      # (por default se descartan los puntos que empiezan con punto).
+      - name: Subir out/ como artefacto de Pages
+        uses: actions/upload-pages-artifact@v5
         with:
           path: out
+          include-hidden-files: "true"
 
   deploy:
     needs: build
@@ -160,5 +170,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publicar el artefacto
+        id: deployment
+        uses: actions/deploy-pages@v5
