@@ -147,10 +147,12 @@ jobs:
           stop
           echo "✔ smoke test ok sobre ${base:-la raíz del dominio}"
 
+      # Sin `static_site_generator: next`: este action intentaría leer la config de
+      # Next para derivar el basePath, y acá el basePath ya lo calcula el paso de
+      # arriba (CNAME / <usuario>.github.io / /<repo>) y se le pasa al build. No lo
+      # pedimos para que no haya dos fuentes de verdad ni un parseo de TS de por medio.
       - name: Configurar Pages
         uses: actions/configure-pages@v6
-        with:
-          static_site_generator: next
 
       # include-hidden-files: true para que `.nojekyll` viaje en el artefacto
       # (por default se descartan los puntos que empiezan con punto).
