@@ -71,7 +71,11 @@ jobs:
           # node, así que se busca también por patrón. El `[v]e` evita que pkill le
           # pegue a este mismo shell (su argv contiene el script con el patrón literal).
           stop() { pkill -f "scripts/ser[v]e.ts" 2>/dev/null; kill "$pid" 2>/dev/null || true; }
-          fail() { echo "✖ $1"; stop; exit 1; }
+          fail() { echo "✖ $1"; echo "── out/ contiene:"; ls -la out | head -20; stop; exit 1; }
+          for f in index.html 404.html .nojekyll es/index.html en/index.html pt/index.html; do
+            # `-f` y no `-s`: `.nojekyll` es de 0 bytes a propósito.
+            [ -f "out/$f" ] || fail "falta out/$f en el export"
+          done
           # `pnpm serve` monta el export en el prefijo y responde out/404.html
           # con status 404, igual que Pages. Sin dependencias ni descargas.
           NEXT_PUBLIC_BASE_PATH=$base PORT=$port pnpm serve &>/tmp/serve.log &
