@@ -1,0 +1,393 @@
+{
+  "demo": true,
+  "updatedAt": "2026-10-22",
+  "note": {
+    "es": "Carta de DEMO: los platos y descripciones son de muestra. Los precios muestran \"Consultar\" hasta que el local cargue los valores reales en content/menu.json.",
+    "en": "DEMO menu: dishes and descriptions are samples. Prices show \"Ask us\" until the venue adds real values in content/menu.json."
+  },
+  "categories": [
+    {
+      "id": "picadas",
+      "order": 1,
+      "name": {
+        "es": "Para picar",
+        "en": "Starters"
+      },
+      "icon": "caracola-1.svg",
+      "note": {
+        "es": "Pensadas para la mesa larga y el atardecer largo.",
+        "en": "Made for the long table and the long sunset."
+      },
+      "items": [
+        {
+          "id": "empanadas-de-mar",
+          "name": {
+            "es": "Empanadas de mar",
+            "en": "Seafood empanadas"
+          },
+          "description": {
+            "es": "Tres por persona. Receta a confirmar.",
+            "en": "Three per person. Recipe to confirm."
+          },
+          "price": 0,
+          "image": "empanadas-de-mar.jpg",
+          "tags": [
+            "compartir"
+          ],
+          "available": true,
+          "featured": false
+        },
+        {
+          "id": "tortilla-de-alga",
+          "name": {
+            "es": "Tortilla de alga",
+            "en": "Seaweed tortilla"
+          },
+          "description": {
+            "es": "Textura de la costa, a confirmar.",
+            "en": "Coastal texture, to confirm."
+          },
+          "price": 0,
+          "image": "tortilla-de-alga.jpg",
+          "tags": [
+            "vegetariano",
+            "compartir"
+          ],
+          "available": true
+        },
+        {
+          "id": "provoleta-al-fuego",
+          "name": {
+            "es": "Provoleta al fuego",
+            "en": "Fire-grilled provoleta"
+          },
+          "description": {
+            "es": "Directo del brasero.",
+            "en": "Straight from the fire pit."
+          },
+          "price": 0,
+          "image": "provoleta-al-fuego.jpg",
+          "tags": [
+            "vegetariano",
+            "compartir"
+          ],
+          "available": true,
+          "featured": true
+        }
+      ]
+    },
+    {
+      "id": "del-mar",
+      "order": 2,
+      "name": {
+        "es": "Del mar",
+        "en": "From the sea"
+      },
+      "icon": "almeja-1.svg",
+      "items": [
+        {
+          "id": "pulpo-parrilla",
+          "name": {
+            "es": "Pulpo a la parrilla",
+            "en": "Grilled octopus"
+          },
+          "description": {
+            "es": "Con papas rústicas y alioli. Cocción y guarnición a confirmar.",
+            "en": "With rustic potatoes and aioli. Preparation to confirm."
+          },
+          "price": 0,
+          "image": "pulpo-parrilla.jpg",
+          "tags": [
+            "compartir"
+          ],
+          "available": true,
+          "featured": true
+        },
+        {
+          "id": "pescado-del-dia",
+          "name": {
+            "es": "Pescado del día",
+            "en": "Fish of the day"
+          },
+          "description": {
+            "es": "Según lo que traiga la costa. Consulta la pizarra.",
+            "en": "Depends on the catch. Check the board."
+          },
+          "price": 0,
+          "image": "pescado-del-dia.jpg",
+          "tags": [
+            "local"
+          ],
+          "available": true
+        },
+        {
+          "id": "ceviche-de-la-costa",
+          "name": {
+            "es": "Ceviche de la costa",
+            "en": "Coastal ceviche"
+          },
+          "description": {
+            "es": "Ácido y frío, para la hora dorada.",
+            "en": "Bright and cold, for golden hour."
+          },
+          "price": 0,
+          "image": "ceviche-de-la-costa.jpg",
+          "tags": [
+            "sin-lactosa",
+            "crudo"
+          ],
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "tragos",
+      "order": 3,
+      "name": {
+        "es": "Tragos",
+        "en": "Cocktails"
+      },
+      "icon": "estrella-mar.svg",
+      "note": {
+        "es": "Elaboración artesanal: a confirmar qué hay en barra.",
+        "en": "House-made: drinks list to confirm."
+      },
+      "items": [
+        {
+          "id": "mojito",
+          "name": {
+            "es": "Mojito",
+            "en": "Mojito"
+          },
+          "description": {
+            "es": "",
+            "en": ""
+          },
+          "price": 0,
+          "image": "mojito.jpg",
+          "tags": [],
+          "available": true
+        },
+        {
+          "id": "amaro-de-la-casa",
+          "name": {
+            "es": "Amaro de la casa",
+            "en": "House amaro"
+          },
+          "description": {
+            "es": "Amargo de hierbas, en preparación (a confirmar).",
+            "en": "Herbal bitter, in progress (to confirm)."
+          },
+          "price": 0,
+          "image": "amaro-de-la-casa.jpg",
+          "tags": [],
+          "available": true,
+          "featured": true
+        },
+        {
+          "id": "soda-de-citricos",
+          "name": {
+            "es": "Soda de cítricos",
+            "en": "Citrus soda"
+          },
+          "description": {
+            "es": "Sin alcohol, para el deck.",
+            "en": "Alcohol free, for the deck."
+          },
+          "price": 0,
+          "image": "soda-de-citricos.jpg",
+          "tags": [
+            "sin-alcohol",
+            "vegano"
+          ],
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "fuego",
+      "order": 4,
+      "name": {
+        "es": "Del fuego",
+        "en": "From the fire"
+      },
+      "icon": "caracola-2.svg",
+      "items": [
+        {
+          "id": "picana-al-brasero",
+          "name": {
+            "es": "Picana al brasero",
+            "en": "Picana from the fire pit"
+          },
+          "description": {
+            "es": "Corte lento, brasa de quebracho (a confirmar).",
+            "en": "Slow cut, quebracho coals (to confirm)."
+          },
+          "price": 0,
+          "image": "picana-al-brasero.jpg",
+          "tags": [
+            "compartir",
+            "sin-tacc"
+          ],
+          "available": true
+        },
+        {
+          "id": "verduras-al-fuego",
+          "name": {
+            "es": "Verduras al fuego",
+            "en": "Fire-roasted vegetables"
+          },
+          "description": {
+            "es": "De estación, con sal parrillera.",
+            "en": "Seasonal, with grill salt."
+          },
+          "price": 0,
+          "image": "verduras-al-fuego.jpg",
+          "tags": [
+            "vegano",
+            "sin-tacc",
+            "vegetariano"
+          ],
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "brunch",
+      "order": 5,
+      "name": {
+        "es": "Brunch",
+        "en": "Brunch"
+      },
+      "icon": "almeja-2.svg",
+      "note": {
+        "es": "Disponibilidad y horarios de brunch: a confirmar.",
+        "en": "Brunch availability and hours: to confirm."
+      },
+      "items": [
+        {
+          "id": "tostadas-de-palta",
+          "name": {
+            "es": "Tostadas de palta",
+            "en": "Avocado toast"
+          },
+          "description": {
+            "es": "Pan de masa madre, semillas y cítricos.",
+            "en": "Sourdough, seeds and citrus."
+          },
+          "price": 0,
+          "image": "tostadas-de-palta.jpg",
+          "tags": [
+            "vegetariano"
+          ],
+          "available": true
+        },
+        {
+          "id": "pancakes-de-miel",
+          "name": {
+            "es": "Pancakes con miel",
+            "en": "Honey pancakes"
+          },
+          "description": {
+            "es": "Para la mañana tranquila.",
+            "en": "For the quiet morning."
+          },
+          "price": 0,
+          "image": "pancakes-de-miel.jpg",
+          "tags": [
+            "vegetariano"
+          ],
+          "available": true
+        },
+        {
+          "id": "frutas-de-estacion",
+          "name": {
+            "es": "Frutas de estación",
+            "en": "Seasonal fruit"
+          },
+          "description": {
+            "es": "Lo que haya en la feria de la zona.",
+            "en": "Whatever the local market has."
+          },
+          "price": 0,
+          "image": "frutas-de-estacion.jpg",
+          "tags": [
+            "vegano",
+            "sin-tacc",
+            "local"
+          ],
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "dulces",
+      "order": 6,
+      "name": {
+        "es": "Dulces",
+        "en": "Desserts"
+      },
+      "icon": "estrella-mar.svg",
+      "items": [
+        {
+          "id": "postre-de-queso",
+          "name": {
+            "es": "Postre de queso",
+            "en": "Cheesecake"
+          },
+          "description": {
+            "es": "Con dulce de membrillo (a confirmar).",
+            "en": "With quince paste (to confirm)."
+          },
+          "price": 0,
+          "image": "postre-de-queso.jpg",
+          "tags": [
+            "vegetariano"
+          ],
+          "available": true
+        },
+        {
+          "id": "helados-artesanales",
+          "name": {
+            "es": "Helados artesanales",
+            "en": "Artisanal ice cream"
+          },
+          "description": {
+            "es": "Dos bochas, sabores de la casa (a confirmar).",
+            "en": "Two scoops, house flavours (to confirm)."
+          },
+          "price": 0,
+          "image": "helados-artesanales.jpg",
+          "tags": [
+            "vegetariano",
+            "sin-tacc"
+          ],
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "oculto-demo",
+      "order": 99,
+      "name": {
+        "es": "Prueba: categoría oculta",
+        "en": "Test: hidden category"
+      },
+      "items": [
+        {
+          "id": "plato-no-disponible",
+          "name": {
+            "es": "Plato fuera de carta",
+            "en": "Off-menu dish"
+          },
+          "description": {
+            "es": "Este plato prueba `available: false`: no debería verse en el sitio.",
+            "en": "This dish tests `available: false`: it must not render."
+          },
+          "price": 0,
+          "available": false
+        }
+      ]
+    }
+  ]
+}

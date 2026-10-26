@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Caracola espiralada">
+ <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+  <path d="M32 8c12 6 18 16 16 26S38 50 30 54c-4 2-8 1-9-3-1-4 2-8 7-9 6-1.5 10 2 10 6"/>
+  <path d="M22 20c8 3 13 9 13 16"/>
+  <path d="M18 30c-6 4-10 10-11 17 4-3 9-4 13-3" stroke-width="1.2"/>
+  <path d="M40 14c4 4 7 9 7 15" stroke-width="1.1" opacity=".55"/>
+ </g></svg>

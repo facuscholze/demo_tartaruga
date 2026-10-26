@@ -1,0 +1,164 @@
+name: Deploy · GitHub Pages
+
+# Destino principal del sitio: Pages sirve `out/` (Next con `output: "export"`).
+# No hay Node en runtime, así que TODO lo que depende de un servidor (route
+# handlers, `headers()`, ISR, OG dinámica) ya está fuera del código.
+#
+# Pasos explícitos en vez de `pnpm build`: el orquestador (`scripts/pages-build.ts`)
+# volvería a generar las variantes que acabamos de generar arriba, y son ~2 min.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Dos deploys a la vez se pisarían el artefacto; la cola deja pasar el último.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      # ---- calidad (lo mismo que `pnpm verify`, sin build duplicado) --------
+      - name: Formato (Prettier)
+        run: pnpm format:check
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Tests
+        run: pnpm test
+
+      - name: Chequeo de contenido
+        run: pnpm content:check
+
+      # ---- assets generados en build --------------------------------------
+      - name: Manifest de imágenes (dimensiones + blur)
+        run: pnpm content:optimize
+
+      - name: Variantes AVIF/WebP (images:build)
+        run: pnpm images:build
+
+      - name: Imagen social por idioma
+        run: pnpm og:build
+
+      # ---- dónde se sirve: dominio propio vs project pages -----------------
+      - name: Calcular SITE_URL y basePath
+        id: pages
+        run: |
+          set -euo pipefail
+          if [ -s public/CNAME ]; then
+            host="$(tr -d '[:space:]' < public/CNAME)"
+            echo "site_url=https://${host}" >> "$GITHUB_OUTPUT"
+            echo "base_path=" >> "$GITHUB_OUTPUT"
+            echo "Dominio propio por CNAME (${host}) → basePath vacío."
+          elif [[ "$GITHUB_REPOSITORY" == *.github.io ]]; then
+            echo "site_url=https://${GITHUB_REPOSITORY}" >> "$GITHUB_OUTPUT"
+            echo "base_path=" >> "$GITHUB_OUTPUT"
+            echo "Repo <usuario>.github.io → basePath vacío."
+          else
+            owner="${GITHUB_REPOSITORY%/*}"
+            repo="${GITHUB_REPOSITORY#*/}"
+            echo "site_url=https://${owner}.github.io" >> "$GITHUB_OUTPUT"
+            echo "base_path=/${repo}" >> "$GITHUB_OUTPUT"
+            echo "Project pages → basePath /${repo}."
+          fi
+
+      - name: Build estático (out/)
+        run: pnpm exec next build
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.site_url }}
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+
+      - name: index.html selector de idioma + 404.html
+        run: pnpm pages:build
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.site_url }}
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+
+      # Un export roto no debería subir: si falta el HTML del idioma default o
+      # un asset prefijado responde 404, el deploy se corta acá.
+      - name: Smoke test del export
+        run: |
+          set -uo pipefail
+          base="${{ steps.pages.outputs.base_path }}"
+          port=8099
+          # stop(): el wrapper `pnpm serve` no siempre reenvía la señal al hijo de
+          # node, así que se busca también por patrón. El `[v]e` evita que pkill le
+          # pegue a este mismo shell (su argv contiene el script con el patrón literal).
+          stop() { pkill -f "scripts/ser[v]e.ts" 2>/dev/null; kill "$pid" 2>/dev/null || true; }
+          fail() { echo "✖ $1"; stop; exit 1; }
+          for f in index.html 404.html .nojekyll es/index.html en/index.html pt/index.html sitemap.xml robots.txt; do
+            [ -s "out/$f" ] || fail "falta out/$f en el export"
+          done
+          NEXT_PUBLIC_BASE_PATH=$base PORT=$port pnpm serve &>/tmp/serve.log &
+          pid=$!
+          for i in $(seq 1 20); do
+            curl -fsS -o /dev/null "http://127.0.0.1:$port$base/es/" && break
+            sleep 1
+            [ "$i" = 20 ] && { cat /tmp/serve.log; fail "el server del export no respondió"; }
+          done
+          check() {
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:$port$base$1")
+            [ "$code" = "${2:-200}" ] || fail "$base$1 devolvió $code (esperaba ${2:-200})"
+          }
+          check /
+          check /es/
+          check /en/
+          check /pt/
+          check /404.html
+          check /sitemap.xml
+          check /manifest.webmanifest
+          check /no-existe/ 404
+          # Un asset del <picture> (el srcset con basePath aplicado en código):
+          url=$(grep -o '/[^" ]*_generated/[^" ]*\.webp' out/es/index.html | head -1 || true)
+          if [ -n "$url" ]; then
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:$port$url")
+            [ "$code" = 200 ] || fail "$url devolvió $code"
+          fi
+          stop
+          echo "✔ smoke test ok sobre ${base:-la raíz del dominio}"
+
+      - uses: actions/configure-pages@v5
+        with:
+          static_site_generator: next
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

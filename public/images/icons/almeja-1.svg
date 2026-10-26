@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Almeja">
+ <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+  <path d="M8 40c0-14 11-24 24-24s24 10 24 24c0 3-2 4-5 4H13c-3 0-5-1-5-4Z"/>
+  <path d="M32 16v28M24 18 20 44M40 18l4 26M16 22 12 40M48 22l4 18" stroke-width="1.2" opacity=".75"/>
+  <path d="M11 34h42" stroke-width="1" opacity=".45"/>
+ </g></svg>

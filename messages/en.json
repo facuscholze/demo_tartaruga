@@ -1,0 +1,178 @@
+{
+  "meta": {
+    "title": "Tartaruga Sea-Bar · Oceanfront restaurant in Punta Colorada",
+    "description": "Tartaruga Sea-Bar at the Punta Colorada lighthouse, Maldonado, Uruguay. Sea, fire and sunset: menu, experiences and WhatsApp reservations."
+  },
+  "nav": {
+    "menu": "Menu",
+    "place": "Place",
+    "sunset": "Sunset",
+    "experiences": "Experiences",
+    "perks": "Benefits",
+    "visit": "Visit",
+    "reserve": "Book",
+    "directions": "Directions",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "language": "Language"
+  },
+  "intro": {
+    "headline": "The last ray of sun",
+    "loading": "Opening the sunset…",
+    "withSound": "Enter with sound",
+    "withoutSound": "Enter without sound",
+    "skip": "Skip intro",
+    "soundHint": "Waves and fire in the background. You can always mute."
+  },
+  "hero": {
+    "kicker": "Punta Colorada lighthouse · Maldonado, Uruguay",
+    "line1": "Sea,",
+    "line2": "fire and",
+    "line3": "sunset",
+    "sunsetLabel": "Today the sun sets at",
+    "sunriseLabel": "Sunrise",
+    "nowLabel": "Now in Punta Colorada",
+    "scroll": "Down to the deck",
+    "tod": {
+      "label": "Time of day",
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "sunset": "Sunset",
+      "night": "Night",
+      "auto": "Live"
+    },
+    "reserveCta": "Book a table",
+    "directionsCta": "Directions"
+  },
+  "fire": {
+    "title": "The fire",
+    "text": "The fire pits are lit before the sun goes down. That's our real schedule: while there's light, there's the sea; when the light leaves, the fire stays.",
+    "caption": "Fire · demo"
+  },
+  "menu": {
+    "title": "Menu",
+    "demoBadge": "DEMO · sample content, to be confirmed with the venue",
+    "consult": "Ask us",
+    "download": "Download menu PDF",
+    "downloadDisabled": "No menu PDF yet",
+    "empty": "This category has no items yet.",
+    "featuredLabel": "Chef's pick",
+    "close": "Close",
+    "photo": "see photo",
+    "hidePhoto": "hide photo"
+  },
+  "gallery": {
+    "title": "The place",
+    "openImage": "View image",
+    "closeImage": "Close image",
+    "prev": "Previous",
+    "next": "Next",
+    "drag": "Drag to explore",
+    "counter": "{current} of {total}"
+  },
+  "experiences": {
+    "title": "Experiences",
+    "reserve": "Book this experience"
+  },
+  "pet": {
+    "title": "Pet friendly",
+    "note": "Rules for bringing your pet: to be confirmed with the venue."
+  },
+  "artisanal": {
+    "title": "Artisanal",
+    "note": "Placeholder copy: we're defining with the venue what this means exactly."
+  },
+  "perks": {
+    "title": "Benefits",
+    "validUntil": "Valid until {date}",
+    "pending": "to confirm"
+  },
+  "booking": {
+    "title": "Reservation",
+    "name": "Full name",
+    "date": "Date",
+    "time": "Time",
+    "people": "Guests",
+    "occasion": "Occasion",
+    "occasionNone": "No special occasion",
+    "birthday": "Birthday",
+    "anniversary": "Anniversary",
+    "other": "Other",
+    "pet": "Coming with a pet?",
+    "petYes": "Yes, bringing a dog",
+    "petNo": "No",
+    "message": "Message (optional)",
+    "send": "Send via WhatsApp",
+    "sending": "Opening WhatsApp…",
+    "webhookOk": "Reservation recorded. See you soon.",
+    "webhookFail": "We couldn't record the reservation, opening WhatsApp anyway.",
+    "errorName": "We need your name.",
+    "errorDate": "Pick a valid date.",
+    "errorTime": "Pick a valid time.",
+    "errorPeople": "Between 1 and 40 guests.",
+    "honeypot": "Leave this field empty",
+    "phoneLabel": "Or call",
+    "whatsappLabel": "WhatsApp",
+    "experienceContext": "Reservation: {experience}"
+  },
+  "visit": {
+    "title": "Visit",
+    "address": "Punta Colorada lighthouse, Maldonado, Uruguay",
+    "phone": "Phone",
+    "hoursTitle": "Hours",
+    "hoursPending": "Opening days and hours: to be confirmed with the venue.",
+    "instagram": "Instagram",
+    "map": "View on Google Maps",
+    "mapTitle": "How to get to the lighthouse",
+    "pendingTag": "to confirm",
+    "pendingTitle": "The venue hasn't confirmed these hours yet."
+  },
+  "controls": {
+    "sound": "Ambient sound",
+    "soundOn": "Sound: waves and fire",
+    "soundOff": "Sound: off",
+    "effects": "Effects",
+    "effectsMax": "Max",
+    "effectsNormal": "Normal",
+    "effectsMin": "Minimal",
+    "timeOfDay": "Time of day",
+    "openReserve": "Go to booking",
+    "mute": "Mute everything"
+  },
+  "footer": {
+    "demoTitle": "Website demo",
+    "demoBody": "Demonstration website built for Tartaruga Sea-Bar. Menu, hours, photos and copy are samples until the venue confirms them.",
+    "rights": "Tartaruga Sea-Bar · Punta Colorada, Uruguay",
+    "madeWith": "Motion, WebGL and file-based editable content",
+    "pendingTag": "to confirm",
+    "pendingTitle": "To confirm with the client"
+  },
+  "notFound": {
+    "title": "The turtle went for a walk",
+    "text": "This page isn't here, but the sunset keeps its schedule.",
+    "back": "Back to the start"
+  },
+  "a11y": {
+    "skipToContent": "Skip to content",
+    "close": "Close",
+    "mainNav": "Main navigation",
+    "imageFallback": "Sample image"
+  },
+  "place": {
+    "title": "The place",
+    "text": "Beachfront, at the foot of the Punta Colorada lighthouse. Reclaimed timber, warm light and the promenade one step away: the same stage all year, with different light every hour.",
+    "hint": "Drag to browse",
+    "mapTitle": "Getting here",
+    "mapNote": "Illustrative map, no third-party API.",
+    "openInMaps": "Open in Google Maps"
+  },
+  "sunset": {
+    "title": "Sunset hour",
+    "text": "The same table, a different sky. Book facing west."
+  },
+  "faq": {
+    "title": "Common questions",
+    "note": "What people ask us on WhatsApp. Anything the venue hasn't confirmed is flagged.",
+    "pending": "to confirm"
+  }
+}

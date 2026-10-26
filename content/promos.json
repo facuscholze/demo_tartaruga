@@ -1,0 +1,40 @@
+{
+  "demo": true,
+  "promos": [
+    {
+      "id": "scotiabank",
+      "order": 1,
+      "title": {
+        "es": "Beneficio Scotiabank",
+        "en": "Scotiabank benefit",
+        "pt": "Benefício Scotiabank"
+      },
+      "details": {
+        "es": "25% y 15% según tarjeta (Platinum, Infinite, Gold y débito Premium). Porcentajes, días y condiciones: A CONFIRMAR con el local.",
+        "en": "25% and 15% depending on the card (Platinum, Infinite, Gold and Premium debit). Percentages, days and terms: TO CONFIRM with the venue."
+      },
+      "image": "scotiabank.jpg",
+      "validFrom": "2026-01-01",
+      "validUntil": "2026-12-31",
+      "active": true,
+      "pending": true,
+      "terms": {
+        "es": "Gráfica fijada en el perfil de Instagram. No reemplaza a las bases y condiciones del banco ni del local.",
+        "en": "Taken from the pinned graphic on the venue's Instagram. Does not replace the bank's or the venue's terms."
+      }
+    },
+    {
+      "id": "ejemplo-vencida",
+      "order": 2,
+      "title": { "es": "Promo vencida (prueba técnica)", "en": "Expired promo (technical test)" },
+      "details": {
+        "es": "Esta promo no debe aparecer: su `validUntil` ya pasó.",
+        "en": "This promo must not render: its `validUntil` has passed."
+      },
+      "validFrom": "2025-01-01",
+      "validUntil": "2025-02-01",
+      "active": true,
+      "pending": true
+    }
+  ]
+}

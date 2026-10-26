@@ -1,0 +1,178 @@
+{
+  "meta": {
+    "title": "Tartaruga Sea-Bar · Restaurante à beira-mar em Punta Colorada",
+    "description": "Tartaruga Sea-Bar no farol de Punta Colorada, Maldonado, Uruguai. Mar, fogo e pôr do sol: carta, experiências e reservas pelo WhatsApp. (textos a revisar)"
+  },
+  "nav": {
+    "menu": "Carta",
+    "place": "Lugar",
+    "sunset": "Pôr do sol",
+    "experiences": "Experiências",
+    "perks": "Benefícios",
+    "visit": "Visitar",
+    "reserve": "Reservar",
+    "directions": "Como chegar",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "language": "Idioma"
+  },
+  "intro": {
+    "headline": "O último raio de sol",
+    "loading": "Abrindo o pôr do sol…",
+    "withSound": "Entrar com som",
+    "withoutSound": "Entrar sem som",
+    "skip": "Pular intro",
+    "soundHint": "Ondas e fogo de fundo. Você pode silenciar quando quiser."
+  },
+  "hero": {
+    "kicker": "Farol de Punta Colorada · Maldonado, Uruguai",
+    "line1": "Mar,",
+    "line2": "fogo e",
+    "line3": "pôr do sol",
+    "sunsetLabel": "Hoje o sol se põe às",
+    "sunriseLabel": "Nascer do sol",
+    "nowLabel": "Agora em Punta Colorada",
+    "scroll": "Desça ao deck",
+    "tod": {
+      "label": "Hora do dia",
+      "morning": "Manhã",
+      "afternoon": "Tarde",
+      "sunset": "Pôr do sol",
+      "night": "Noite",
+      "auto": "Real"
+    },
+    "reserveCta": "Reservar",
+    "directionsCta": "Como chegar"
+  },
+  "fire": {
+    "title": "O fogo",
+    "text": "Os braseros acendem antes do sol baixar. É o nosso horário real: enquanto há luz, há mar; quando a luz vai embora, fica o fogo.",
+    "caption": "Fogo · demo"
+  },
+  "menu": {
+    "title": "Carta",
+    "demoBadge": "DEMO · conteúdo de exemplo, a confirmar com o local",
+    "consult": "Consultar",
+    "download": "Baixar carta em PDF",
+    "downloadDisabled": "Ainda não há PDF da carta",
+    "empty": "Esta categoria ainda não tem itens.",
+    "featuredLabel": "Recomendado",
+    "close": "Fechar",
+    "photo": "ver foto",
+    "hidePhoto": "ocultar foto"
+  },
+  "gallery": {
+    "title": "O lugar",
+    "openImage": "Ver imagem",
+    "closeImage": "Fechar imagem",
+    "prev": "Anterior",
+    "next": "Próxima",
+    "drag": "Arraste para explorar",
+    "counter": "{current} de {total}"
+  },
+  "experiences": {
+    "title": "Experiências",
+    "reserve": "Reservar esta experiência"
+  },
+  "pet": {
+    "title": "Pet friendly",
+    "note": "Regras para vir com animal: a confirmar com o local."
+  },
+  "artisanal": {
+    "title": "Artesanal",
+    "note": "Texto provisório: estamos definindo com o local o que isso significa."
+  },
+  "perks": {
+    "title": "Benefícios",
+    "validUntil": "Válido até {date}",
+    "pending": "a confirmar"
+  },
+  "booking": {
+    "title": "Reserva",
+    "name": "Nome e sobrenome",
+    "date": "Data",
+    "time": "Hora",
+    "people": "Pessoas",
+    "occasion": "Ocasião",
+    "occasionNone": "Sem ocasião especial",
+    "birthday": "Aniversário",
+    "anniversary": "Aniversário de casamento",
+    "other": "Outra",
+    "pet": "Vem com animal?",
+    "petYes": "Sim, trago cachorro",
+    "petNo": "Não",
+    "message": "Mensagem (opcional)",
+    "send": "Enviar pelo WhatsApp",
+    "sending": "Abrindo WhatsApp…",
+    "webhookOk": "Reserva registrada. Te esperamos.",
+    "webhookFail": "Não conseguimos registrar a reserva, abrindo o WhatsApp mesmo assim.",
+    "errorName": "Precisamos do seu nome.",
+    "errorDate": "Escolha uma data válida.",
+    "errorTime": "Escolha um horário válido.",
+    "errorPeople": "Entre 1 e 40 pessoas.",
+    "honeypot": "Deixe este campo vazio",
+    "phoneLabel": "Ou ligue",
+    "whatsappLabel": "WhatsApp",
+    "experienceContext": "Reserva: {experience}"
+  },
+  "visit": {
+    "title": "Visitar",
+    "address": "Farol de Punta Colorada, Maldonado, Uruguai",
+    "phone": "Telefone",
+    "hoursTitle": "Horários",
+    "hoursPending": "Dias e horários de atendimento: a confirmar com o local.",
+    "instagram": "Instagram",
+    "map": "Ver no Google Maps",
+    "mapTitle": "Como chegar ao farol",
+    "pendingTag": "a confirmar",
+    "pendingTitle": "O local ainda não confirmou estes horários."
+  },
+  "controls": {
+    "sound": "Som ambiente",
+    "soundOn": "Som: ondas e fogo",
+    "soundOff": "Som: desligado",
+    "effects": "Efeitos",
+    "effectsMax": "Máx",
+    "effectsNormal": "Normal",
+    "effectsMin": "Mínimo",
+    "timeOfDay": "Hora do dia",
+    "openReserve": "Ir para reservas",
+    "mute": "Silenciar tudo"
+  },
+  "footer": {
+    "demoTitle": "Demo do site",
+    "demoBody": "Site de demonstração feito para o Tartaruga Sea-Bar. Carta, horários, fotos e textos são de exemplo até o local confirmar.",
+    "rights": "Tartaruga Sea-Bar · Punta Colorada, Uruguai",
+    "madeWith": "Motion, WebGL e conteúdo editável por arquivo",
+    "pendingTag": "a confirmar",
+    "pendingTitle": "A confirmar com o cliente"
+  },
+  "notFound": {
+    "title": "A tartaruga saiu para passear",
+    "text": "Esta página não existe, mas o pôr do sol continua no horário.",
+    "back": "Voltar ao início"
+  },
+  "a11y": {
+    "skipToContent": "Ir ao conteúdo",
+    "close": "Fechar",
+    "mainNav": "Navegação principal",
+    "imageFallback": "Imagem de exemplo"
+  },
+  "place": {
+    "title": "O lugar",
+    "text": "Na beira-mar, aos pés do Farol de Punta Colorada. Madeiras recuperadas, luz quente e a rambla a um passo: o mesmo cenário o ano todo, com outra luz a cada hora.",
+    "hint": "Arraste para percorrer",
+    "mapTitle": "Como chegar",
+    "mapNote": "Mapa ilustrativo, sem API de terceiros.",
+    "openInMaps": "Abrir no Google Maps"
+  },
+  "sunset": {
+    "title": "Hora do pôr do sol",
+    "text": "A mesma mesa, outro céu. Reserve olhando para o oeste."
+  },
+  "faq": {
+    "title": "Perguntas frequentes",
+    "note": "O que mais perguntam pelo WhatsApp. O que o local não confirmou está marcado.",
+    "pending": "a confirmar"
+  }
+}
